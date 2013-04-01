@@ -13,10 +13,10 @@ app.post('/', function handlePost(req, res) {
   var d = req.body
 
   if(d.form)
-    saveForm([d.type, d.visPrimUserID].join('-')+'.csv', d.form)
+    saveForm([d.type, d.userid].join('-')+'.csv', d.form)
 
   if(d.svg)
-    saveSVG([d.type, d.visPrimUserID, d.count, d.svgSource].join('-')+'.svg', d.svg)
+    saveSVG([d.type, d.userid, d.count, d.svgSource].join('-')+'.svg', d.svg)
 
   res.send();
 })
@@ -44,5 +44,5 @@ var saveSVG = function saveSVG(name, svg) {
 app.use(express.static(__dirname + '/public'))
 
 // LISTEN
-app.listen(80)
-console.log('Listening on port 80')
+app.listen(8001)
+console.log('Listening on port 8001')

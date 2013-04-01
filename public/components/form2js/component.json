@@ -1,0 +1,9 @@
+{
+  "name": "form2js",
+  "version": "0.0.0",
+  "commit": "31571d3e34da1db22601fbe50a36f5b4c911a906",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maxatwork/form2js.git"
+  }
+}

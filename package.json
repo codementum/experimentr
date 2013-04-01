@@ -1,9 +1,11 @@
 {
-  "name": "visprim-backend",
-  "description": "serves up visprim and captures input",
+  "name": "experimentr",
+  "description": "captures input for data visualization studies",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "3.x"
+    "express": "3.x",
+    "csv": "0.2.x",
+    "json2csv": "2.x"
   }
 }

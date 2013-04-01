@@ -1,6 +1,8 @@
 // This jQuery function makes a JSON object with {"name": <value>} instead of 
 //  {"name": <name>, "value": <value>}
 // Taken from http://stackoverflow.com/a/1186309
+
+/*
 $.fn.serializeObject = function()
 {
     var o = {};
@@ -75,6 +77,7 @@ keyPress = function()
     }
     activePrim = null;  
 };
+*/
 
 //returns SVG portion of the DOM as a string for passing back to server
 grabSVG = function()
@@ -82,8 +85,6 @@ grabSVG = function()
     SVGFile = "<?xml version='1.0' encoding='utf-8'?>"
   + "<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>"
   + (new XMLSerializer()).serializeToString(vis.node());
-    // TODO we may need the xmlns and version information 
-    //console.log("SVGFile = ",SVGFile);
     return SVGFile;
 };
 
