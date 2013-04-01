@@ -1,0 +1,32 @@
+body {
+	font-family: "Trebuchet MS";
+}
+
+h3 {
+	padding-top: 0px;
+}
+
+label, div.label {
+	line-height:150%;
+	font-weight:bold;
+}
+
+.pico-content {
+	overflow: auto;
+	height: 80%;
+}
+
+.formSection {
+	margin-top: 15px;
+}
+
+#rankedPairs > label { 
+	display: inline-block;
+	width: 180px;
+}
+
+.label:after, label:not(.optional):after { 
+	content: ' *';
+	color: red;
+}
+

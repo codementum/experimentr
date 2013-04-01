@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+		<title>Visualization Primitives</title>
+		
+		<!--Libraries-->
+		<!--script type="text/javascript" src="../d3/d3.v2.js"></script-->
+		<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="components/PicoModal/picoModal.js"></script>
+
+		<!--Utility functions-->
+		<script type="text/javascript" src="util.js"></script>
+
+		<!--JSON Data-->
+		<script type="text/javascript" src="data/BLI.js"></script>
+		<!--script type="text/javascript" src="data/random.js"></script-->
+		<!--script type="text/javascript" src="data/tmy3.js"></script-->
+		<!--script type="text/javascript" src="data/EntityToEvents.js"></script-->
+
+		<!--Code-->
+		<script type="text/javascript" src="primitives/Primitive.js"></script>
+		<script type="text/javascript" src="postButtons.js"></script>
+		<script type="text/javascript" src="PrimitiveToolbar.js"></script>
+		<script type="text/javascript" src="DataToolbar.js"></script>
+		<script type="text/javascript" src="DataButton.js"></script>
+		<script type="text/javascript" src="Property.js"></script>
+		<script type="text/javascript" src="tutorial.js"></script>
+
+		<!--Primitives-->
+		<script type="text/javascript" src="primitives/Rectangle.js"></script>
+		<script type="text/javascript" src="primitives/Circle.js"></script>
+		<script type="text/javascript" src="primitives/Line.js"></script>
+		<script type="text/javascript" src="primitives/Text.js"></script>
+		<script type="text/javascript" src="primitives/Point.js"></script>
+
+	</head>
+	<body>
+		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript">
+			if(typeof document.body.style.MozUserSelect!="undefined")
+				document.body.style.MozUserSelect="none";
+			else if(typeof document.body.onselectstart!="undefined")
+				document.body.onselectstart=function(){return false};
+			else
+				document.body.onmousedown=function(){return false};
+			document.body.style.cursor = "default";
+		</script>
+
+		<!--User Study-->
+    <script type="text/javascript" src="idGenerator.js"></script>
+    <script>
+      visPrimUserID = idGenerator(8);
+    </script>
+    <script type="text/javascript" src="modalForm.js"></script>
+    <script>
+      modalForm('forms/intro.html');
+
+      $('#go').click(function(){
+        modalForm('forms/demographic.html');
+      });
+    </script>
+	</body>
+</html>
