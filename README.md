@@ -1,30 +1,39 @@
-Visualization Primitives Backend/User-Study Server
-================
+stucco Bookmarklet
+========
 
-This server will host VisPrim and capture demographics and the Creativity-Support Index.
+Running the server
+--------
 
-Installation
---------------
+Start redis: 
 
-    npm install
+    redis
 
-Running
---------------
+Run the server as root:
 
-    node server.js
+    sudo node server.js
 
-Use
---------------
+Then access the bookmarklet page at [localhost](http://localhost).
 
-Open a browser to `http://localhost:3000`.
+### AppFog
+There is a `var host` in public/index.html, public/modalForm.js, and app.js. Switch these if you are running locally or on AppFog.
 
+To access the redis instance on AppFog:
 
-### POST test
+    af tunnel stucco-redis
 
-Try something like the following: 
+### ssl keys
 
-    curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"userID":100}' http://localhost:3000
+Note, the server will not work with https pages unless you have server.crt, server.csr, and server.key in the ssl/ directory.
+See ssl/readme.md for info on how to generate these keys.
 
-### Adding forms
+Data collected
+--------
 
-See `public/forms` for existing forms; add new forms there and call them via `modal('formName.html')`.
+All submissions from the bookmarklet contains the following variables:
+
+- url: the page you were looking at when you launched the bookmarklet
+- relevance (1-5): how relevant the page's security information is to your network
+- concept: the security concept (e.g. attacker, malware) involved
+- credibility (1-5): how credible the source is (in your opinion)
+- userid: an md5 hash of your email (created when you install the bookmarklet)
+- postId: a unique id for each submission

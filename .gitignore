@@ -1,2 +1,3 @@
-*swp
-*userdata/*
+dump.rdb
+*.swp
+userdata/*
