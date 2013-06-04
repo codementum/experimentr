@@ -3,6 +3,8 @@
 <meta charset="utf-8">
 <title>experimentr - experiment backend</title>
 
+<script src="components/d3js/d3.v3.min.js"></script>
+<script src="experimentr.js"></script>
 
 <style>
 </style>
@@ -10,8 +12,11 @@
 <h1> experimentr </h1>
 
 <p>
-  hi
+hi
 </p>
 
+<button onclick="experimentr.start();">Begin</button>
+
 <script>
+experimentr.sequence(['modules/sam.html']);
 </script>
