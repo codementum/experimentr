@@ -8,5 +8,6 @@
     "csv": "0.2.x",
     "json2csv": "2.x",
     "redis": "0.8.x"
-  }
+  },
+  "scripts": {"start": "node app.js"}
 }

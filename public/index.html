@@ -1,60 +1,17 @@
 <!DOCTYPE html>
 
 <meta charset="utf-8">
-<title>STUCCO Document Relevance Study</title>
+<title>experimentr - experiment backend</title>
 
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="components/md5/md5.min.js"></script>
 
 <style>
-.bookmarklet {
-  padding: 3px 8px;
-  font-size: 12px;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 1em;
-  background: #666;
-  color: white;
-}
-.hidden {
-  display: none;
-}
 </style>
 
-<h1> STUCCO Document Relevance Study </h1>
-
-<label for="email">Enter your email to generate a unique identification string (note: your email is <em>not</em> stored, only the hash).</label>
-<br />
-<input id="email" name="email" type="email">
-<input id="makeId" type="button" value="make Id">
-
-<div id="stuccoId">Id:</div>
+<h1> experimentr </h1>
 
 <p>
-  <a id="bookmarklet" class="bookmarklet hidden">Stucco Bookmarklet</a>
-  <span id="drag" class="hidden">← Drag this to your bookmarks bar.</span>
+  hi
 </p>
 
-<p id="clickTest" class="hidden">(You can click on the link instead to test it on this page immediately.)</p>
-
 <script>
-d3.select('#makeId').on('click', makeId);
-
-function makeId() {
-  var email = d3.select('#email').property('value')
-    , hash  = md5(email);
-
-//  var host  = '//stucco.aws.af.cm/';
-  var host  = '//localhost/';
-
-  d3.select('#stuccoId').text('Id: '+hash);
-
-  // generate the href to be added to the bookmark
-  var href = "javascript:javascript: (function () { var f = document.createElement('script'); f.innerHTML = 'var stuccoId = \"" + hash + "\";'; document.body.appendChild(f); var e = document.createElement('script'); if (window.location.protocol === 'https:') { e.setAttribute('src', 'https:"+host+"/modalForm.js'); } else { e.setAttribute('src', 'http:"+host+"/modalForm.js'); } document.body.appendChild(e); })();";
-  d3.select('#bookmarklet').attr('href', href);
-
-  d3.select('#bookmarklet').classed('hidden', false);
-  d3.select('#drag').classed('hidden', false);
-  d3.select('#clickTest').classed('hidden', false);
-}
 </script>
