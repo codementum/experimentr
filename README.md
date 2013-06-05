@@ -5,6 +5,12 @@ Experimentr is a backend for web-based visualization studies.
 
 Experiment modules are defined in `public/modules`.
 
+Once modules are defined, they are loaded in order into the #experimentr div.
+This div also contains controls (initially, only a Next button), to control experiment flow.
+Eventually, more controls such as Previous and Quit should be added.
+
+Also, sometimes the Next button is not needed, and it should be hidden until some sort of validation is completed.
+
 Running the server
 --------
 
