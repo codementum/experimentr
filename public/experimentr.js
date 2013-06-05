@@ -4,12 +4,14 @@ experimentr = function() {
   };
 
   var sequence;
-
+  var current;
   var mainDiv, moduleDiv, controlDiv;
 
   experimentr.start = function() {
     console.log('starting experiment sequence: ' + sequence);
     init();
+    current = 0;
+    activate(current);
   };
 
   function init() {
@@ -41,7 +43,26 @@ experimentr = function() {
   }
 
   experimentr.next = function() {
-    console.log('next');
+    console.log('current: '+current);
+    deactivate(current);
+    current = current + 1;
+    console.log('next: '+current);
+    activate(current);
+  }
+
+  function deactivate(x) {
+    d3.select('#module').html('');
+  }
+
+  function activate(x) {
+    // TODO add special case, activating the last one
+    if(x === sequence.length-1)
+      console.log('at the end');
+
+   d3.html(sequence[x], function(err, d) {
+     if(err) console.log(err);
+     d3.select('#module').node().appendChild(d);
+   });
   }
 
   experimentr.sequence = function(x) {
