@@ -6,6 +6,7 @@ experimentr = function() {
   var sequence;
   var current;
   var mainDiv;
+  var data = {};
 
   experimentr.start = function() {
     init();
@@ -24,6 +25,7 @@ experimentr = function() {
       .append('button')
         .attr('type', 'button')
         .attr('id', 'next-button')
+        .attr('disabled', true)
         .text('Next')
         .on('click', experimentr.next);
   }
@@ -35,6 +37,20 @@ experimentr = function() {
 
   experimentr.end = function() {
     console.log('all modules complete, now load data!');
+  }
+
+  experimentr.save = function(d) {
+    console.log('saving data...');
+    merge(data, d);
+    console.log(data);
+  }
+
+  function merge(o1, o2) {
+    for (var attr in o2) { o1[attr] = o2[attr]; }
+  }
+
+  experimentr.release = function() {
+    d3.select('#next-button').attr('disabled', null);
   }
 
   function clearModule() {

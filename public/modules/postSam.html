@@ -56,3 +56,24 @@ Select the figure (or between figures) that most closely corresponds to how you 
   <td align="center"><input type="radio" name="sam-arousal" value="9" /></td>
 </tr>
 </table> 
+
+<script> 
+postSam = function() {
+  var data = {};
+
+  d3.selectAll('input')
+    .filter(function(d) { return this.name === 'sam-valence' ? this : null; })
+    .on('change', function() { data.postValence = this.value; validate(); });
+  d3.selectAll('input')
+    .filter(function(d) { return this.name === 'sam-arousal' ? this : null; })
+    .on('change', function() { data.postArousal = this.value; validate(); });
+
+  function validate() {
+    console.log(data);
+    if(data.postValence && data.postArousal) {
+      experimentr.save(data);
+      experimentr.release();
+    }
+  }
+}();
+</script>
