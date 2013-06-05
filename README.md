@@ -17,6 +17,8 @@ Experimentr adds three main elements to the page:
 - #module div: holds module content
 - #control div: holds controls for the modules
 
+Currently, each module must be unique. Module re-use will be added in a later release.
+
 Running the server
 --------
 
