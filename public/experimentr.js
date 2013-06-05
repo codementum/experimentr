@@ -8,7 +8,6 @@ experimentr = function() {
   var mainDiv, moduleDiv, controlDiv;
 
   experimentr.start = function() {
-    console.log('starting experiment sequence: ' + sequence);
     init();
     current = 0;
     activate(current);
@@ -28,18 +27,8 @@ experimentr = function() {
       .on('click', function() { experimentr.next(); });
   }
 
-  function loadHTML() {
-    var div = d3.select(this);
-    d3.html(div.datum(), function(err, d) {
-      if(err) console.log(err);
-      div.node().appendChild(d);
-    });
-  }
-
   experimentr.next = function() {
-    console.log('current: '+current);
     current = current + 1;
-    console.log('next: '+current);
     activate(current);
   }
 
@@ -50,7 +39,8 @@ experimentr = function() {
   function activate(x) {
     clearModule();
 
-    // TODO add special case, activating the last one
+    // TODO add special case when activating the last one
+    //  (change next to finished?)
     if(x === sequence.length-1)
       console.log('at the end');
 
