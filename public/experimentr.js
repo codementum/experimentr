@@ -24,7 +24,7 @@ experimentr = function() {
     controlDiv.append('button')
       .attr('type', 'button')
       .text('Next')
-      .on('click', function() { experimentr.next(); });
+      .on('click', experimentr.next);
   }
 
   experimentr.next = function() {
