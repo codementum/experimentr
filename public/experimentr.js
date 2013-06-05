@@ -15,6 +15,7 @@ experimentr = function() {
   };
 
   function init() {
+    if(mainDiv) return;
     mainDiv = d3.select('body').append('div')
       .attr('id', 'experimentr');
     moduleDiv = mainDiv.append('div')
@@ -27,13 +28,6 @@ experimentr = function() {
       .on('click', function() { experimentr.next(); });
   }
 
-  // // TODO this isn't right. They should be built as needed.
-  // var moduleDiv = mainDiv.selectAll('.experimentr-section')
-  //   .data(sequence)
-  //   .enter().append('div')
-  //   .classed('experimentr-section', true)
-  //   .each(loadHTML);
-
   function loadHTML() {
     var div = d3.select(this);
     d3.html(div.datum(), function(err, d) {
@@ -44,17 +38,18 @@ experimentr = function() {
 
   experimentr.next = function() {
     console.log('current: '+current);
-    deactivate(current);
     current = current + 1;
     console.log('next: '+current);
     activate(current);
   }
 
-  function deactivate(x) {
+  function clearModule() {
     d3.select('#module').html('');
   }
 
   function activate(x) {
+    clearModule();
+
     // TODO add special case, activating the last one
     if(x === sequence.length-1)
       console.log('at the end');
