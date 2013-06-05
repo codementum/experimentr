@@ -23,6 +23,7 @@ experimentr = function() {
       .attr('id', 'control');
     controlDiv.append('button')
       .attr('type', 'button')
+      .attr('id', 'next-button')
       .text('Next')
       .on('click', experimentr.next);
   }
@@ -32,6 +33,10 @@ experimentr = function() {
     activate(current);
   }
 
+  experimentr.end = function() {
+    console.log('all modules complete, now load data!');
+  }
+
   function clearModule() {
     d3.select('#module').html('');
   }
@@ -39,10 +44,15 @@ experimentr = function() {
   function activate(x) {
     clearModule();
 
-    // TODO add special case when activating the last one
-    //  (change next to finished?)
-    if(x === sequence.length-1)
-      console.log('at the end');
+   if(x === sequence.length-1){
+     console.log('at the final module');
+     d3.select('#next-button').remove();
+     d3.select('#control').append('button')
+       .attr('type', 'button')
+       .attr('id', 'end-button')
+       .text('End')
+       .on('click', experimentr.end);
+   }
 
    d3.html(sequence[x], function(err, d) {
      if(err) console.log(err);
