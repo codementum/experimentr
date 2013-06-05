@@ -13,10 +13,10 @@ experimentr = function() {
       .data(sequence)
       .enter().append('div')
       .classed('experimentr-section', true)
-      .call(loadHTML);
+      .each(loadHTML);
     function loadHTML() {
-      var div = this;
-      d3.html(this.datum(), function(err, d) {
+      var div = d3.select(this);
+      d3.html(div.datum(), function(err, d) {
         if(err) console.log(err);
         div.node().appendChild(d);
       });
