@@ -40,9 +40,12 @@ experimentr = function() {
   }
 
   experimentr.save = function(d) {
-    console.log('saving data...');
     merge(data, d);
-    console.log(data);
+    d3.xhr('http://localhost:8000/')
+      .header("Content-Type", "application/json")
+      .post(JSON.stringify(data), function(err, res) {
+        if(err) console.log(err);
+      });
   }
 
   function merge(o1, o2) {
