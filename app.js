@@ -45,7 +45,7 @@ app.post('/', function handlePost(req, res) {
   d.postId = (+new Date()).toString(36);
   d.timestamp = (new Date()).getTime();
   if(output === 'csv')
-    saveCSV(d.postId+'.csv', d);
+    saveCSV(d);
   if(output === 'redis')
     saveRedis(d);
   res.send(200);
@@ -64,12 +64,9 @@ var saveRedis = function saveRedis(d) {
 }
 
 // Process form
-// TODO refactor to saveCSV (something more specific)
-var saveCSV = function saveCSV(name, json) {
-  var params = { 
-    data: [json], 
-    fields: Object.keys(json) 
-  };
+var saveCSV = function saveCSV(d) {
+  var name = d.postId+'.csv'
+    , params = { data: [d], fields: Object.keys(d) };
   json2csv(params, function(err, csvData) {
     if (err) throw err;
     csv().from(csvData).to(dataDir+name);
