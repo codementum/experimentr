@@ -1,19 +1,17 @@
-<!-- instructions -->
+<form id='cleveland'>
+
 <p>
 Make a quick visual judgement:
 </p>
 
-<!-- chart -->
-<img height="300" src="modules/img/bar-adjacent-medium.png" />
+<img id="cleveland-chart" height="300" src="modules/img/bar-adjacent-medium.png" />
 
-<!-- perception question -->
 <p>
 Which of the two is smaller?
 <input type="radio" name="perception" value="A" /> A
 <input type="radio" name="perception" value="B" /> B
 </p>
 
-<!-- judgement question -->
 <p>
 What percentage is the SMALLER of the LARGER? Enter a percentage between 0 and 100:
 <br />
@@ -21,24 +19,77 @@ What percentage is the SMALLER of the LARGER? Enter a percentage between 0 and 1
 <input type="text" name="judgement" size="1" />%
 </p>
 
-<button type="button">Next Chart</button>
+<button type="button" disabled="true" id="next-chart">Next Chart</button>
+
+</form>
   
 <script> 
 var cleveland = function() {
+  // TODO randomize low, medlow, etcetera
+  // TODO store chart order
+  // TODO randomize chart type
+  // TODO store chart type
+  // TODO validate all values
+  // TODO load new images via next button
+  // TODO how to make images store correctly? maybe data['perception'+'-'+'low']? currentType?
   var data = {};
+  var levels = ['medium', 'high'];
+  var currentLevel = 0;
+  var chart = 'bar-adjacent';
+
+
+  // TODO add init function to load initial chart and define behavior
 
   d3.selectAll('input')
     .filter(function(d) { return this.name === 'perception' ? this : null; })
-    .on('change', function() { data.perception = this.value; validate(); });
+    .on('change', function() { data['perception'+'_'+levels[currentLevel]] = this.value; validate(); });
   d3.selectAll('input')
     .filter(function(d) { return this.name === 'judgement' ? this : null; })
-    .on('change', function() { data.judgement = this.value; validate(); });
+    .on('change', function() { data['judgement'+'_'+levels[currentLevel]] = this.value; validate(); });
+  d3.select('#next-chart')
+    .on('click', nextChart);
+
+  function nextChart() {
+    currentLevel = currentLevel + 1;
+    if(currentLevel === levels.length-1){
+      removeNextChartButton();
+    }
+    loadChart(currentLevel);
+    resetAnswers();
+  }
+
+  function removeNextChartButton() {
+    d3.select('#next-chart').remove();
+  }
+
+  function loadChart(x) {
+    var level = levels[x];
+    d3.select('#cleveland-chart')
+      .attr('src', 'modules/img/'+chart+'-'+level+'.png');
+  }
+
+  function resetAnswers() {
+    d3.select('#cleveland').node().reset();
+  }
 
   function validate() {
-    if(data.perception && data.judgement) {
+    if(data['perception'+'_'+levels[currentLevel]] && data['judgement'+'_'+levels[currentLevel]]){
+      release();
+    }
+
+    if( data.perception_medium && data.judgement_medium &&
+        data.perception_high   && data.judgement_high  ) {
       experimentr.save(data);
       experimentr.release();
     }
+  }
+
+  function hold() {
+    d3.select('#next-chart').attr('disabled', true);
+  }
+
+  function release() {
+    d3.select('#next-chart').attr('disabled', null);
   }
 }();
 </script>
