@@ -69,7 +69,6 @@ var postSam = function() {
     .on('change', function() { data.postArousal = this.value; validate(); });
 
   function validate() {
-    console.log(data);
     if(data.postValence && data.postArousal) {
       experimentr.save(data);
       experimentr.release();

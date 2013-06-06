@@ -56,12 +56,17 @@ experimentr = function() {
     d3.select('#next-button').attr('disabled', null);
   }
 
+  experimentr.hold = function() {
+    d3.select('#next-button').attr('disabled', true);
+  }
+
   function clearModule() {
     d3.select('#module').html('');
   }
 
   function activate(x) {
     clearModule();
+    experimentr.hold();
 
     if(x === sequence.length-1){
       removeNextButton();
