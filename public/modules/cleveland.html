@@ -41,7 +41,7 @@ var cleveland = function() {
       .on('change', function() { data['perception'+'_'+data.levelOrder[currentLevel]] = this.value; validate(); });
     d3.selectAll('input')
       .filter(function(d) { return this.name === 'judgement' ? this : null; })
-      .on('change', function() { data['judgement'+'_'+data.levelOrder[currentLevel]] = this.value; validate(); });
+      .on('keypress', function() { data['judgement'+'_'+data.levelOrder[currentLevel]] = this.value; validate(); });
     d3.select('#next-chart')
       .on('click', nextChart);
     loadChart(0);
