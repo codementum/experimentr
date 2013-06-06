@@ -8,6 +8,8 @@ experimentr = function() {
   var mainDiv;
   var data = {};
 
+  data.postId = (+new Date()).toString(36);
+
   experimentr.start = function() {
     init();
     current = 0;

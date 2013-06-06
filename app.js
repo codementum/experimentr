@@ -42,7 +42,7 @@ app.use(express.static(__dirname + '/public'));
 // POST
 app.post('/', function handlePost(req, res) {
   var d = req.body;
-  d.postId = (+new Date()).toString(36);
+  if (!d.postId) d.postId = (+new Date()).toString(36);
   d.timestamp = (new Date()).getTime();
   if(output === 'csv')
     saveCSV(d);
