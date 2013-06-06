@@ -25,28 +25,23 @@ What percentage is the SMALLER of the LARGER? Enter a percentage between 0 and 1
   
 <script> 
 var cleveland = function() {
-  // TODO randomize low, medlow, etcetera
-  // TODO store chart order
-  // TODO randomize chart type
-  // TODO store chart type
-  // TODO validate all values
-  // TODO load new images via next button
-  // TODO how to make images store correctly? maybe data['perception'+'-'+'low']? currentType?
-  // TODO each chart in cleveland should be defined in one place via json, so storing the data for analysis becomes easier
-  var data = {};
-  var levels = ['low', 'medium', 'high'];
-  var currentLevel = 0;
-  var chart = 'bar-adjacent';
+  var data         = {}
+    , levels       = ['low', 'medium', 'high']
+    , currentLevel = 0
+    , charts       = ['bar-adjacent', 'bar-nonadjacent'];
+
+  data.chart      = charts[getRandomInt(0, 1)];
+  data.levelOrder = shuffle(levels);
 
   init();
 
   function init() {
     d3.selectAll('input')
       .filter(function(d) { return this.name === 'perception' ? this : null; })
-      .on('change', function() { data['perception'+'_'+levels[currentLevel]] = this.value; validate(); });
+      .on('change', function() { data['perception'+'_'+data.levelOrder[currentLevel]] = this.value; validate(); });
     d3.selectAll('input')
       .filter(function(d) { return this.name === 'judgement' ? this : null; })
-      .on('change', function() { data['judgement'+'_'+levels[currentLevel]] = this.value; validate(); });
+      .on('change', function() { data['judgement'+'_'+data.levelOrder[currentLevel]] = this.value; validate(); });
     d3.select('#next-chart')
       .on('click', nextChart);
     loadChart(0);
@@ -67,13 +62,13 @@ var cleveland = function() {
   }
 
   function atLastChart() {
-    return currentLevel === levels.length-1;
+    return currentLevel === data.levelOrder.length-1;
   }
 
   function loadChart(x) {
-    var level = levels[x];
+    var level = data.levelOrder[x];
     d3.select('#cleveland-chart')
-      .attr('src', 'modules/img/'+chart+'-'+level+'.png');
+      .attr('src', 'modules/img/'+data.chart+'-'+level+'.png');
   }
 
   function resetAnswers() {
@@ -81,15 +76,23 @@ var cleveland = function() {
   }
 
   function validate() {
-    if(data['perception'+'_'+levels[currentLevel]] && data['judgement'+'_'+levels[currentLevel]]){
+    if( currentQuestionsComplete() ){
       enableNextChartButton();
     }
-
-    if( data.perception_medium && data.judgement_medium &&
-        data.perception_high   && data.judgement_high  ) {
+    if( allDataCollected() ) {
       experimentr.save(data);
       experimentr.release();
     }
+  }
+
+  function allDataCollected() {
+    return data.perception_medium &&  data.judgement_medium &&
+           data.perception_high   &&  data.judgement_high && 
+           data.chart             &&  data.levelOrder;
+  }
+
+  function currentQuestionsComplete() {
+    return data['perception'+'_'+data.levelOrder[currentLevel]] && data['judgement'+'_'+data.levelOrder[currentLevel]];
   }
 
   function disableNextChartButton() {
@@ -98,6 +101,15 @@ var cleveland = function() {
 
   function enableNextChartButton() {
     d3.select('#next-chart').attr('disabled', null);
+  }
+
+  function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function shuffle (o) {
+    for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
   }
 }();
 </script>
