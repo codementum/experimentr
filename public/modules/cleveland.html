@@ -4,7 +4,7 @@
 Make a quick visual judgement:
 </p>
 
-<img id="cleveland-chart" height="300" src="modules/img/bar-adjacent-medium.png" />
+<img id="cleveland-chart" height="300" />
 
 <p>
 Which of the two is smaller?
@@ -32,34 +32,42 @@ var cleveland = function() {
   // TODO validate all values
   // TODO load new images via next button
   // TODO how to make images store correctly? maybe data['perception'+'-'+'low']? currentType?
+  // TODO each chart in cleveland should be defined in one place via json, so storing the data for analysis becomes easier
   var data = {};
-  var levels = ['medium', 'high'];
+  var levels = ['low', 'medium', 'high'];
   var currentLevel = 0;
   var chart = 'bar-adjacent';
 
+  init();
 
-  // TODO add init function to load initial chart and define behavior
-
-  d3.selectAll('input')
-    .filter(function(d) { return this.name === 'perception' ? this : null; })
-    .on('change', function() { data['perception'+'_'+levels[currentLevel]] = this.value; validate(); });
-  d3.selectAll('input')
-    .filter(function(d) { return this.name === 'judgement' ? this : null; })
-    .on('change', function() { data['judgement'+'_'+levels[currentLevel]] = this.value; validate(); });
-  d3.select('#next-chart')
-    .on('click', nextChart);
+  function init() {
+    d3.selectAll('input')
+      .filter(function(d) { return this.name === 'perception' ? this : null; })
+      .on('change', function() { data['perception'+'_'+levels[currentLevel]] = this.value; validate(); });
+    d3.selectAll('input')
+      .filter(function(d) { return this.name === 'judgement' ? this : null; })
+      .on('change', function() { data['judgement'+'_'+levels[currentLevel]] = this.value; validate(); });
+    d3.select('#next-chart')
+      .on('click', nextChart);
+    loadChart(0);
+  }
 
   function nextChart() {
     currentLevel = currentLevel + 1;
-    if(currentLevel === levels.length-1){
+    if( atLastChart() ){
       removeNextChartButton();
     }
     loadChart(currentLevel);
     resetAnswers();
+    disableNextChartButton();
   }
 
   function removeNextChartButton() {
     d3.select('#next-chart').remove();
+  }
+
+  function atLastChart() {
+    return currentLevel === levels.length-1;
   }
 
   function loadChart(x) {
@@ -74,7 +82,7 @@ var cleveland = function() {
 
   function validate() {
     if(data['perception'+'_'+levels[currentLevel]] && data['judgement'+'_'+levels[currentLevel]]){
-      release();
+      enableNextChartButton();
     }
 
     if( data.perception_medium && data.judgement_medium &&
@@ -84,11 +92,11 @@ var cleveland = function() {
     }
   }
 
-  function hold() {
+  function disableNextChartButton() {
     d3.select('#next-chart').attr('disabled', true);
   }
 
-  function release() {
+  function enableNextChartButton() {
     d3.select('#next-chart').attr('disabled', null);
   }
 }();
