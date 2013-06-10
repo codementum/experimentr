@@ -4,7 +4,7 @@
 Make a quick visual judgement:
 </p>
 
-<img id="cleveland-chart" height="300" />
+<img id="cleveland-chart" height="380" />
 
 <p>
 Which of the two is smaller?
@@ -40,6 +40,15 @@ var cleveland = function() {
     , levels       = ['low', 'mediumLow', 'medium', 'mediumHigh', 'high']
     , currentLevel = 0
     , charts       = ['bar-adjacent', 'bar-nonadjacent'];
+
+
+  var actual = {
+    "low": 84,
+    "mediumLow": 61,
+    "medium": 50,
+    "mediumHigh": 37,
+    "high": 13
+  };
 
   data.chart      = charts[getRandomInt(0, 1)];
   data.levelOrder = shuffle(levels);
@@ -97,15 +106,34 @@ var cleveland = function() {
       enableNextChartButton();
     }
     if( allDataCollected() ) {
+      gradeAnswers();
       experimentr.save(data);
       experimentr.release();
     }
   }
 
+  // TODO function to check all levels
   function allDataCollected() {
-    return data.perception_medium &&  data.judgement_medium &&
-           data.perception_high   &&  data.judgement_high && 
-           data.chart             &&  data.levelOrder;
+    return data.perception_low         &&  data.judgement_low &&
+           data.perception_mediumLow   &&  data.judgement_mediumLow && 
+           data.perception_medium      &&  data.judgement_medium && 
+           data.perception_mediumHigh  &&  data.judgement_mediumHigh && 
+           data.perception_high        &&  data.judgement_high && 
+           data.chart                  &&  data.levelOrder;
+  }
+
+  function gradeAnswers() {
+    data.perceptionAnswer_low        = data.perception_low === "A" ? true : false;
+    data.perceptionAnswer_mediumLow  = data.perception_mediumLow === "A" ? true : false;
+    data.perceptionAnswer_medium     = data.perception_medium === "A" ? true : false;
+    data.perceptionAnswer_mediumHigh = data.perception_mediumHigh === "A" ? true : false;
+    data.perceptionAnswer_high       = data.perception_high === "A" ? true : false;
+
+    data.error_low        = actual.low - data.judgement_low;
+    data.error_mediumLow  = actual.mediumLow - data.judgement_mediumLow;
+    data.error_medium     = actual.medium - data.judgement_medium;
+    data.error_mediumHigh = actual.mediumHigh - data.judgement_mediumHigh;
+    data.error_high       = actual.high - data.judgement_high;
   }
 
   function currentQuestionsComplete() {
