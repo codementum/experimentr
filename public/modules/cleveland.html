@@ -111,7 +111,7 @@ var cleveland = function() {
     }
     if( allDataCollected() ) {
       gradeAnswers();
-      experimentr.save(data);
+      experimentr.addData(data);
       experimentr.release();
     }
   }

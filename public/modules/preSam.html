@@ -80,7 +80,7 @@ var preSam = function() {
 
   function validate() {
     if(data.preValence && data.preArousal) {
-      experimentr.save(data);
+      experimentr.addData(data);
       experimentr.release();
     }
   }

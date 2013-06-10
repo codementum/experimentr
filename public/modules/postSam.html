@@ -80,7 +80,7 @@ var postSam = function() {
 
   function validate() {
     if(data.postValence && data.postArousal) {
-      experimentr.save(data);
+      experimentr.addData(data);
       experimentr.release();
     }
   }
