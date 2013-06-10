@@ -50,7 +50,7 @@ experimentr = function() {
   }
 
   experimentr.save = function(d) {
-    d3.xhr('http://localhost:8000/')
+    d3.xhr('/')
       .header("Content-Type", "application/json")
       .post(JSON.stringify(data), function(err, res) {
         if(err) console.log(err);
