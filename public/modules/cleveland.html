@@ -20,6 +20,7 @@ Enter a percentage between 0 and 100:
 </p>
 
 <button type="button" disabled="true" id="next-chart">Next Chart</button>
+<span id="error"></span>
 
 </form>
 
@@ -27,6 +28,9 @@ Enter a percentage between 0 and 100:
   #cleveland-chart {
     display: block;
     margin: auto;
+  }
+  #error {
+    color: red;
   }
 </style>
   
@@ -56,12 +60,17 @@ var cleveland = function() {
   }
 
   function nextChart() {
+    if ( !currentAnswerIsNumber() ) {
+      showError("Please enter a number between 0 and 100 (no characters)");
+      return;
+    }
     currentLevel = currentLevel + 1;
     if( atLastChart() ){
       removeNextChartButton();
     }
     loadChart(currentLevel);
     resetAnswers();
+    clearError();
     disableNextChartButton();
   }
 
@@ -84,7 +93,7 @@ var cleveland = function() {
   }
 
   function validate() {
-    if( currentQuestionsComplete() ){
+    if( currentQuestionsComplete() ) {
       enableNextChartButton();
     }
     if( allDataCollected() ) {
@@ -101,6 +110,23 @@ var cleveland = function() {
 
   function currentQuestionsComplete() {
     return data['perception'+'_'+data.levelOrder[currentLevel]] && data['judgement'+'_'+data.levelOrder[currentLevel]];
+  }
+
+  function showError(d) {
+    d3.select('#cleveland').select('#error').text(d);
+  }
+
+  function clearError(d) {
+    d3.select('#cleveland').select('#error').text('');
+  }
+
+  function currentAnswerIsNumber() {
+    var d = data['judgement'+'_'+data.levelOrder[currentLevel]];
+    return isNumber(d) ? (d >= 0 && d <= 100) : false;
+  }
+
+  function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
   function disableNextChartButton() {
