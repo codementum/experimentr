@@ -20,15 +20,26 @@
   }
 </style>
 
-<h1> experimentr </h1>
+<h1 class="intro"> experimentr </h1>
 
-<p>
+<p class="intro">
 Define modules, define order, get data.
 </p>
 
+<button class="intro" type="button" onclick="begin()">Begin</button>
+
 
 <script>
+function begin() {
+  hideIntroText();
+  startExperiment();
+}
+function hideIntroText() {
+  d3.selectAll('.intro').style('display', 'none');
+}
+function startExperiment() {
   experimentr
     .sequence(['modules/preSam.html', 'modules/cleveland.html', 'modules/postSam.html'])
     .start();
+}
 </script>

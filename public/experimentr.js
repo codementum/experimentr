@@ -38,7 +38,7 @@ experimentr = function() {
   }
 
   experimentr.end = function() {
-    console.log('all modules complete, now load data!');
+    d3.select('#experimentr').text('Thank you for participating! You may close this window.');
   }
 
   experimentr.save = function(d) {
