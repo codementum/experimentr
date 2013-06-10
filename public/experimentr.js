@@ -14,6 +14,7 @@ experimentr = function() {
     init();
     current = 0;
     activate(current);
+    experimentr.startTimer('experiment');
   };
 
   function init() {
@@ -38,11 +39,17 @@ experimentr = function() {
   }
 
   experimentr.end = function() {
+    experimentr.endTimer('experiment');
     d3.select('#experimentr').text('Thank you for participating! You may close this window.');
   }
 
-  experimentr.save = function(d) {
+  // TODO break into addData and save (xhr only)
+  experimentr.addData = function(d) {
     merge(data, d);
+    experimentr.save();
+  }
+
+  experimentr.save = function(d) {
     d3.xhr('http://localhost:8000/')
       .header("Content-Type", "application/json")
       .post(JSON.stringify(data), function(err, res) {
@@ -96,6 +103,18 @@ experimentr = function() {
     if(!arguments.length) return sequence;
     sequence = x;
     return experimentr;
+  }
+
+  experimentr.startTimer = function(x) {
+    console.log('starting timer');
+    data['time_start_'+x] = performance.now(); 
+  }
+
+  experimentr.endTimer = function(x) {
+    console.log('ending timer');
+    data['time_end_'+x] = performance.now(); 
+    data['time_diff_'+x] = data['time_end_'+x] - data['time_start_'+x]; 
+    experimentr.save();
   }
 
   return experimentr;
