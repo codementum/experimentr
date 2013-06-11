@@ -78,8 +78,11 @@ var preSam = function() {
     .filter(function(d) { return this.name === 'sam-arousal' ? this : null; })
     .on('change', function() { data.preArousal = this.value; validate(); });
 
+  experimentr.startTimer('preSam');
+
   function validate() {
     if(data.preValence && data.preArousal) {
+      experimentr.endTimer('preSam');
       experimentr.addData(data);
       experimentr.release();
     }
