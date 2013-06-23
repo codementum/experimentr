@@ -91,9 +91,10 @@ experimentr = function() {
   function addEndButton() {
     d3.select('#control').append('button')
       .attr('type', 'button')
-      .attr('id', 'end-button')
+      .attr('id', 'next-button')
       .text('End')
       .on('click', experimentr.end);
+    experimentr.hold();
   }
   function removeNextButton() {
     d3.select('#next-button').remove();
