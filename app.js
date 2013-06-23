@@ -3,27 +3,20 @@
 
 var express  = require('express')
   , http     = require('http')
-  , csv      = require('csv')
-  , json2csv = require('json2csv')
   , fs       = require('fs')
   , redis    = require('redis')
   , redisClient
   , dataDir  = 'userdata/';
 
-
-var output = 'redis'; // 'csv' or 'redis'
-var host   = 'local'; // 'appfog' or 'local'
-var port   = '80';
+var port   = '8000';
 
 // setup for redis
-if (output === 'redis') {
-  redisClient = redis.createClient();
+redisClient = redis.createClient();
 
-  // redis connection test
-  redisClient.on('connect', function() {
-    console.log('Connected to redis.');
-  });
-}
+// redis connection test
+redisClient.on('connect', function() {
+  console.log('Connected to redis.');
+});
 
 // CORS middleware
 var allowCrossDomain = function(req, res, next) {
@@ -44,17 +37,7 @@ app.post('/', function handlePost(req, res) {
   var d = req.body;
   if (!d.postId) d.postId = (+new Date()).toString(36);
   d.timestamp = (new Date()).getTime();
-  if(output === 'csv')
-    saveCSV(d);
-  if(output === 'redis')
-    saveRedis(d);
-  res.send(200);
-})
-
-// POST (error)
-app.post('/error', function handlePost(req, res) {
-  var d = req.body;
-  console.log(d.msg);
+  saveRedis(d);
   res.send(200);
 })
 
@@ -63,39 +46,8 @@ var saveRedis = function saveRedis(d) {
   console.log('saved to redis: ' + d.postId);
 }
 
-// Process form
-var saveCSV = function saveCSV(d) {
-  var name = d.postId+'.csv'
-    , params = { data: [d], fields: Object.keys(d) };
-  json2csv(params, function(err, csvData) {
-    if (err) throw err;
-    csv().from(csvData).to(dataDir+name);
-    console.log('csv saved, %s', name);
-  })
-}
-
-if( host === 'appfog' ) {
-  http.createServer(app).listen(process.env.VCAP_APP_PORT || 3000, function (err) {
-    if (!err) {
-      console.log('Listening on port ' + process.env.VCAP_APP_PORT || 3000);
-    }
-  });
-}
-
-if( host === 'local' ){
-  http.createServer(app).listen(port, function (err) {
-    if (!err) {
-      console.log('Listening on port ' + port);
-    }
-  });
-}
-
-process.on('uncaughtException', function (err) {
-  if (err.code === 'EACCES') {
-    console.log('Unable to start server - you must start as root user.');
+http.createServer(app).listen(port, function (err) {
+  if (!err) {
+    console.log('Listening on port ' + port);
   }
-  else {
-    console.log(err);
-  }
-  process.exit(1);
 });
