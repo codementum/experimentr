@@ -1,14 +1,13 @@
 /* global require:true, console:true, process:true, __dirname:true */
 'use strict';
 
-var express  = require('express')
-  , http     = require('http')
-  , fs       = require('fs')
-  , redis    = require('redis')
+var express     = require('express')
+  , http        = require('http')
+  , fs          = require('fs')
+  , redis       = require('redis')
   , redisClient
-  , dataDir  = 'userdata/';
-
-var port   = '8000';
+  , dataDir     = 'userdata/'
+  , port        = '80';
 
 // setup for redis
 redisClient = redis.createClient();
@@ -43,7 +42,7 @@ app.post('/', function handlePost(req, res) {
 
 var saveRedis = function saveRedis(d) {
   redisClient.hmset(d.postId, d);
-  console.log('saved to redis: ' + d.postId);
+  console.log('saved to redis: ' + d.postId +', at: '+ (new Date()).toString());
 }
 
 http.createServer(app).listen(port, function (err) {
