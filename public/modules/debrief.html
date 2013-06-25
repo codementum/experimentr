@@ -1,0 +1,42 @@
+<div id="debrief">
+
+<h2>Study Debriefing</h2>
+
+<p>
+<strong>Please copy and paste the following code back on Mechanical Turk:</strong>
+<br />
+<br />
+<span id="postId"></span>
+</p>
+
+<p>
+This study is concerned with the effect of emotion on how well people process visual information in charts. 
+Previous studies have found that emotional state can influence visual perception. 
+However, given the rise in how often charts are used to communicate important information today, it is important to understand specifically how emotion can influence how visual information is perceived.
+</p>
+
+<p>
+In this study, you were asked to perform two tasks—reading a story, and answering questions about charts. 
+All participants performed these same tasks, but each participant received one of eight possible chart types along with either a positive story or a negative story. 
+We expect to find that people who read the negative story first will make more errors on the chart task, though in some studies negative emotion has been associated with better performance on mental tasks.
+</p>
+
+<p>
+If you have concerns about your rights as a participant in this experiment, please contact the UNC-Charlotte IRB Compliance Office at 704-687-1871. 
+You may also contact the primary researcher, Lane Harrison (doctoral student), at Ltharri1@uncc.edu or the advising faculty, Dr. Aidong Lu, at alu1@uncc.edu.
+</p>
+
+<p>
+Thank you again for your participation.
+</p>
+</div>
+
+<style>
+</style>
+
+<script> 
+var debrief = function() {
+  var postId = experimentr.postId;
+  d3.select("#postId").text(postId);
+}();
+</script>
