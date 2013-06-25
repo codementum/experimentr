@@ -10,6 +10,10 @@ experimentr = function() {
 
   data.postId = (+new Date()).toString(36);
 
+  experimentr.postId = function() {
+    return data.postId;
+  };
+
   experimentr.start = function() {
     init();
     current = 0;
