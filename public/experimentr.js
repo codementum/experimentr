@@ -44,7 +44,6 @@ experimentr = function() {
 
   experimentr.end = function() {
     experimentr.endTimer('experiment');
-    d3.select('#experimentr').text('Thank you for participating! You may close this window.');
   }
 
   // TODO break into addData and save (xhr only)
@@ -83,7 +82,7 @@ experimentr = function() {
 
     if(x === sequence.length-1){
       removeNextButton();
-      addEndButton();
+      experimentr.end();
     }
 
     d3.html(sequence[x], function(err, d) {
@@ -92,14 +91,6 @@ experimentr = function() {
     });
   }
 
-  function addEndButton() {
-    d3.select('#control').append('button')
-      .attr('type', 'button')
-      .attr('id', 'next-button')
-      .text('End')
-      .on('click', experimentr.end);
-    experimentr.hold();
-  }
   function removeNextButton() {
     d3.select('#next-button').remove();
   }
@@ -111,12 +102,12 @@ experimentr = function() {
   }
 
   experimentr.startTimer = function(x) {
-    console.log('starting timer');
+    console.log('starting timer: '+x);
     data['time_start_'+x] = performance.now(); 
   }
 
   experimentr.endTimer = function(x) {
-    console.log('ending timer');
+    console.log('ending timer: '+x);
     data['time_end_'+x] = performance.now(); 
     data['time_diff_'+x] = data['time_end_'+x] - data['time_start_'+x]; 
     experimentr.save();
