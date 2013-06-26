@@ -53,10 +53,17 @@ var storyPrime = function() {
   }
   function validate() {
     if(data.storyVerification) {
+      grade();
       experimentr.endTimer('storyPrime');
       experimentr.addData(data);
       experimentr.release();
     }
+  }
+  function grade() {
+    if(data.storyVerification === storyData.answer)
+      data.storyVerificationResult = true;
+    else
+      data.storyVerificationResult = false;
   }
 }();
 </script>
