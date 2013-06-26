@@ -109,7 +109,7 @@ experimentr = function() {
   experimentr.endTimer = function(x) {
     console.log('ending timer: '+x);
     data['time_end_'+x] = performance.now(); 
-    data['time_diff_'+x] = data['time_end_'+x] - data['time_start_'+x]; 
+    data['time_diff_'+x] = parseFloat(data['time_end_'+x]) - parseFloat(data['time_start_'+x]); 
     experimentr.save();
   }
 
