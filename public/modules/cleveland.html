@@ -4,34 +4,49 @@
 Make a quick visual judgement:
 </p>
 
-<img id="cleveland-chart" height="380" />
+<div>
+  <img id="cleveland-chart" height="380" />
+  <div id="cleveland-questions">
 
-<p>
-Which of the two is smaller?
-</p>
-<p>
-<input type="radio" name="perception" value="A" /> A
-<input type="radio" name="perception" value="B" /> B
-</p>
+  <p>
+  Which of the two is smaller?
+  </p>
+  <p>
+  <input type="radio" name="perception" value="A" /> A
+  <input type="radio" name="perception" value="B" /> B
+  </p>
+  <br>
+  
+  <p>
+  What percentage is the SMALLER of the LARGER? Enter a percentage between 1 and 100:
+  </p>
+  <p>
+  <input type="text" name="judgement" size="2" />%
+  <span id="error"></span>
+  </p>
+  <br>
+  
+  <p>
+  <button type="button" disabled="true" id="next-chart">Next Chart</button>
+  </p>
 
-<p>
-What percentage is the SMALLER of the LARGER? 
-</p>
-<p>
-Enter a percentage between 1 and 100:
-<br />
-<input type="text" name="judgement" size="2" />%
-</p>
+  </div>
+</div>
 
-<button type="button" disabled="true" id="next-chart">Next Chart</button>
-<span id="error"></span>
 
 </form>
 
 <style>
+  #cleveland-questions {
+    text-align: center;
+    display: inline-block;
+    width: 250px;
+    padding-left: 64px; 
+  }
   #cleveland-chart {
-    display: block;
+    display: inline-block;
     margin: auto;
+    vertical-align: top;
   }
   #error {
     color: red;
