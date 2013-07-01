@@ -18,6 +18,7 @@ var storyPrime = function() {
   init();
 
   function init() {
+    experimentr.hideNext();
     experimentr.startTimer('storyPrime');
     d3.json('modules/stories.json', function(err, d) {
       storyData = d[rand];
@@ -33,6 +34,7 @@ var storyPrime = function() {
       .on('click', loadQuestion);
   }
   function loadQuestion() {
+    experimentr.showNext();
     d3.select('#storyText').remove();
     d3.select('#storyInstructions').remove();
     d3.select('#storyVerification').append('p')

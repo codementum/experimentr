@@ -75,6 +75,7 @@ var cleveland = function() {
   init();
 
   function init() {
+    experimentr.hideNext();
     d3.selectAll('input')
       .filter(function(d) { return this.name === 'perception' ? this : null; })
       .on('change', function() { data['perception'+'_'+data.levelOrder[currentLevel]] = this.value; validate(); });
@@ -96,6 +97,7 @@ var cleveland = function() {
     currentLevel = currentLevel + 1;
     if( atLastChart() ){
       removeNextChartButton();
+      experimentr.showNext();
     }
     loadChart(currentLevel);
     resetAnswers();

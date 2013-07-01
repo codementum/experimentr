@@ -38,6 +38,7 @@ experimentr = function() {
   }
 
   experimentr.next = function() {
+    experimentr.showNext();
     current = current + 1;
     activate(current);
   }
@@ -46,7 +47,6 @@ experimentr = function() {
     experimentr.endTimer('experiment');
   }
 
-  // TODO break into addData and save (xhr only)
   experimentr.addData = function(d) {
     merge(data, d);
     experimentr.save();
@@ -66,6 +66,14 @@ experimentr = function() {
 
   experimentr.release = function() {
     d3.select('#next-button').attr('disabled', null);
+  }
+
+  experimentr.hideNext = function() {
+    d3.select('#next-button').style('display', 'none');
+  }
+
+  experimentr.showNext = function() {
+    d3.select('#next-button').style('display', 'inline');
   }
 
   experimentr.hold = function() {

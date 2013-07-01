@@ -49,6 +49,8 @@ If you are 18 years of age or older, understand the statements above, and freely
 var consent = function() {
   var data = {};
 
+  experimentr.hideNext();
+
   d3.select('#consentYes')
     .on('click', experimentr.next);
   d3.select('#consentNo')
