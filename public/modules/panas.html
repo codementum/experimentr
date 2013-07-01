@@ -1,0 +1,122 @@
+<div id="panas">
+
+<p>
+This scale consists of a number of words that describe different feelings and emotions. 
+Read each item and then list the number from the scale below next to each word. 
+<strong>Indicate to what extent you feel this way right now, that is, at the present moment OR indicate the extent you have felt this way over the past week (circle the instructions you followed when taking this measure).</strong>
+</p>
+
+<div id="panasQuestions"></div>
+
+</div>
+
+<style>
+  #panas p {
+    width: 600px;
+  }
+  #panas td {
+    text-align: center;
+    padding-right: 16px;
+  }
+</style>
+
+<script> 
+var panas = function() {
+  var data = {};
+  var panasWords = [
+    'Interested',
+    'Distressed',
+    'Excited',
+    'Upset',
+    'Strong',
+    'Guilty',
+    'Scared',
+    'Hostile',
+    'Enthusiastic',
+    'Proud',
+    'Irritable',
+    'Alert',
+    'Ashamed',
+    'Inspired',
+    'Nervous',
+    'Determined',
+    'Attentive',
+    'Jittery',
+    'Active',
+    'Afraid'
+  ];
+
+  var panasResponses = [
+    'Very Slightly or Not at All',
+    'A Little',
+    'Moderately',
+    'Quite a bit',
+    'Extremely'
+  ];
+
+  init();
+
+  function init() {
+    experimentr.startTimer('panas');
+    var table = d3.select('#panasQuestions').selectAll('.panasWords')
+      .data(panasWords)
+      .enter().append('table')
+      .classed('panasWords', true)
+      .text(function(d) { return d; });
+
+    table.append('tr').selectAll('td')
+      .data(panasResponses)
+      .enter().append('td')
+      .text(function(d) { return d; });
+
+    table.append('tr').selectAll('td')
+      .data(panasResponses)
+      .enter().append('td')
+      .attr('align', 'center')
+      .append('input')
+      .attr('type', 'radio')
+      .attr('name', function(d) { 
+        var pd = d3.select(this).node().parentNode.parentNode.__data__;
+        return 'panas-'+pd;
+      })
+      .attr('value', function (d, i) { return i+1; })
+      .on('change', function() { 
+        var name = d3.select(this).attr('name');
+        data[name] = this.value; 
+        validate(); 
+      });
+  }
+
+  function validate() {
+    var passed = panasWords.every(function(d) {
+      var key = 'panas-'+d;
+      if (data[key]) 
+        return true;
+      else 
+        return false;
+    });
+
+    if(passed) {
+      grade();
+      experimentr.endTimer('panas');
+      experimentr.addData(data);
+      experimentr.release();
+    }
+  }
+
+  function grade() {
+    var positiveIndices = [1, 3, 5, 9, 10, 12, 14, 16, 17, 19];
+    var negativeIndices = [2, 4, 6, 7, 8, 11, 13, 15, 18, 20];
+    data.panasPositive = positiveIndices.reduce(function(pv, d, i, arr) {
+      var key   = 'panas-'+panasWords[d]
+        , value = parseInt(data[key]);
+        return pv + value;
+    });
+    data.panasNegative = negativeIndices.reduce(function(pv, d, i, arr) {
+      var key   = 'panas-'+panasWords[d]
+        , value = parseInt(data[key]);
+        return pv + value;
+    });
+  }
+}();
+</script>
