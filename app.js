@@ -7,7 +7,7 @@ var express     = require('express')
   , redis       = require('redis')
   , redisClient
   , dataDir     = 'userdata/'
-  , port        = '80';
+  , port        = '8000';
 
 // setup for redis
 redisClient = redis.createClient();
