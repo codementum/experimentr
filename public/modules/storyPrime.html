@@ -43,12 +43,12 @@ var storyPrime = function() {
       .data(storyData.choices)
       .enter().append('div')
       .classed('choice', true);
-    choices.append('label')
-      .text(function(d) { return d; });
     choices.append('input')
       .attr('type', 'radio')
       .attr('name', 'storyVerification')
       .attr('value', function(d) { return d; });
+    choices.append('label')
+      .text(function(d) { return d; });
   d3.selectAll('input')
     .filter(function(d) { return this.name === 'storyVerification' ? this : null; })
     .on('change', function() { data.storyVerification = this.value; validate(); });
