@@ -1,0 +1,7 @@
+[
+{"aValue":24,"bValue":28,"diff":0.8571428571428571,"actual":85,"criteria":"low"},
+{"aValue":20,"bValue":29,"diff":0.6896551724137931,"actual":68,"criteria":"mediumLow"},
+{"aValue":15,"bValue":32,"diff":0.46875,"actual":46,"criteria":"medium"},
+{"aValue":11,"bValue":29,"diff":0.3793103448275862,"actual":37,"criteria":"mediumHigh"},
+{"aValue":27,"bValue":4,"diff":0.14814814814814814,"actual":14,"criteria":"high"}
+]
