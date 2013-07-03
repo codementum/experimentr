@@ -58,18 +58,28 @@ var cleveland = function() {
   var data         = {}
     , levels       = ['low', 'mediumLow', 'medium', 'mediumHigh', 'high']
     , currentLevel = 0
-    , charts       = ['bar-adjacent', 'bar-nonadjacent'];
+    , charts       = ['bar-adjacent', 'bar-nonAdjacentOne', 'bar-nonAdjacentThree', 'bar-nonAdjacentFive', 'bar-nonAdjacentSeven'];
+    //, charts       = ['bar-adjacent', 'bar-nonadjacent'];
 
-
+  // barTen actual
   var actual = {
-    "low": 84,
-    "mediumLow": 61,
-    "medium": 50,
+    "low": 85,
+    "mediumLow": 68,
+    "medium": 46,
     "mediumHigh": 37,
-    "high": 13
+    "high": 14
   };
 
-  data.chart      = charts[getRandomInt(0, 1)];
+  // 2-chart actual
+  //var actual = {
+  //  "low": 84,
+  //  "mediumLow": 61,
+  //  "medium": 50,
+  //  "mediumHigh": 37,
+  //  "high": 13
+  //};
+
+  data.chart      = charts[getRandomInt(0, charts.length-1)];
   data.levelOrder = shuffle(levels);
 
   init();
@@ -93,7 +103,6 @@ var cleveland = function() {
       showError("Please enter a number between 1 and 100 (no characters, no decimals)");
       return;
     }
-    experimentr.endTimer(data.levelOrder[currentLevel]);
     currentLevel = currentLevel + 1;
     if( atLastChart() ){
       removeNextChartButton();
@@ -116,7 +125,7 @@ var cleveland = function() {
   function loadChart(x) {
     var level = data.levelOrder[x];
     d3.select('#cleveland-chart')
-      .attr('src', 'modules/img/'+data.chart+'-'+level+'.png');
+      .attr('src', 'modules/img/barTen/'+data.chart+'-'+level+'.png');
     experimentr.startTimer(level);
   }
 
@@ -126,6 +135,7 @@ var cleveland = function() {
 
   function validate() {
     if( currentQuestionsComplete() ) {
+      experimentr.endTimer(data.levelOrder[currentLevel]);
       enableNextChartButton();
     }
     if( allDataCollected() ) {
@@ -145,11 +155,19 @@ var cleveland = function() {
   }
 
   function gradeAnswers() {
+    // barTen data
     data.perceptionAnswer_low        = data.perception_low === "A" ? true : false;
     data.perceptionAnswer_mediumLow  = data.perception_mediumLow === "A" ? true : false;
     data.perceptionAnswer_medium     = data.perception_medium === "A" ? true : false;
     data.perceptionAnswer_mediumHigh = data.perception_mediumHigh === "A" ? true : false;
-    data.perceptionAnswer_high       = data.perception_high === "A" ? true : false;
+    data.perceptionAnswer_high       = data.perception_high === "B" ? true : false;
+
+    // old data
+//    data.perceptionAnswer_low        = data.perception_low === "A" ? true : false;
+//    data.perceptionAnswer_mediumLow  = data.perception_mediumLow === "A" ? true : false;
+//    data.perceptionAnswer_medium     = data.perception_medium === "A" ? true : false;
+//    data.perceptionAnswer_mediumHigh = data.perception_mediumHigh === "A" ? true : false;
+//    data.perceptionAnswer_high       = data.perception_high === "A" ? true : false;
 
     data.error_low        = actual.low - data.judgement_low;
     data.error_mediumLow  = actual.mediumLow - data.judgement_mediumLow;
