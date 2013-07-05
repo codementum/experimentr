@@ -1,8 +1,9 @@
 /* global require:true, console:true, process:true, __dirname:true */
 'use strict'
 
-var fs          = require('fs')
-  , redis       = require('redis')
+var fs      = require('fs')
+  , dataset = []
+  , redis   = require('redis')
   , client
 
 client = redis.createClient()
@@ -16,8 +17,13 @@ function keys () {
   });
 }
 
-function data (k) {
+function data (k, i, arr) {
   client.hgetall(k, function (err, obj) {
-    console.log(JSON.stringify(obj));
+    if(i === arr.length-1) log(dataset)
+    else dataset.push(obj)
   });
+}
+
+function log (obj) {
+  console.log(JSON.stringify(obj))
 }
