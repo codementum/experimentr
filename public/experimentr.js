@@ -14,6 +14,10 @@ experimentr = function() {
     return data.postId;
   };
 
+  experimentr.data = function() {
+    return data;
+  };
+
   experimentr.start = function() {
     init();
     current = 0;

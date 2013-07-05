@@ -21,7 +21,8 @@ var storyPrime = function() {
     experimentr.hideNext();
     experimentr.startTimer('storyPrime');
     d3.json('modules/stories.json', function(err, d) {
-      storyData = d[rand];
+      storyData = d[rand]; // 0 negative; 1 positive
+      data.primingType = rand === 0 ? 'negative' : 'positive';
       loadStory();
     });
   }

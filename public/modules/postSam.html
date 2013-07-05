@@ -82,9 +82,28 @@ var postSam = function() {
 
   function validate() {
     if(data.postValence && data.postArousal) {
+      grade();
       experimentr.endTimer('postSam');
       experimentr.addData(data);
       experimentr.release();
+    }
+  }
+  function grade() {
+    var eData = experimentr.data();
+    data.valenceDiff = data.postValence - eData.preValence;
+    data.arousalDiff = data.postArousal - eData.preArousal;
+    // successful prime
+    if(eData.primingType === 'negative'){
+      if(data.valenceDiff < 0)
+        data.successfulPrime = true;
+      else
+        data.successfulPrime = false;
+    }
+    if(eData.primingType === 'positive'){
+      if(data.valenceDiff > 0)
+        data.successfulPrime = true;
+      else
+        data.successfulPrime = false;
     }
   }
 }();

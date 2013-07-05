@@ -174,6 +174,26 @@ var cleveland = function() {
     data.error_medium     = actual.medium - data.judgement_medium;
     data.error_mediumHigh = actual.mediumHigh - data.judgement_mediumHigh;
     data.error_high       = actual.high - data.judgement_high;
+
+    data.error_total = data.error_low + data.error_mediumLow + data.error_medium
+      + data.error_mediumHigh + data.error_high;
+
+    data.error_average = data.error_total / levels.length;
+
+    data.cm_low        = clevelandError(actual.low, data.judgement_low);
+    data.cm_mediumLow  = clevelandError(actual.mediumLow, data.judgement_mediumLow);
+    data.cm_medium     = clevelandError(actual.medium, data.judgement_medium);
+    data.cm_mediumHigh = clevelandError(actual.mediumHigh, data.judgement_mediumHigh);
+    data.cm_high       = clevelandError(actual.high, data.judgement_high);
+
+    data.cm_total = data.cm_low + data.cm_mediumLow + data.cm_medium
+      + data.cm_mediumHigh + data.cm_high;
+
+    data.cm_average = data.cm_total / levels.length;
+  }
+
+  function clevelandError(actual, judged) {
+    return Math.log( Math.abs( judged - actual ) + .125 ) / Math.log(2);
   }
 
   function currentQuestionsComplete() {
