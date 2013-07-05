@@ -37,8 +37,16 @@ You may print a copy of this form.
 If you are 18 years of age or older, understand the statements above, and freely consent to participate in the study, click on the "I Agree" button to begin the experiment.
 </p>
 
-<button id="consentYes" type="button">I Agree</button>
-<button id="consentNo" type="button">No Thanks</button>
+<p>
+Please enter your Amazon Worker Id:
+<br>
+<input type="text" name="workerId" size="30" />
+</p>
+
+<p>
+<button id="consentYes" disabled="true" type="button">I Agree</button>
+<button id="consentNo"  disabled="true" type="button">No Thanks</button>
+</p>
 
 </div>
 
@@ -51,9 +59,23 @@ var consent = function() {
 
   experimentr.hideNext();
 
+  d3.selectAll('input')
+    .filter(function(d) { return this.name === 'workerId' ? this : null; })
+    .on('keypress', function() { data.workerId = this.value; validate(); })
+    .on('blur', function() { data.workerId = this.value; validate(); });
+
   d3.select('#consentYes')
     .on('click', experimentr.next);
   d3.select('#consentNo')
     .on('click', function() { console.log('you may close the window'); });
+
+  function validate() {
+    if( data.workerId ) {
+      experimentr.addData(data);
+      d3.select('#consentYes').attr('disabled', null);
+      d3.select('#consentNo').attr('disabled', null);
+    }
+  }
+
 }();
 </script>
