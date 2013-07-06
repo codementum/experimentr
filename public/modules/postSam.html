@@ -68,7 +68,7 @@ Select the figure (<strong>or between figures</strong>) that most closely corres
 </style>
 
 <script> 
-var postSam = function() {
+(function() {
   var data = {};
 
   d3.selectAll('input')
@@ -106,5 +106,5 @@ var postSam = function() {
         data.successfulPrime = false;
     }
   }
-}();
+}());
 </script>
