@@ -8,6 +8,7 @@ Make a quick visual judgement:
   <img id="cleveland-chart" height="380" />
   <div id="cleveland-questions">
 
+  <div id="perception">
   <p>
   Which of the two is smaller?
   </p>
@@ -16,7 +17,12 @@ Make a quick visual judgement:
   <input type="radio" name="perception" value="B" /> B
   </p>
   <br>
+  <p>
+  <button type="button" disabled="true" id="next-chart">Next Chart</button>
+  </p>
+  </div>
   
+  <div id="judgement">
   <p>
   What percentage is the SMALLER of the LARGER? Enter a percentage between 1 and 100:
   </p>
@@ -25,10 +31,7 @@ Make a quick visual judgement:
   <span id="error"></span>
   </p>
   <br>
-  
-  <p>
-  <button type="button" disabled="true" id="next-chart">Next Chart</button>
-  </p>
+  </div>
 
   </div>
 </div>
@@ -37,11 +40,19 @@ Make a quick visual judgement:
 </form>
 
 <style>
-  #cleveland-questions {
-    text-align: left;
-    display: inline-block;
+  #perception {
+    float: left;
     width: 250px;
     padding-left: 64px; 
+  }
+  #judgement {
+    float: left;
+    width: 250px;
+    padding-left: 64px; 
+  }
+  #cleveland-questions {
+    width 500px;
+    overflow: auto;
   }
   #cleveland-chart {
     display: inline-block;
