@@ -18,7 +18,10 @@ Please enter your Amazon Worker Id. <strong>You may only complete this HIT once<
 
 <p>
 <button id="consentYes" disabled="true" type="button">I Agree</button>
-<button id="consentNo"  disabled="true" type="button">No Thanks</button>
+</p>
+
+<p>
+<strong>Note: this HIT requires a modern browser. If you are not using Chrome or Firefox, the "I Agree" button may not activate even after entering your workerId.</strong>
 </p>
 
 </div>
@@ -39,8 +42,6 @@ Please enter your Amazon Worker Id. <strong>You may only complete this HIT once<
 
   d3.select('#consentYes')
     .on('click', experimentr.next);
-  d3.select('#consentNo')
-    .on('click', function() { console.log('you may close the window'); });
 
   function validate() {
     if( data.workerId ) {
