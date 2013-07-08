@@ -205,6 +205,13 @@ var cleveland = function() {
     data.cm_total = data.cm_low + data.cm_mediumLow + data.cm_medium
       + data.cm_mediumHigh + data.cm_high;
     data.cm_average = data.cm_total / levels.length;
+
+    // average time
+    var ed = experimentr.data();
+    data.time_diff_total = ed.time_diff_low + ed.time_diff_mediumLow + ed.time_diff_medium
+      + ed.time_diff_mediumHigh + ed.time_diff_high;
+    data.time_diff_average = data.time_diff_total / levels.length;
+
   }
 
   function clevelandError(actual, judged) {
