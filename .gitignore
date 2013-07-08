@@ -6,3 +6,5 @@ dump.rdb
 analysis/data.*
 analysis/.Rhistory
 analysis/.RData
+analysis/*.r.Rout
+analysis/results.txt
