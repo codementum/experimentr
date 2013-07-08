@@ -92,8 +92,8 @@ var cleveland = function() {
   //};
 
   data.chart      = charts[getRandomInt(0, charts.length-1)];
+  // keep the first level, but shuffle the rest
   data.levelOrder = [levels[0]].concat( shuffle(levels.slice(1)) );
-  console.log(data.levelOrder);
 
   init();
 
@@ -169,6 +169,8 @@ var cleveland = function() {
 
   function gradeAnswers() {
     // barTen data
+    data.perceptionAnswer_practice        = data.perception_practice === "B" ? true : false;
+
     data.perceptionAnswer_low        = data.perception_low === "A" ? true : false;
     data.perceptionAnswer_mediumLow  = data.perception_mediumLow === "A" ? true : false;
     data.perceptionAnswer_medium     = data.perception_medium === "A" ? true : false;
@@ -183,7 +185,6 @@ var cleveland = function() {
 //    data.perceptionAnswer_high       = data.perception_high === "A" ? true : false;
 
     data.error_practice   = actual.practice - data.judgement_practice;
-
     data.error_low        = actual.low - data.judgement_low;
     data.error_mediumLow  = actual.mediumLow - data.judgement_mediumLow;
     data.error_medium     = actual.medium - data.judgement_medium;
@@ -192,11 +193,9 @@ var cleveland = function() {
 
     data.error_total = data.error_low + data.error_mediumLow + data.error_medium
       + data.error_mediumHigh + data.error_high;
-
     data.error_average = data.error_total / levels.length;
 
     data.cm_practice   = clevelandError(actual.practice, data.judgement_practice);
-
     data.cm_low        = clevelandError(actual.low, data.judgement_low);
     data.cm_mediumLow  = clevelandError(actual.mediumLow, data.judgement_mediumLow);
     data.cm_medium     = clevelandError(actual.medium, data.judgement_medium);
@@ -205,7 +204,6 @@ var cleveland = function() {
 
     data.cm_total = data.cm_low + data.cm_mediumLow + data.cm_medium
       + data.cm_mediumHigh + data.cm_high;
-
     data.cm_average = data.cm_total / levels.length;
   }
 
