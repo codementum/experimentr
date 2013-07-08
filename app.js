@@ -27,7 +27,7 @@ app.post('/', function handlePost(req, res) {
 
 var saveRedis = function saveRedis(d) {
   redisClient.hmset(d.postId, d)
-  console.log('saved to redis: ' + d.postId +', at: '+ (new Date()).toString())
+//  console.log('saved to redis: ' + d.postId +', at: '+ (new Date()).toString())
 }
 
 http.createServer(app).listen(port, function (err) {
