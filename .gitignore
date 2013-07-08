@@ -1,6 +1,7 @@
 npm-debug.log
 *.DS_Store
-*.rdb
+appendonly.aof
+dump.rdb
 *.swp
 analysis/data.*
 analysis/.Rhistory
