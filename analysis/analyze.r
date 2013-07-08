@@ -7,6 +7,8 @@ d = read.csv('data.csv', header = TRUE, sep = ",")
 # d2.p = d[!n,]$cm_average 
 # t.test(d2.n, d2.p)
 
+seven = subset(d, chart == 'bar-nonAdjacentSeven')
+
 # short method
 t.test(cm_average ~ primingType, data=d)
 
