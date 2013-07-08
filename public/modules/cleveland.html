@@ -67,13 +67,14 @@ Make a <strong>quick</strong> visual judgement:
 <script> 
 var cleveland = function() {
   var data         = {}
-    , levels       = ['low', 'mediumLow', 'medium', 'mediumHigh', 'high']
+    , levels       = ['practice', 'low', 'mediumLow', 'medium', 'mediumHigh', 'high']
     , currentLevel = 0
     , charts       = ['bar-adjacent', 'bar-nonAdjacentOne', 'bar-nonAdjacentThree', 'bar-nonAdjacentFive', 'bar-nonAdjacentSeven'];
     //, charts       = ['bar-adjacent', 'bar-nonadjacent'];
 
   // barTen actual
   var actual = {
+    "practice": 52,
     "low": 85,
     "mediumLow": 68,
     "medium": 46,
@@ -91,7 +92,8 @@ var cleveland = function() {
   //};
 
   data.chart      = charts[getRandomInt(0, charts.length-1)];
-  data.levelOrder = shuffle(levels);
+  data.levelOrder = [levels[0]].concat( shuffle(levels.slice(1)) );
+  console.log(data.levelOrder);
 
   init();
 
@@ -180,6 +182,8 @@ var cleveland = function() {
 //    data.perceptionAnswer_mediumHigh = data.perception_mediumHigh === "A" ? true : false;
 //    data.perceptionAnswer_high       = data.perception_high === "A" ? true : false;
 
+    data.error_practice   = actual.practice - data.judgement_practice;
+
     data.error_low        = actual.low - data.judgement_low;
     data.error_mediumLow  = actual.mediumLow - data.judgement_mediumLow;
     data.error_medium     = actual.medium - data.judgement_medium;
@@ -190,6 +194,8 @@ var cleveland = function() {
       + data.error_mediumHigh + data.error_high;
 
     data.error_average = data.error_total / levels.length;
+
+    data.cm_practice   = clevelandError(actual.practice, data.judgement_practice);
 
     data.cm_low        = clevelandError(actual.low, data.judgement_low);
     data.cm_mediumLow  = clevelandError(actual.mediumLow, data.judgement_mediumLow);
