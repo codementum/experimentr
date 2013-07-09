@@ -16,6 +16,8 @@ Thank you again for your participation. Feel free submit any additional comments
 </p>
 
 <textarea name="textarea" rows="10" cols="50">Leave feedback here</textarea>
+<br>
+<button id="submitComments" disabled="true" type="button">Submit</button>
 
 </div>
 
@@ -29,12 +31,18 @@ Thank you again for your participation. Feel free submit any additional comments
 
   d3.select("#postId").text(postId);
 
-  d3.select('#debrief').select('textarea')
-    .on('keypress', function() { data.comments = this.value; validate(); })
-    .on('blur', function() { data.comments = this.value; validate(); });
+  var comments = d3.select('#debrief').select('textarea')
+    .on('keypress', function() { d3.select('#submitComments').attr('disabled', null); })
+    .on('blur', function() { d3.select('#submitComments').attr('disabled', null); });
+  
+  d3.select('#submitComments')
+    .on('click', function () { data.comments = comments.property('value'); validate(); });
 
   function validate() {
-    if( data.comments ) experimentr.addData(data);
+    if( data.comments ) { 
+      experimentr.addData(data);
+      d3.select('#submitComments').attr('disabled', 'true');
+    }
   }
 }());
 </script>
