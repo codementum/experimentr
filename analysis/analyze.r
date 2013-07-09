@@ -5,22 +5,27 @@ d = read.csv('data.csv', header = TRUE, sep = ",")
 
 cat('adjacent:\n')
 adj = subset(d, chart == 'bar-adjacent')
+summary(adj$primingType)
 t.test(cm_average ~ primingType, data=adj)
 
 cat('nonAdjacentOne:\n')
 one = subset(d, chart == 'bar-nonAdjacentOne')
+summary(one$primingType)
 t.test(cm_average ~ primingType, data=one)
 
 cat('nonAdjacentThree:\n')
 three = subset(d, chart == 'bar-nonAdjacentThree')
+summary(three$primingType)
 t.test(cm_average ~ primingType, data=three)
 
 cat('nonAdjacentFive:\n')
 five = subset(d, chart == 'bar-nonAdjacentFive')
+summary(five$primingType)
 t.test(cm_average ~ primingType, data=five)
 
 cat('nonAdjacentSeven:\n')
 seven = subset(d, chart == 'bar-nonAdjacentSeven')
+summary(seven$primingType)
 t.test(cm_average ~ primingType, data=seven)
 
 cat('task time:\n')
