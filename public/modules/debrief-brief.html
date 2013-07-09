@@ -18,6 +18,8 @@ Thank you again for your participation. Feel free submit any additional comments
 <textarea name="textarea" rows="10" cols="50">Leave feedback here</textarea>
 <br>
 <button id="submitComments" disabled="true" type="button">Submit</button>
+<br>
+<div id="submitFeedback"></div>
 
 </div>
 
@@ -42,6 +44,7 @@ Thank you again for your participation. Feel free submit any additional comments
     if( data.comments ) { 
       experimentr.addData(data);
       d3.select('#submitComments').attr('disabled', 'true');
+      d3.select('#submitFeedback').text('Submit Successful');
     }
   }
 }());
