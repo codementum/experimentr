@@ -47,17 +47,65 @@ t.test(cm_average ~ primingType, data=pfive)
 #summary(seven$primingType)
 #t.test(cm_average ~ primingType, data=seven)
 
-cat('task time:\n')
+cat('reading time all:\n')
+t.test(time_diff_storyPrime ~ primingType, data=d)
+
+cat('task time all:\n')
 t.test(time_diff_average ~ primingType, data=d)
+
+cat('task time adj:\n')
+t.test(time_diff_average ~ primingType, data=adj)
+
+cat('task time nonadj:\n')
+t.test(time_diff_average ~ primingType, data=five)
+
+cat('practice time all:\n')
+t.test(time_diff_practice ~ primingType, data=d)
+
+cat('practice time adj:\n')
+t.test(time_diff_practice ~ primingType, data=adj)
+
+cat('practice time nonadj:\n')
+t.test(time_diff_practice ~ primingType, data=five)
+
+
+cat('task time primed:\n')
+primed = subset(d, successfulPrime == 'true')
+t.test(time_diff_average ~ primingType, data=primed)
+
+cat('task time adj primed:\n')
+t.test(time_diff_average ~ primingType, data=padj)
+
+cat('practice time adj primed:\n')
+t.test(time_diff_practice ~ primingType, data=padj)
+cat('sd practice time adj:\n')
+sd(padj$time_diff_practice)
+
+cat('task time nonadj primed:\n')
+t.test(time_diff_average ~ primingType, data=five)
+
+cat('practice time nonadj primed:\n')
+t.test(time_diff_practice ~ primingType, data=five)
+cat('sd practice time nonadj:\n')
+sd(five$time_diff_practice)
 
 cat('sd cm_average:\n')
 sd(d$cm_average)
 
+cat('mad cm_average:\n')
+mad(d$cm_average)
+
 cat('mean cm_average:\n')
 mean(d$cm_average)
 
+cat('median cm_average:\n')
+median(d$cm_average)
+
 cat('sd time_diff_average:\n')
 sd(d$time_diff_average)
+
+cat('mean time_diff_average:\n')
+mean(d$time_diff_average)
 
 cat('sd time_diff_experiment:\n')
 sd(d$time_diff_experiment)
@@ -67,6 +115,63 @@ mean(d$time_diff_experiment)
 
 cat('priming summary:\n')
 summary(d$primingType)
+
+
+cat('individual judgement stats:\n\n')
+
+cat('low mean:\n')
+mean(d$judgement_low)
+cat('low sd:\n')
+sd(d$judgement_low)
+
+cat('mediumLow mean:\n')
+mean(d$judgement_mediumLow)
+cat('mediumLow sd:\n')
+sd(d$judgement_mediumLow)
+
+cat('medium mean:\n')
+mean(d$judgement_medium)
+cat('medium sd:\n')
+sd(d$judgement_medium)
+
+cat('mediumHigh mean:\n')
+mean(d$judgement_mediumHigh)
+cat('mediumHigh sd:\n')
+sd(d$judgement_mediumHigh)
+
+cat('high mean:\n')
+mean(d$judgement_high)
+cat('high sd:\n')
+sd(d$judgement_high)
+
+cat('individual judgement stats MAD and Median:\n\n')
+
+cat('low median:\n')
+median(d$judgement_low)
+cat('low mad:\n')
+mad(d$judgement_low)
+
+cat('mediumLow median:\n')
+median(d$judgement_mediumLow)
+cat('mediumLow mad:\n')
+mad(d$judgement_mediumLow)
+
+cat('medium median:\n')
+median(d$judgement_medium)
+cat('medium mad:\n')
+mad(d$judgement_medium)
+
+cat('mediumHigh median:\n')
+median(d$judgement_mediumHigh)
+cat('mediumHigh mad:\n')
+mad(d$judgement_mediumHigh)
+
+cat('high median:\n')
+median(d$judgement_high)
+cat('high mad:\n')
+mad(d$judgement_high)
+
+
 
 # long method (can use to filter by chart type)
 # n = d$primingType == 'negative' 
