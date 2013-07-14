@@ -13,7 +13,14 @@ Participation takes between 5 and 10 minutes.
 <p>
 Please enter your Amazon Worker Id. <strong>You may only complete this HIT once.</strong> Subsequent completions (e.g. reading the same story twice) will not be accepted:
 <br>
-<input type="text" name="workerId" size="30" />
+
+<input type="text" id="workerId" name="workerId" disabled="true" size="30" />
+<button id="checkId" type="button">checkId</button>
+<br>
+
+<span id="invalidMessage">
+Our records show that you have taken part in this study before, so we cannot allow you to take this HIT again at this time. Please contact us if you feel this is in error.
+</span>
 </p>
 
 <p>
@@ -27,27 +34,46 @@ Please enter your Amazon Worker Id. <strong>You may only complete this HIT once.
 </div>
 
 <style>
+  #invalidMessage {
+    display: none;
+    color: red;
+  }
 </style>
 
 <script> 
 (function() {
-  var data = {};
+  var data    = {}
+    , workers = null;
 
-  experimentr.hideNext();
+  init();
 
-  d3.selectAll('input')
-    .filter(function(d) { return this.name === 'workerId' ? this : null; })
-    .on('keypress', function() { data.workerId = this.value; validate(); })
-    .on('blur', function() { data.workerId = this.value; validate(); });
+  function init() {
+    experimentr.hideNext();
+  
+    // load previous workers file
+    d3.json('modules/workers.json', function(err, d) {
+      workers = d;
+      d3.select('#workerId').attr('disabled', null);
+    });
+  
+    d3.selectAll('#workerId')
+      .on('keypress', function() { data.workerId = this.value; })
+      .on('blur', function() { data.workerId = this.value; });
 
-  d3.select('#consentYes')
-    .on('click', experimentr.next);
+    d3.select('#consentYes').on('click', experimentr.next);
+
+    d3.select('#checkId').on('click', validate);
+  }
 
   function validate() {
     if( data.workerId ) {
       experimentr.addData(data);
-      d3.select('#consentYes').attr('disabled', null);
-      d3.select('#consentNo').attr('disabled', null);
+
+      if( workers.indexOf(data.workerId) == -1 ) {
+        d3.select('#consentYes').attr('disabled', null);
+      } else {
+        d3.select('#invalidMessage').style('display', 'inline');
+      }
     }
   }
 
