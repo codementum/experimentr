@@ -41,12 +41,6 @@ pfive = subset(five, successfulPrime == 'true')
 summary(pfive$primingType)
 t.test(cm_average ~ primingType, data=pfive)
 
-
-#cat('nonAdjacentSeven:\n')
-#seven = subset(d, chart == 'bar-nonAdjacentSeven')
-#summary(seven$primingType)
-#t.test(cm_average ~ primingType, data=seven)
-
 cat('reading time all:\n')
 t.test(time_diff_storyPrime ~ primingType, data=d)
 
