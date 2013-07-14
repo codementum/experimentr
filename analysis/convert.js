@@ -103,11 +103,11 @@ function filterFirstError (arr) {
     , high_mean       = 31
     , high_sd         = 26
   return _.filter(arr, function(row) {
-    return row.judgement_low > (low_mean - low_sd*2) && row.judgement_low < (low_mean + low_sd*2) 
-    && row.judgement_mediumLow > (low_mean - low_sd*2) && row.judgement_low < (low_mean + low_sd*2) 
-    && row.judgement_medium > (medium_mean - medium_sd*2) && row.judgement_medium < (medium_mean + medium_sd*2) 
-    && row.judgement_mediumHigh > (mediumHigh_mean - mediumHigh_sd*2) && row.judgement_mediumHigh < (mediumHigh_mean + mediumHigh_sd*2) 
-    && row.judgement_high > (high_mean - high_sd*2) && row.judgement_high < (high_mean + high_sd*2) 
+    return row.judgement_low > (low_mean - low_sd*3) && row.judgement_low < (low_mean + low_sd*3) 
+    && row.judgement_mediumLow > (low_mean - low_sd*3) && row.judgement_low < (low_mean + low_sd*3) 
+    && row.judgement_medium > (medium_mean - medium_sd*3) && row.judgement_medium < (medium_mean + medium_sd*3) 
+    && row.judgement_mediumHigh > (mediumHigh_mean - mediumHigh_sd*3) && row.judgement_mediumHigh < (mediumHigh_mean + mediumHigh_sd*3) 
+    && row.judgement_high > (high_mean - high_sd*3) && row.judgement_high < (high_mean + high_sd*3) 
   })
 }
 
