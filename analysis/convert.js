@@ -2,7 +2,7 @@ var j2c    = require('json2csv')
   , fs     = require('fs')
   , file   = process.argv[2]
   , _      = require('underscore')
-  , fields = ['workerId', 'postId', 'storyVerificationResult', 'primingType', 'successfulPrime', 'valenceDiff', 'cm_average', 'chart', 'time_diff_practice', 'time_diff_average', 'time_diff_experiment', 'time_diff_storyPrime', 
+  , fields = ['workerId', 'postId', 'storyVerificationResult', 'primingType', 'successfulPrime', 'valenceDiff', 'cm_average', 'chart', 'time_diff_practice', 'time_diff_total', 'time_diff_experiment', 'time_diff_average', 'time_diff_storyPrime', 
   'judgement_low', 'judgement_mediumLow', 'judgement_medium', 'judgement_mediumHigh', 'judgement_high']
   , data
 
@@ -12,12 +12,15 @@ fs.readFile(file, 'utf8', function (err, data) {
   data = filterUndefined(data)
   data = filterDebug(data)
   data = filterBaddies(data)
-//  data = filterTime(data)
-//  data = filterTaskTime(data)
-//  data = filterError(data)
+  data = addPrimingInfo(data)
+  data = addPracticeAverage(data)
+  data = addErrorAverage(data)
+  data = filterTaskTime(data)
+  data = filterError(data)
+//  data = filterPracticeTime(data)
 //  data = filterVerification(data)
-  data = filterFirstError(data)
-//  data = filterFirstErrorMAD(data)
+//  data = filterJudgementError(data)
+//  data = filterJudgementErrorMAD(data)
   convert( data )
 })
 
@@ -61,19 +64,39 @@ var baddies = [
   })
 }
 
-function filterTime (arr) {
-  return _.filter(arr, function(row) {
-    var low = 328898 - 129767*2
-    var high = 328898 + 129767*2
-    return row.time_diff_experiment < high && row.time_diff_experiment > low
+function addPrimingInfo (arr) {
+  fields.push('primingInfo')
+  return _.map(arr, function(row) {
+    row.primingInfo = row.primingType + '_' + row.successfulPrime
+    return row
+  })
+}
+
+function addPracticeAverage (arr) {
+  fields.push('practiceAverage')
+  return _.map(arr, function(row) {
+    row.practiceAverage = (parseFloat(row.time_diff_total) + parseFloat(row.time_diff_practice))/6
+    return row
+  })
+}
+
+function addErrorAverage (arr) {
+  fields.push('errorAverage')
+  return _.map(arr, function(row) {
+    row.errorAverage = parseFloat(row.cm_total)/5
+    //with practice
+    //row.errorAverage = (parseFloat(row.cm_total) + parseFloat(row.cm_practice))/6
+    return row
   })
 }
 
 function filterError (arr) {
   return _.filter(arr, function(row) {
-    var low = 2.46 - 1.18*2
-    var high = 2.46 + 1.18*2
-    return row.cm_average < high && row.cm_average > low
+    //var low = 1
+    //var high = 4
+    var low = 2.96 - 1.43*3
+    var high = 2.96 + 1.43*3
+    return row.errorAverage < high && row.errorAverage > low
   })
 }
 
@@ -85,13 +108,23 @@ function filterVerification (arr) {
 
 function filterTaskTime (arr) {
   return _.filter(arr, function(row) {
-    var low = 9327 - 3942*2
-    var high = 9327 + 3942*2
-    return row.time_diff_average < high && row.time_diff_average > low
+    var low = 12839.9 - 4798.629*3
+    var high = 12839.9 + 4798.629*3
+    return row.practiceAverage < high && row.practiceAverage > low
   })
 }
 
-function filterFirstError (arr) {
+function filterPracticeTime (arr) {
+  return _.filter(arr, function(row) {
+    //var low = 23440 - 15140*3
+    //var high = 23440 + 15140*3
+    var low = 0
+    var high = 50000
+    return row.time_diff_practice < high && row.time_diff_practice > low
+  })
+}
+
+function filterJudgementError (arr) {
   var low_mean        = 63
     , low_sd          = 32
     , mediumLow_mean  = 57
@@ -112,7 +145,7 @@ function filterFirstError (arr) {
 }
 
 // see: Detecting outliers: Do not use standard deviations around the mean, do use the median absolute deviation around the median
-function filterFirstErrorMAD (arr) {
+function filterJudgementErrorMAD (arr) {
   var low_median        = 80
     , low_mad           = 14.826
     , mediumLow_median  = 70
