@@ -1,32 +1,22 @@
 sink('results.txt', append=FALSE, split=FALSE)
-#sink()
+library("ggplot2")
 
 d = read.csv('data.csv', header = TRUE, sep = ",")
 
 cat('All charts:\n\n\n')
-t.test(cm_average ~ primingType, data=d)
+t.test(errorAverage ~ primingType, data=d)
 
 cat('All participants:\n\n\n')
 
 cat('adjacent:\n')
 adj = subset(d, chart == 'bar-adjacent')
 summary(adj$primingType)
-t.test(cm_average ~ primingType, data=adj)
-
-#cat('nonAdjacentOne:\n')
-#one = subset(d, chart == 'bar-nonAdjacentOne')
-#summary(one$primingType)
-#t.test(cm_average ~ primingType, data=one)
-#
-#cat('nonAdjacentThree:\n')
-#three = subset(d, chart == 'bar-nonAdjacentThree')
-#summary(three$primingType)
-#t.test(cm_average ~ primingType, data=three)
+t.test(errorAverage ~ primingType, data=adj)
 
 cat('nonAdjacentFive:\n')
 five = subset(d, chart == 'bar-nonAdjacentFive')
 summary(five$primingType)
-t.test(cm_average ~ primingType, data=five)
+t.test(errorAverage ~ primingType, data=five)
 
 
 cat('Primed participants:\n\n\n')
@@ -34,78 +24,72 @@ cat('Primed participants:\n\n\n')
 cat('adjacent:\n')
 padj = subset(adj, successfulPrime == 'true')
 summary(padj$primingType)
-t.test(cm_average ~ primingType, data=padj)
+t.test(errorAverage ~ primingType, data=padj)
 
 cat('nonAdjacentFive:\n')
 pfive = subset(five, successfulPrime == 'true')
 summary(pfive$primingType)
-t.test(cm_average ~ primingType, data=pfive)
+t.test(errorAverage ~ primingType, data=pfive)
+
+cat('Timing:\n\n\n')
 
 cat('reading time all:\n')
 t.test(time_diff_storyPrime ~ primingType, data=d)
 
 cat('task time all:\n')
-t.test(time_diff_average ~ primingType, data=d)
+t.test(practiceAverage ~ primingType, data=d)
 
 cat('task time adj:\n')
-t.test(time_diff_average ~ primingType, data=adj)
+t.test(practiceAverage ~ primingType, data=adj)
 
 cat('task time nonadj:\n')
-t.test(time_diff_average ~ primingType, data=five)
-
-cat('practice time all:\n')
-t.test(time_diff_practice ~ primingType, data=d)
-
-cat('practice time adj:\n')
-t.test(time_diff_practice ~ primingType, data=adj)
-
-cat('practice time nonadj:\n')
-t.test(time_diff_practice ~ primingType, data=five)
-
+t.test(practiceAverage ~ primingType, data=five)
 
 cat('task time primed:\n')
 primed = subset(d, successfulPrime == 'true')
-t.test(time_diff_average ~ primingType, data=primed)
+t.test(practiceAverage ~ primingType, data=primed)
 
 cat('task time adj primed:\n')
-t.test(time_diff_average ~ primingType, data=padj)
-
-cat('practice time adj primed:\n')
-t.test(time_diff_practice ~ primingType, data=padj)
-cat('sd practice time adj:\n')
-sd(padj$time_diff_practice)
+t.test(practiceAverage ~ primingType, data=padj)
 
 cat('task time nonadj primed:\n')
-t.test(time_diff_average ~ primingType, data=five)
+t.test(practiceAverage ~ primingType, data=five)
 
-cat('practice time nonadj primed:\n')
-t.test(time_diff_practice ~ primingType, data=five)
-cat('sd practice time nonadj:\n')
-sd(five$time_diff_practice)
+cat('charts:\n\n\n')
 
-cat('sd cm_average:\n')
-sd(d$cm_average)
+qplot(factor(primingInfo), practiceAverage, data = d, geom = "jitter")
+ggsave(file="prime-by-time.pdf")
 
-cat('mad cm_average:\n')
-mad(d$cm_average)
+qplot(factor(primingInfo), errorAverage, data = d, geom = "jitter")
+ggsave(file="prime-by-error.pdf")
 
-cat('mean cm_average:\n')
-mean(d$cm_average)
 
-cat('median cm_average:\n')
-median(d$cm_average)
+#qplot(factor(primingType), errorAverage, data = padj, geom = "jitter")
+#ggsave(file="padj-prime-by-error.pdf")
+#
+#qplot(factor(primingType), errorAverage, data = pfive, geom = "jitter")
+#ggsave(file="pfive-prime-by-error.pdf")
 
-cat('sd time_diff_average:\n')
-sd(d$time_diff_average)
 
-cat('mean time_diff_average:\n')
-mean(d$time_diff_average)
 
-cat('sd time_diff_experiment:\n')
-sd(d$time_diff_experiment)
 
-cat('mean time_diff_experiment:\n')
-mean(d$time_diff_experiment)
+cat('sd errorAverage:\n')
+sd(d$errorAverage)
+
+cat('mad errorAverage:\n')
+mad(d$errorAverage)
+
+cat('mean errorAverage:\n')
+mean(d$errorAverage)
+
+cat('median errorAverage:\n')
+median(d$errorAverage)
+
+cat('sd practiceAverage:\n')
+sd(d$practiceAverage)
+
+cat('mean practiceAverage:\n')
+mean(d$practiceAverage)
 
 cat('priming summary:\n')
 summary(d$primingType)
