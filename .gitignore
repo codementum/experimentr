@@ -8,3 +8,4 @@ analysis/.Rhistory
 analysis/.RData
 analysis/*.r.Rout
 analysis/results.txt
+public/analysis/*.pdf
