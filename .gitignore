@@ -3,9 +3,12 @@ npm-debug.log
 appendonly.aof
 dump.rdb
 *.swp
+
 analysis/data.*
 analysis/.Rhistory
 analysis/.RData
 analysis/*.r.Rout
 analysis/results.txt
+analysis/*.pdf
+
 public/analysis/*.pdf

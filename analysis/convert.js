@@ -2,7 +2,7 @@ var j2c    = require('json2csv')
   , fs     = require('fs')
   , file   = process.argv[2]
   , _      = require('underscore')
-  , fields = ['workerId', 'postId', 'storyVerificationResult', 'primingType', 'successfulPrime', 'valenceDiff', 'cm_average', 'chart', 'time_diff_practice', 'time_diff_total', 'time_diff_experiment', 'time_diff_average', 'time_diff_storyPrime', 
+  , fields = ['workerId', 'postId', 'storyVerificationResult', 'primingType', 'successfulPrime', 'valenceDiff', 'cm_average', 'error_average', 'chart', 'time_diff_practice', 'time_diff_total', 'time_diff_experiment', 'time_diff_average', 'time_diff_storyPrime', 'time_diff_low', 'time_diff_mediumLow', 'time_diff_medium', 'time_diff_mediumHigh', 'time_diff_mediumHigh', 'time_diff_high',
   'judgement_low', 'judgement_mediumLow', 'judgement_medium', 'judgement_mediumHigh', 'judgement_high']
   , data
 
@@ -15,12 +15,14 @@ fs.readFile(file, 'utf8', function (err, data) {
   data = addPrimingInfo(data)
   data = addPracticeAverage(data)
   data = addErrorAverage(data)
-  data = filterTaskTime(data)
-  data = filterError(data)
+//  data = filterError(data)
 //  data = filterPracticeTime(data)
 //  data = filterVerification(data)
-//  data = filterJudgementError(data)
+  data = filterJudgementError(data, 3)
 //  data = filterJudgementErrorMAD(data)
+//  data = filterTimeMAD(data)
+  data = filterTimeSD(data, 3)
+  data = filterTaskTime(data)
   convert( data )
 })
 
@@ -108,8 +110,10 @@ function filterVerification (arr) {
 
 function filterTaskTime (arr) {
   return _.filter(arr, function(row) {
-    var low = 12839.9 - 4798.629*3
-    var high = 12839.9 + 4798.629*3
+    //var low = 12839.9 - 4798.629*3
+    //var high = 12839.9 + 4798.629*3
+    var low = 0
+    var high = 29000
     return row.practiceAverage < high && row.practiceAverage > low
   })
 }
@@ -124,23 +128,24 @@ function filterPracticeTime (arr) {
   })
 }
 
-function filterJudgementError (arr) {
-  var low_mean        = 63
+function filterJudgementError (arr, numSd) {
+  var numSd           = numSd || 3
+    , low_mean        = 61
     , low_sd          = 32
     , mediumLow_mean  = 57
     , mediumLow_sd    = 24
-    , medium_mean     = 47
+    , medium_mean     = 46
     , medium_sd       = 14
     , mediumHigh_mean = 41
     , mediumHigh_sd   = 14
     , high_mean       = 31
     , high_sd         = 26
   return _.filter(arr, function(row) {
-    return row.judgement_low > (low_mean - low_sd*3) && row.judgement_low < (low_mean + low_sd*3) 
-    && row.judgement_mediumLow > (low_mean - low_sd*3) && row.judgement_low < (low_mean + low_sd*3) 
-    && row.judgement_medium > (medium_mean - medium_sd*3) && row.judgement_medium < (medium_mean + medium_sd*3) 
-    && row.judgement_mediumHigh > (mediumHigh_mean - mediumHigh_sd*3) && row.judgement_mediumHigh < (mediumHigh_mean + mediumHigh_sd*3) 
-    && row.judgement_high > (high_mean - high_sd*3) && row.judgement_high < (high_mean + high_sd*3) 
+    return row.judgement_low > (low_mean - low_sd*numSd) && row.judgement_low < (low_mean + low_sd*numSd) 
+    && row.judgement_mediumLow > (low_mean - low_sd*numSd) && row.judgement_low < (low_mean + low_sd*numSd) 
+    && row.judgement_medium > (medium_mean - medium_sd*numSd) && row.judgement_medium < (medium_mean + medium_sd*numSd) 
+    && row.judgement_mediumHigh > (mediumHigh_mean - mediumHigh_sd*numSd) && row.judgement_mediumHigh < (mediumHigh_mean + mediumHigh_sd*numSd) 
+    && row.judgement_high > (high_mean - high_sd*numSd) && row.judgement_high < (high_mean + high_sd*numSd) 
   })
 }
 
@@ -162,5 +167,52 @@ function filterJudgementErrorMAD (arr) {
     && row.judgement_medium > (medium_median - medium_mad*3) && row.judgement_medium < (medium_median + medium_mad*3) 
     && row.judgement_mediumHigh > (mediumHigh_median - mediumHigh_mad*3) && row.judgement_mediumHigh < (mediumHigh_median + mediumHigh_mad*3) 
     && row.judgement_high > (high_median - high_mad*3) && row.judgement_high < (high_median + high_mad*3) 
+  })
+}
+
+function filterTimeSD (arr, numSd) {
+  var numSd           = numSd || 3
+    , practice_mean   = 23440.74
+    , practice_sd     = 15140.48
+    , low_mean        = 11302.88
+    , low_sd          = 5604.192
+    , mediumLow_mean  = 11652.02
+    , mediumLow_sd    = 8662.648
+    , medium_mean     = 10569.38
+    , medium_sd       = 5485.497
+    , mediumHigh_mean = 10889.9
+    , mediumHigh_sd   = 5430.703
+    , high_mean       = 13044.65
+    , high_sd         = 12053.09
+  return _.filter(arr, function(row) {
+    return row.time_diff_practice > (low_mean - low_sd*numSd) && row.time_diff_low < (low_mean + low_sd*numSd) 
+    && row.time_diff_low > (low_mean - low_sd*numSd) && row.time_diff_low < (low_mean + low_sd*numSd) 
+    && row.time_diff_mediumLow > (low_mean - low_sd*numSd) && row.time_diff_low < (low_mean + low_sd*numSd) 
+    && row.time_diff_medium > (medium_mean - medium_sd*numSd) && row.time_diff_medium < (medium_mean + medium_sd*numSd) 
+    && row.time_diff_mediumHigh > (mediumHigh_mean - mediumHigh_sd*numSd) && row.time_diff_mediumHigh < (mediumHigh_mean + mediumHigh_sd*numSd) 
+    && row.time_diff_high > (high_mean - high_sd*numSd) && row.time_diff_high < (high_mean + high_sd*numSd) 
+  })
+}
+
+function filterTimeMAD (arr) {
+  var practice_median   = 19932.5
+    , practice_mad      = 8488.626
+    , low_median        = 10080
+    , low_mad           = 3501.16
+    , mediumLow_median  = 9471
+    , mediumLow_mad     = 3935.562
+    , medium_median     = 9312
+    , medium_mad        = 3215.759
+    , mediumHigh_median = 9245
+    , mediumHigh_mad    = 3960.025
+    , high_median       = 9902.5
+    , high_mad          = 4039.344
+  return _.filter(arr, function(row) {
+    return row.time_diff_practice > (low_median - low_mad*3) && row.time_diff_low < (low_median + low_mad*3) 
+    && row.time_diff_low > (low_median - low_mad*3) && row.time_diff_low < (low_median + low_mad*3) 
+    && row.time_diff_mediumLow > (low_median - low_mad*3) && row.time_diff_low < (low_median + low_mad*3) 
+    && row.time_diff_medium > (medium_median - medium_mad*3) && row.time_diff_medium < (medium_median + medium_mad*3) 
+    && row.time_diff_mediumHigh > (mediumHigh_median - mediumHigh_mad*3) && row.time_diff_mediumHigh < (mediumHigh_median + mediumHigh_mad*3) 
+    && row.time_diff_high > (high_median - high_mad*3) && row.time_diff_high < (high_median + high_mad*3) 
   })
 }
