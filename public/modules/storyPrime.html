@@ -12,7 +12,7 @@
 <script> 
 (function() {
   var data = {}
-    , rand = Math.floor(Math.random()*2)
+    , rand = Math.floor(Math.random()*3) // 0, 1, 2 
     , storyData;
 
   init();
@@ -21,7 +21,7 @@
     experimentr.hideNext();
     experimentr.startTimer('storyPrime');
     d3.json('modules/stories.json', function(err, d) {
-      storyData = d[rand]; // 0 negative; 1 positive
+      storyData = d[rand]; // 0 negative; 1 positive; 2 positive
       data.primingType = rand === 0 ? 'negative' : 'positive';
       loadStory();
     });
