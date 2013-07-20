@@ -1,9 +1,9 @@
-<div id="storyPrime">
-<p id="storyInstructions">
-<strong>Please play close attention to the story. You will be asked to answer questions about the story's content.</strong>
+<div id="imagePrime">
+<p id="imageInstructions">
+<strong>Please play close attention to the image. You will be asked to answer questions about the image's content.</strong>
 </p>
-<div id="storyText"></div>
-<div id="storyVerification"></div>
+<div id="images"></div>
+<div id="imageVerification"></div>
 </div>
 
 <style>
@@ -12,61 +12,67 @@
 <script> 
 (function() {
   var data = {}
-    , rand = Math.floor(Math.random()*3) // 0, 1, 2 
-    , storyData;
+    , rand = Math.floor(Math.random()*2)
+    , imageData;
 
   init();
 
   function init() {
     experimentr.hideNext();
-    experimentr.startTimer('storyPrime');
-    d3.json('modules/stories.json', function(err, d) {
+    experimentr.startTimer('imagePrime');
+    d3.json('modules/images.json', function(err, d) {
       data.primingType = rand === 0 ? 'negative' : 'positive';
-      storyData = data.primingType === 'negative' ? d[0] : d[1]; // 0 negative; 1 positive; 2 positive
-      loadStory();
+      imageData = data.primingType === 'negative' ? d['negative'] : d['positive']; // 0 negative; 1 positive; 2 positive
+      console.log(imageData);
+      loadimage();
     });
   }
-  function loadStory() {
-    d3.select('#storyText').append('div')
-      .html(storyData.story);
-    d3.select('#storyText').append('button')
+
+  function loadimage() {
+    d3.select('#images').append('img')
+      .attr('width', 600)
+      .attr('src', 'modules/img/iaps/'+imageData[0].id+'.jpg');
+    d3.select('#images').append('button')
       .attr('type', 'button')
-      .text('I have finished reading the story and I am ready for the questions.')
+      .text('I have finished viewing the image and I am ready for the questions.')
       .on('click', loadQuestion);
   }
+
   function loadQuestion() {
     experimentr.showNext();
-    d3.select('#storyText').remove();
-    d3.select('#storyInstructions').remove();
-    d3.select('#storyVerification').append('p')
-      .text(storyData.question);
-    var choices = d3.select('#storyVerification').selectAll('.choice')
-      .data(storyData.choices)
+    d3.select('#images').remove();
+    d3.select('#imageInstructions').remove();
+    d3.select('#imageVerification').append('p')
+      .text(imageData.question);
+    var choices = d3.select('#imageVerification').selectAll('.choice')
+      .data(imageData.choices)
       .enter().append('div')
       .classed('choice', true);
     choices.append('input')
       .attr('type', 'radio')
-      .attr('name', 'storyVerification')
+      .attr('name', 'imageVerification')
       .attr('value', function(d) { return d; });
     choices.append('label')
       .text(function(d) { return d; });
   d3.selectAll('input')
-    .filter(function(d) { return this.name === 'storyVerification' ? this : null; })
-    .on('change', function() { data.storyVerification = this.value; validate(); });
+    .filter(function(d) { return this.name === 'imageVerification' ? this : null; })
+    .on('change', function() { data.imageVerification = this.value; validate(); });
   }
+
   function validate() {
-    if(data.storyVerification) {
+    if(data.imageVerification) {
       grade();
-      experimentr.endTimer('storyPrime');
+      experimentr.endTimer('imagePrime');
       experimentr.addData(data);
       experimentr.release();
     }
   }
+
   function grade() {
-    if(data.storyVerification === storyData.answer)
-      data.storyVerificationResult = true;
+    if(data.imageVerification === imageData.answer)
+      data.imageVerificationResult = true;
     else
-      data.storyVerificationResult = false;
+      data.imageVerificationResult = false;
   }
 }());
 </script>
