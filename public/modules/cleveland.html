@@ -1,7 +1,7 @@
 <form id='cleveland'>
 
 <p>
-Make a <strong>quick</strong> visual judgement:
+Make a <strong>quick</strong> visual judgement <span id="progress"></span>:
 </p>
 
 <div>
@@ -147,6 +147,10 @@ var cleveland = function() {
     loadChart(0);
   }
 
+  function updateProgress(d) {
+    d3.select('#progress').text(''+d+'/'+levels.length);
+  }
+
   function nextChart() {
     if ( !currentAnswerIsNumber() ) {
       showError("Please enter a number between 1 and 100 (no characters, no decimals)");
@@ -173,6 +177,7 @@ var cleveland = function() {
 
   function loadChart(x) {
     var level = data.levelOrder[x];
+    updateProgress(x);
     d3.select('#cleveland-chart')
       .attr('src', 'modules/img/pilot2/'+data.chart+'-'+level+'.png');
     experimentr.startTimer(level);
