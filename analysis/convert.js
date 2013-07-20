@@ -2,8 +2,20 @@ var j2c    = require('json2csv')
   , fs     = require('fs')
   , file   = process.argv[2]
   , _      = require('underscore')
-  , fields = ['workerId', 'postId', 'storyVerificationResult', 'primingType', 'successfulPrime', 'valenceDiff', 'cm_average', 'error_average', 'chart', 'time_diff_practice', 'time_diff_total', 'time_diff_experiment', 'time_diff_average', 'time_diff_storyPrime', 'time_diff_low', 'time_diff_mediumLow', 'time_diff_medium', 'time_diff_mediumHigh', 'time_diff_mediumHigh', 'time_diff_high',
-  'judgement_low', 'judgement_mediumLow', 'judgement_medium', 'judgement_mediumHigh', 'judgement_high']
+  , fields = [
+      'workerId',
+      'postId',
+      'storyVerificationResult',
+      'primingType',
+      'successfulPrime',
+      'valenceDiff',
+      'cm_average',
+      'chart',
+      'time_diff_practice',
+      'time_diff_experiment',
+      'time_diff_average',
+      'time_diff_storyPrime'
+    ]
   , data
 
 fs.readFile(file, 'utf8', function (err, data) {
@@ -13,16 +25,16 @@ fs.readFile(file, 'utf8', function (err, data) {
   data = filterDebug(data)
   data = filterBaddies(data)
   data = addPrimingInfo(data)
-  data = addPracticeAverage(data)
-  data = addErrorAverage(data)
+//  data = addPracticeAverage(data)
+//  data = addErrorAverage(data)
 //  data = filterError(data)
 //  data = filterPracticeTime(data)
 //  data = filterVerification(data)
-  data = filterJudgementError(data, 3)
+//  data = filterJudgementError(data, 3)
 //  data = filterJudgementErrorMAD(data)
 //  data = filterTimeMAD(data)
-  data = filterTimeSD(data, 3)
-  data = filterTaskTime(data)
+//  data = filterTimeSD(data, 3)
+//  data = filterTaskTime(data)
   convert( data )
 })
 

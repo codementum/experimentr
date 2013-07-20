@@ -2,13 +2,13 @@ sink('results.txt', append=FALSE, split=FALSE)
 library("ggplot2")
 
 d = read.csv('data.csv', header = TRUE, sep = ",")
-adjacent = subset(d, chart == 'bar-adjacent')
-p_adjacent = subset(adjacent, successfulPrime == 'true')
-nonAdjacent = subset(d, chart == 'bar-nonAdjacentFive')
-p_nonAdjacent = subset(nonAdjacent, successfulPrime == 'true')
 
-#wilcox.test(errorAverage ~ primingType, data=p_nonAdjacent)
-#kruskal.test(errorAverage ~ primingInfo, data=p_nonAdjacent)
+twenty = subset(d, chart == 'nonAdjacent_20_40')
+t.test(time_diff_average ~ primingType, data=twenty)
+sd(twenty$time_diff_average)
+
+#wilcox.test(cm_average ~ primingType, data=p_nonAdjacent)
+#kruskal.test(cm_average ~ primingInfo, data=p_nonAdjacent)
 
 cat('\n')
 cat('# error:')
@@ -17,39 +17,7 @@ cat('\n')
   cat('\n')
   cat('## anova:')
   cat('\n')
-  error <- aov(errorAverage ~ primingInfo, data=d)
-  summary(error) 
-  drop1(error,~.,test="F")
-  
-  cat('\n')
-  cat('## hsd:')
-  cat('\n')
-  TukeyHSD( error )
-
-cat('\n')
-cat('# error adjacent:')
-cat('\n')
-
-  cat('\n')
-  cat('## anova:')
-  cat('\n')
-  error <- aov(errorAverage ~ primingInfo, data=adjacent)
-  summary(error) 
-  drop1(error,~.,test="F")
-  
-  cat('\n')
-  cat('## hsd:')
-  cat('\n')
-  TukeyHSD( error )
-
-cat('\n')
-cat('# error nonAdjacentFive:')
-cat('\n')
-
-  cat('\n')
-  cat('## anova:')
-  cat('\n')
-  error <- aov(errorAverage ~ primingInfo, data=nonAdjacent)
+  error <- aov(cm_average ~ primingInfo * chart, data=d)
   summary(error) 
   drop1(error,~.,test="F")
   
@@ -65,39 +33,7 @@ cat('\n')
   cat('\n')
   cat('## anova:')
   cat('\n')
-  tasktime <- aov(practiceAverage ~ primingInfo, data=d)
-  summary(tasktime) 
-  drop1(tasktime,~.,test="F")
-  
-  cat('\n')
-  cat('## hsd:')
-  cat('\n')
-  TukeyHSD( tasktime )
-
-cat('\n')
-cat('# task time adjacent:')
-cat('\n')
-
-  cat('\n')
-  cat('## anova:')
-  cat('\n')
-  tasktime <- aov(practiceAverage ~ primingInfo, data=adjacent)
-  summary(tasktime) 
-  drop1(tasktime,~.,test="F")
-  
-  cat('\n')
-  cat('## hsd:')
-  cat('\n')
-  TukeyHSD( tasktime )
-
-cat('\n')
-cat('# task time nonAdjacent:')
-cat('\n')
-
-  cat('\n')
-  cat('## anova:')
-  cat('\n')
-  tasktime <- aov(practiceAverage ~ primingInfo, data=nonAdjacent)
+  tasktime <- aov(time_diff_average ~ primingInfo * chart, data=d)
   summary(tasktime) 
   drop1(tasktime,~.,test="F")
   
@@ -113,39 +49,7 @@ cat('\n')
   cat('\n')
   cat('## anova:')
   cat('\n')
-  practicetime <- aov(time_diff_practice ~ primingInfo, data=d)
-  summary(practicetime) 
-  drop1(practicetime,~.,test="F")
-  
-  cat('\n')
-  cat('## hsd:')
-  cat('\n')
-  TukeyHSD( practicetime )
-
-cat('\n')
-cat('# practice time adjacent:')
-cat('\n')
-
-  cat('\n')
-  cat('## anova:')
-  cat('\n')
-  practicetime <- aov(time_diff_practice ~ primingInfo, data=adjacent)
-  summary(practicetime) 
-  drop1(practicetime,~.,test="F")
-  
-  cat('\n')
-  cat('## hsd:')
-  cat('\n')
-  TukeyHSD( practicetime )
-
-cat('\n')
-cat('# practice time nonAdjacent:')
-cat('\n')
-
-  cat('\n')
-  cat('## anova:')
-  cat('\n')
-  practicetime <- aov(time_diff_practice ~ primingInfo, data=nonAdjacent)
+  practicetime <- aov(time_diff_practice ~ primingInfo * chart, data=d)
   summary(practicetime) 
   drop1(practicetime,~.,test="F")
   
@@ -161,7 +65,7 @@ cat('\n')
   cat('\n')
   cat('## anova:')
   cat('\n')
-  readingtime <- aov(time_diff_storyPrime ~ primingInfo, data=d)
+  readingtime <- aov(time_diff_storyPrime ~ primingInfo * chart, data=d)
   summary(readingtime) 
   drop1(readingtime,~.,test="F")
   
@@ -172,142 +76,142 @@ cat('\n')
 
 # charts
 
-p <- ggplot(d, aes(factor(chart), errorAverage))
-p + geom_boxplot(aes(fill = factor(primingInfo))) + coord_flip()
+p <- ggplot(d, aes(factor(chart), cm_average))
+p + geom_boxplot(aes(fill = factor(primingType))) + coord_flip()
 ggsave(file="error.pdf")
 
-p <- ggplot(d, aes(factor(chart), practiceAverage))
-p + geom_boxplot(aes(fill = factor(primingInfo))) + coord_flip()
+p <- ggplot(d, aes(factor(chart), time_diff_average))
+p + geom_boxplot(aes(fill = factor(primingType))) + coord_flip()
 ggsave(file="time.pdf")
 
 cat('priming summary:\n')
-summary(d$primingType)
+summary(d$primingInfo)
 
 
-cat('\n')
-cat('individual judgement stats:\n\n')
-
-cat('low mean:\n')
-mean(d$judgement_low)
-cat('low sd:\n')
-sd(d$judgement_low)
-
-cat('mediumLow mean:\n')
-mean(d$judgement_mediumLow)
-cat('mediumLow sd:\n')
-sd(d$judgement_mediumLow)
-
-cat('medium mean:\n')
-mean(d$judgement_medium)
-cat('medium sd:\n')
-sd(d$judgement_medium)
-
-cat('mediumHigh mean:\n')
-mean(d$judgement_mediumHigh)
-cat('mediumHigh sd:\n')
-sd(d$judgement_mediumHigh)
-
-cat('high mean:\n')
-mean(d$judgement_high)
-cat('high sd:\n')
-sd(d$judgement_high)
-
-
-cat('\n')
-cat('individual judgement stats MAD and Median:\n\n')
-
-cat('low median:\n')
-median(d$judgement_low)
-cat('low mad:\n')
-mad(d$judgement_low)
-
-cat('mediumLow median:\n')
-median(d$judgement_mediumLow)
-cat('mediumLow mad:\n')
-mad(d$judgement_mediumLow)
-
-cat('medium median:\n')
-median(d$judgement_medium)
-cat('medium mad:\n')
-mad(d$judgement_medium)
-
-cat('mediumHigh median:\n')
-median(d$judgement_mediumHigh)
-cat('mediumHigh mad:\n')
-mad(d$judgement_mediumHigh)
-
-cat('high median:\n')
-median(d$judgement_high)
-cat('high mad:\n')
-mad(d$judgement_high)
-
-
-cat('\n')
-cat('time stats MAD and Median:\n\n')
-
-cat('practice median:\n')
-median(d$time_diff_practice)
-cat('practice mad:\n')
-mad(d$time_diff_practice)
-
-cat('low median:\n')
-median(d$time_diff_low)
-cat('low mad:\n')
-mad(d$time_diff_low)
-
-cat('mediumLow median:\n')
-median(d$time_diff_mediumLow)
-cat('mediumLow mad:\n')
-mad(d$time_diff_mediumLow)
-
-cat('medium median:\n')
-median(d$time_diff_medium)
-cat('medium mad:\n')
-mad(d$time_diff_medium)
-
-cat('mediumHigh median:\n')
-median(d$time_diff_mediumHigh)
-cat('mediumHigh mad:\n')
-mad(d$time_diff_mediumHigh)
-
-cat('high median:\n')
-median(d$time_diff_high)
-cat('high mad:\n')
-mad(d$time_diff_high)
-
-
-cat('\n')
-cat('time stats SD and mean:\n\n')
-
-cat('practice mean:\n')
-mean(d$time_diff_practice)
-cat('practice sd:\n')
-sd(d$time_diff_practice)
-
-cat('low mean:\n')
-mean(d$time_diff_low)
-cat('low sd:\n')
-sd(d$time_diff_low)
-
-cat('mediumLow mean:\n')
-mean(d$time_diff_mediumLow)
-cat('mediumLow sd:\n')
-sd(d$time_diff_mediumLow)
-
-cat('medium mean:\n')
-mean(d$time_diff_medium)
-cat('medium sd:\n')
-sd(d$time_diff_medium)
-
-cat('mediumHigh mean:\n')
-mean(d$time_diff_mediumHigh)
-cat('mediumHigh sd:\n')
-sd(d$time_diff_mediumHigh)
-
-cat('high mean:\n')
-mean(d$time_diff_high)
-cat('high sd:\n')
-sd(d$time_diff_high)
+#cat('\n')
+#cat('individual judgement stats:\n\n')
+#
+#cat('low mean:\n')
+#mean(d$judgement_low)
+#cat('low sd:\n')
+#sd(d$judgement_low)
+#
+#cat('mediumLow mean:\n')
+#mean(d$judgement_mediumLow)
+#cat('mediumLow sd:\n')
+#sd(d$judgement_mediumLow)
+#
+#cat('medium mean:\n')
+#mean(d$judgement_medium)
+#cat('medium sd:\n')
+#sd(d$judgement_medium)
+#
+#cat('mediumHigh mean:\n')
+#mean(d$judgement_mediumHigh)
+#cat('mediumHigh sd:\n')
+#sd(d$judgement_mediumHigh)
+#
+#cat('high mean:\n')
+#mean(d$judgement_high)
+#cat('high sd:\n')
+#sd(d$judgement_high)
+#
+#
+#cat('\n')
+#cat('individual judgement stats MAD and Median:\n\n')
+#
+#cat('low median:\n')
+#median(d$judgement_low)
+#cat('low mad:\n')
+#mad(d$judgement_low)
+#
+#cat('mediumLow median:\n')
+#median(d$judgement_mediumLow)
+#cat('mediumLow mad:\n')
+#mad(d$judgement_mediumLow)
+#
+#cat('medium median:\n')
+#median(d$judgement_medium)
+#cat('medium mad:\n')
+#mad(d$judgement_medium)
+#
+#cat('mediumHigh median:\n')
+#median(d$judgement_mediumHigh)
+#cat('mediumHigh mad:\n')
+#mad(d$judgement_mediumHigh)
+#
+#cat('high median:\n')
+#median(d$judgement_high)
+#cat('high mad:\n')
+#mad(d$judgement_high)
+#
+#
+#cat('\n')
+#cat('time stats MAD and Median:\n\n')
+#
+#cat('practice median:\n')
+#median(d$time_diff_practice)
+#cat('practice mad:\n')
+#mad(d$time_diff_practice)
+#
+#cat('low median:\n')
+#median(d$time_diff_low)
+#cat('low mad:\n')
+#mad(d$time_diff_low)
+#
+#cat('mediumLow median:\n')
+#median(d$time_diff_mediumLow)
+#cat('mediumLow mad:\n')
+#mad(d$time_diff_mediumLow)
+#
+#cat('medium median:\n')
+#median(d$time_diff_medium)
+#cat('medium mad:\n')
+#mad(d$time_diff_medium)
+#
+#cat('mediumHigh median:\n')
+#median(d$time_diff_mediumHigh)
+#cat('mediumHigh mad:\n')
+#mad(d$time_diff_mediumHigh)
+#
+#cat('high median:\n')
+#median(d$time_diff_high)
+#cat('high mad:\n')
+#mad(d$time_diff_high)
+#
+#
+#cat('\n')
+#cat('time stats SD and mean:\n\n')
+#
+#cat('practice mean:\n')
+#mean(d$time_diff_practice)
+#cat('practice sd:\n')
+#sd(d$time_diff_practice)
+#
+#cat('low mean:\n')
+#mean(d$time_diff_low)
+#cat('low sd:\n')
+#sd(d$time_diff_low)
+#
+#cat('mediumLow mean:\n')
+#mean(d$time_diff_mediumLow)
+#cat('mediumLow sd:\n')
+#sd(d$time_diff_mediumLow)
+#
+#cat('medium mean:\n')
+#mean(d$time_diff_medium)
+#cat('medium sd:\n')
+#sd(d$time_diff_medium)
+#
+#cat('mediumHigh mean:\n')
+#mean(d$time_diff_mediumHigh)
+#cat('mediumHigh sd:\n')
+#sd(d$time_diff_mediumHigh)
+#
+#cat('high mean:\n')
+#mean(d$time_diff_high)
+#cat('high sd:\n')
+#sd(d$time_diff_high)
 
 
 
@@ -338,5 +242,5 @@ sd(d$time_diff_high)
 #cat('adjacent:\n')
 #adj = subset(d, chart == 'bar-adjacent')
 #summary(adj$primingType)
-#t.test(errorAverage ~ primingType, data=adj)
+#t.test(cm_average ~ primingType, data=adj)
 
