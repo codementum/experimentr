@@ -35,6 +35,13 @@ Then access the page at [localhost](http://localhost).
 Installation
 -------
 
-1. Node.js: https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint
+- Node.js: https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint
+- redis-server: http://redis.io/download
+- bower: `npm install -g bower`
+- fork this repo
+- cd to this repo and run `npm install && bower install`
 
-2. redis-server: http://redis.io/download
+Testing experiments
+-------
+
+Use `debug` as your workerId when testing experiments, so you can filter out your data later
