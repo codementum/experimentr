@@ -1,14 +1,21 @@
-sink('results.txt', append=FALSE, split=FALSE)
 library("ggplot2")
 
 d = read.csv('data.csv', header = TRUE, sep = ",")
 
+adjacent = subset(d, chart == 'adjacent_10')
 twenty = subset(d, chart == 'nonAdjacent_20_40')
-t.test(time_diff_average ~ primingType, data=twenty)
-sd(twenty$time_diff_average)
 
-#wilcox.test(cm_average ~ primingType, data=p_nonAdjacent)
-#kruskal.test(cm_average ~ primingInfo, data=p_nonAdjacent)
+t.test(subsetAverage ~ primingType, data=adjacent)
+t.test(subsetAverage ~ primingType, data=twenty)
+
+t.test(time_diff_average ~ primingType, data=adjacent)
+t.test(time_diff_average ~ primingType, data=twenty)
+
+t.test(time_diff_practice ~ primingType, data=adjacent)
+t.test(time_diff_practice ~ primingType, data=twenty)
+
+#wilcox.test(subsetAverage ~ primingType * chart, data=p_nonAdjacent)
+#kruskal.test(subsetAverage ~ primingType * chart, data=p_nonAdjacent)
 
 cat('\n')
 cat('# error:')
@@ -17,7 +24,7 @@ cat('\n')
   cat('\n')
   cat('## anova:')
   cat('\n')
-  error <- aov(cm_average ~ primingInfo * chart, data=d)
+  error <- aov(subsetAverage ~ primingType * chart, data=d)
   summary(error) 
   drop1(error,~.,test="F")
   
@@ -33,7 +40,7 @@ cat('\n')
   cat('\n')
   cat('## anova:')
   cat('\n')
-  tasktime <- aov(time_diff_average ~ primingInfo * chart, data=d)
+  tasktime <- aov(time_diff_average ~ primingType * chart, data=d)
   summary(tasktime) 
   drop1(tasktime,~.,test="F")
   
@@ -49,7 +56,7 @@ cat('\n')
   cat('\n')
   cat('## anova:')
   cat('\n')
-  practicetime <- aov(time_diff_practice ~ primingInfo * chart, data=d)
+  practicetime <- aov(time_diff_practice ~ primingType * chart, data=d)
   summary(practicetime) 
   drop1(practicetime,~.,test="F")
   
@@ -58,34 +65,38 @@ cat('\n')
   cat('\n')
   TukeyHSD( practicetime )
 
-cat('\n')
-cat('# reading time:')
-cat('\n')
-
-  cat('\n')
-  cat('## anova:')
-  cat('\n')
-  readingtime <- aov(time_diff_storyPrime ~ primingInfo * chart, data=d)
-  summary(readingtime) 
-  drop1(readingtime,~.,test="F")
-  
-  cat('\n')
-  cat('## hsd:')
-  cat('\n')
-  TukeyHSD( readingtime )
+#cat('\n')
+#cat('# reading time:')
+#cat('\n')
+#
+#  cat('\n')
+#  cat('## anova:')
+#  cat('\n')
+#  readingtime <- aov(time_diff_storyPrime ~ primingType * chart, data=d)
+#  summary(readingtime) 
+#  drop1(readingtime,~.,test="F")
+#  
+#  cat('\n')
+#  cat('## hsd:')
+#  cat('\n')
+#  TukeyHSD( readingtime )
 
 # charts
 
-p <- ggplot(d, aes(factor(chart), cm_average))
-p + geom_boxplot(aes(fill = factor(primingType))) + coord_flip()
+p <- ggplot(d, aes(factor(chart), subsetAverage))
+p + geom_boxplot(aes(fill = factor(primingType))) + coord_flip() + geom_jitter()
 ggsave(file="error.pdf")
 
 p <- ggplot(d, aes(factor(chart), time_diff_average))
-p + geom_boxplot(aes(fill = factor(primingType))) + coord_flip()
+p + geom_boxplot(aes(fill = factor(primingType))) + coord_flip() + geom_jitter()
 ggsave(file="time.pdf")
 
+p <- ggplot(d, aes(factor(chart), time_diff_practice))
+p + geom_boxplot(aes(fill = factor(primingType))) + coord_flip() + geom_jitter()
+ggsave(file="practice.pdf")
+
 cat('priming summary:\n')
-summary(d$primingInfo)
+summary(d$primingType)
 
 
 #cat('\n')
@@ -218,13 +229,13 @@ summary(d$primingInfo)
 # long method (can use to filter by chart type)
 # n = d$primingType == 'negative' 
 # p = d$primingType == 'positive' 
-# d2.n = d[n,]$cm_average 
-# d2.p = d[!n,]$cm_average 
+# d2.n = d[n,]$subsetAverage 
+# d2.p = d[!n,]$subsetAverage 
 # t.test(d2.n, d2.p)
 
 # ANOVA: http://www.statmethods.net/stats/anova.html
 # One Way Anova (Completely Randomized Design)
-#fit <- aov(cm_average ~ chart, data=d)
+#fit <- aov(subsetAverage ~ chart, data=d)
 #summary(fit)
 # Plots
 #layout(matrix(c(1,2,3,4),2,2)) # optional layout 
@@ -236,11 +247,11 @@ summary(d$primingInfo)
 # library(gplots)
 # attach(d)
 # primingType <- factor(primingType)
-# plotmeans(cm_average ~ primingType,xlab="priming type",
+# plotmeans(subsetAverage ~ primingType * chart,xlab="priming type",
 #             ylab="error cm", main="Mean Plot\nwith 95% CI")
 
 #cat('adjacent:\n')
 #adj = subset(d, chart == 'bar-adjacent')
 #summary(adj$primingType)
-#t.test(cm_average ~ primingType, data=adj)
+#t.test(subsetAverage ~ primingType * chart, data=adj)
 

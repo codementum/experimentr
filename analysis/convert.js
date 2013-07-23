@@ -5,7 +5,6 @@ var j2c    = require('json2csv')
   , fields = [
       'workerId',
       'postId',
-      'storyVerificationResult',
       'primingType',
       'successfulPrime',
       'valenceDiff',
@@ -13,8 +12,7 @@ var j2c    = require('json2csv')
       'chart',
       'time_diff_practice',
       'time_diff_experiment',
-      'time_diff_average',
-      'time_diff_storyPrime'
+      'time_diff_average'
     ]
   , data
 
@@ -23,11 +21,13 @@ fs.readFile(file, 'utf8', function (err, data) {
   data = JSON.parse(data)
   data = filterUndefined(data)
   data = filterDebug(data)
-  data = filterBaddies(data)
+//  data = filterBaddies(data)
   data = addPrimingInfo(data)
 //  data = addPracticeAverage(data)
+  data = addSubsetAverage(data)
 //  data = addErrorAverage(data)
 //  data = filterError(data)
+  data = filterSubsetError(data)
 //  data = filterPracticeTime(data)
 //  data = filterVerification(data)
 //  data = filterJudgementError(data, 3)
@@ -35,6 +35,8 @@ fs.readFile(file, 'utf8', function (err, data) {
 //  data = filterTimeMAD(data)
 //  data = filterTimeSD(data, 3)
 //  data = filterTaskTime(data)
+//  data = filterCharts(data)
+//  data = filterImage(data)
   convert( data )
 })
 
@@ -52,6 +54,18 @@ function convert(d) {
 function filterUndefined (arr) {
   return _.filter(arr, function(row) {
     return _.every(fields, function(f) { return row[f] })
+  })
+}
+
+function filterCharts (arr) {
+  return _.filter(arr, function(row) {
+    return row.chart !== 'nonAdjacent_5_10' && row.chart !== 'nonAdjacent_3_10'
+  })
+}
+
+function filterImage (arr) {
+  return _.filter(arr, function(row) {
+    return ('imageComments_0' in row)
   })
 }
 
@@ -86,6 +100,33 @@ function addPrimingInfo (arr) {
   })
 }
 
+function getJudgementSubset (row, key, lo, hi) {
+  var subset = []
+    , levels = row.levelOrder.split(',')
+
+  _.each(levels.slice(lo+1, hi+1), function(d) {
+    subset.push(row[key+d])
+  })
+
+  return subset
+}
+
+function sum (arr) {
+  return _.reduce(arr, function(memo, num){ 
+    return parseFloat(memo) + parseFloat(num); 
+  }, 0);
+}
+
+function addSubsetAverage (arr) {
+  fields.push('subsetAverage')
+//  fields.push('sequence')
+  return _.map(arr, function(row) {
+    row.subsetAverage = sum(getJudgementSubset(row, 'cm_', 0, 5)) / 4 
+//    row.sequence = getJudgementSubset(row, 'cm_', 0, 20) 
+    return row
+  })
+}
+
 function addPracticeAverage (arr) {
   fields.push('practiceAverage')
   return _.map(arr, function(row) {
@@ -106,11 +147,21 @@ function addErrorAverage (arr) {
 
 function filterError (arr) {
   return _.filter(arr, function(row) {
-    //var low = 1
-    //var high = 4
-    var low = 2.96 - 1.43*3
-    var high = 2.96 + 1.43*3
-    return row.errorAverage < high && row.errorAverage > low
+    var low = 0
+    var high = 4
+//    var low = 2.96 - 1.43*3
+//    var high = 2.96 + 1.43*3
+    return row.cm_average < high && row.cm_average > low
+  })
+}
+
+function filterSubsetError (arr) {
+  return _.filter(arr, function(row) {
+    var low = 0
+    var high = 4.0
+//    var low = 2.96 - 1.43*3
+//    var high = 2.96 + 1.43*3
+    return row.subsetAverage < high && row.subsetAverage > low
   })
 }
 
@@ -125,8 +176,8 @@ function filterTaskTime (arr) {
     //var low = 12839.9 - 4798.629*3
     //var high = 12839.9 + 4798.629*3
     var low = 0
-    var high = 29000
-    return row.practiceAverage < high && row.practiceAverage > low
+    var high = 45000
+    return row.time_diff_average < high && row.time_diff_average > low
   })
 }
 
@@ -135,7 +186,7 @@ function filterPracticeTime (arr) {
     //var low = 23440 - 15140*3
     //var high = 23440 + 15140*3
     var low = 0
-    var high = 50000
+    var high = 120000
     return row.time_diff_practice < high && row.time_diff_practice > low
   })
 }
