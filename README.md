@@ -31,3 +31,10 @@ Run the server:
     sudo node app.js
 
 Then access the page at [localhost](http://localhost).
+
+Installation
+-------
+
+1. Node.js: https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint
+
+2. redis-server: http://redis.io/download
