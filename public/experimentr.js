@@ -25,6 +25,17 @@ experimentr = function() {
     experimentr.startTimer('experiment');
   };
 
+  experimentr.clearNext = function(cb) {
+    d3.select('#next-button').on('click', experimentr.next);
+  };
+
+  experimentr.onNext = function(cb) {
+    d3.select('#next-button').on('click', function() {
+      cb();
+      experimentr.next();
+    });
+  };
+
   function init() {
     if(mainDiv) return;
     mainDiv = d3.select('body').append('div')
@@ -42,6 +53,7 @@ experimentr = function() {
   }
 
   experimentr.next = function() {
+    experimentr.clearNext();
     experimentr.showNext();
     current = current + 1;
     activate(current);

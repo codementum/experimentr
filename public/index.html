@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <meta charset="utf-8">
-<title>story survey</title>
+<title>Survey</title>
 
 <script src="components/d3js/d3.v3.min.js"></script>
 <script src="experimentr.js"></script>
@@ -28,14 +28,16 @@
 <script>
 experimentr
 .sequence([
-  'modules/imagePrime.html', 
-  'modules/consent-brief.html', 
+//  'modules/story-consent-brief.html', 
+  'modules/image-consent-brief.html', 
   'modules/preSam.html', 
-  'modules/storyPrime.html', 
+  'modules/imagePrime.html', 
+//  'modules/storyPrime.html', 
   'modules/clevelandIntro.html', 
   'modules/cleveland.html', 
   'modules/postSam.html', 
-  'modules/previousRead.html', 
-  'modules/debrief-brief.html'
+//  'modules/previousRead.html', 
+  'modules/image-debrief-brief.html'
+//  'modules/story-debrief-brief.html'
 ]).start();
 </script>

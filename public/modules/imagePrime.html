@@ -1,9 +1,15 @@
 <div id="imagePrime">
+
 <p id="imageInstructions">
-<strong>Please play close attention to the image. You will be asked to answer questions about the image's content.</strong>
+<strong>Describe what's going on in the image.</strong>
 </p>
-<div id="images"></div>
-<div id="imageVerification"></div>
+
+<img id="images" />
+<br>
+<textarea id="imageComments" name="textarea" rows="10" cols="50">What's going on in this image?</textarea>
+<br>
+<button id="nextImage" disabled="true" type="button">Next Image</button>
+
 </div>
 
 <style>
@@ -11,8 +17,11 @@
 
 <script> 
 (function() {
-  var data = {}
-    , rand = Math.floor(Math.random()*2)
+  var data          = {}
+    , nextButton    = d3.select('#nextImage')
+    , textarea      = d3.select('#imageComments')
+    , primingChoice = Math.floor(Math.random()*2)
+    , currentImage  = 0
     , imageData;
 
   init();
@@ -20,59 +29,57 @@
   function init() {
     experimentr.hideNext();
     experimentr.startTimer('imagePrime');
+
     d3.json('modules/images.json', function(err, d) {
-      data.primingType = rand === 0 ? 'negative' : 'positive';
-      imageData = data.primingType === 'negative' ? d['negative'] : d['positive']; // 0 negative; 1 positive; 2 positive
-      console.log(imageData);
-      loadimage();
+      data.primingType = primingChoice === 0 ? 'negative' : 'positive';
+      imageData = d[data.primingType];
+      loadImage(currentImage);
+    });
+
+    // textarea behavior
+    textarea
+      .on('keypress', function() { enableNextImage(); captureComments(); })
+      .on('blur', function() { enableNextImage(); captureComments(); });
+
+    // nextImage behavior
+    nextButton.on('click', nextImage)
+  }
+
+  function enableNextImage() {
+    nextButton.attr('disabled', null);
+  }
+
+  function loadImage(i) {
+    d3.select('#images')
+      .attr('width', 600)
+      .attr('src', 'modules/img/iaps/'+imageData[i].id+'.jpg');
+  }
+
+  function nextImage() {
+    if( currentImage + 1 === imageData.length - 1 ) lastImage();
+    currentImage++;
+    loadImage(currentImage);
+    resetTextArea();
+  }
+
+  function lastImage() {
+    nextButton.style('display', 'none');
+    experimentr.release();
+    experimentr.showNext();
+    experimentr.onNext(function() {
+      captureComments();
+      experimentr.endTimer('imagePrime');
     });
   }
 
-  function loadimage() {
-    d3.select('#images').append('img')
-      .attr('width', 600)
-      .attr('src', 'modules/img/iaps/'+imageData[0].id+'.jpg');
-    d3.select('#images').append('button')
-      .attr('type', 'button')
-      .text('I have finished viewing the image and I am ready for the questions.')
-      .on('click', loadQuestion);
+  function captureComments() {
+    data['imageComments_'+currentImage] = textarea.property('value');
+    experimentr.addData(data);
   }
 
-  function loadQuestion() {
-    experimentr.showNext();
-    d3.select('#images').remove();
-    d3.select('#imageInstructions').remove();
-    d3.select('#imageVerification').append('p')
-      .text(imageData.question);
-    var choices = d3.select('#imageVerification').selectAll('.choice')
-      .data(imageData.choices)
-      .enter().append('div')
-      .classed('choice', true);
-    choices.append('input')
-      .attr('type', 'radio')
-      .attr('name', 'imageVerification')
-      .attr('value', function(d) { return d; });
-    choices.append('label')
-      .text(function(d) { return d; });
-  d3.selectAll('input')
-    .filter(function(d) { return this.name === 'imageVerification' ? this : null; })
-    .on('change', function() { data.imageVerification = this.value; validate(); });
+  function resetTextArea() {
+    textarea.property('value', 'What\'s going on in this image?');
   }
 
-  function validate() {
-    if(data.imageVerification) {
-      grade();
-      experimentr.endTimer('imagePrime');
-      experimentr.addData(data);
-      experimentr.release();
-    }
-  }
-
-  function grade() {
-    if(data.imageVerification === imageData.answer)
-      data.imageVerificationResult = true;
-    else
-      data.imageVerificationResult = false;
-  }
 }());
 </script>
