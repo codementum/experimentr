@@ -24,24 +24,28 @@ Running the server
 
 Start redis: 
 
-    redis-server
+    redis-server redis.conf
 
 Run the server:
 
-    sudo node app.js
+    node app.js
 
-Then access the page at [localhost](http://localhost).
+Then access the page at [localhost:8000](http://localhost:8000).
 
 Installation
 -------
 
 - Node.js: https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint
 - redis-server: http://redis.io/download
-- bower: `npm install -g bower`
-- fork this repo
-- cd to this repo and run `npm install && bower install`
+- clone this repo
+- cd to this repo and run `npm install`
 
 Testing experiments
 -------
 
 Use `debug` as your workerId when testing experiments, so you can filter out your data later
+
+TODO
+----
+
+- Anyone running ubuntu will run into the "set max # of files to 10032 - only 3984" error. Document a fix.
