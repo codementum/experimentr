@@ -3,7 +3,9 @@ experimentr
 
 Experimentr is a hosting/data-collection backend and module-based frontend for web-based visualization studies. 
 
-This entire repo is a working experiment. The best way to get started is to copy this repo and edit it to suite your experiment.
+This repo is a working experiment. The best way to get started is to copy this repo and edit it for your experiment.
+
+__Disclaimer: experimentr is still under development and sparsely documented. If you get stuck, contact me via email or file an issue.__
 
 Experimentr.js
 -------
