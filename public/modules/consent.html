@@ -51,7 +51,7 @@ Our records show that you have taken part in this study before, so we cannot all
     experimentr.hideNext();
   
     // load previous workers file
-    d3.json('modules/workers.json', function(err, d) {
+    d3.json('modules/blocked-workers.json', function(err, d) {
       workers = d;
       d3.select('#workerId').attr('disabled', null);
     });
