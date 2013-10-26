@@ -5,10 +5,7 @@ dump.rdb
 *.swp
 
 analysis/data.*
-analysis/.Rhistory
-analysis/.RData
+analysis/results/*
+analysis/*.Rhistory
+analysis/*.RData
 analysis/*.r.Rout
-analysis/results.txt
-analysis/*.pdf
-
-public/analysis/*.pdf

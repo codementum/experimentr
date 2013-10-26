@@ -1,1 +1,0 @@
-mv ./*.pdf ../public/analysis
