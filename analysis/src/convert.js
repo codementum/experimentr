@@ -2,7 +2,7 @@ var j2c    = require('json2csv')
   , fs     = require('fs')
   , file   = process.argv[2]
   , _      = require('underscore')
-  , fields = [
+  , fields = [ // EDIT THESE
       'workerId',
       'postId',
       'primingType',
