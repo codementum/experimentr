@@ -34,14 +34,12 @@ Here is [an example questionnaire module](https://github.com/codementum/experime
 Modules will be loaded in order using the experimentr.sequence() function:
 
     experimentr.sequence([
-       'modules/storyConsent.html', 
-       'modules/preSam.html', 
-       'modules/storyPrime.html', 
-       'modules/postSam.html', 
-       'modules/previousRead.html', 
-       'modules/storyDebrief.html'
-    ]).start(); 
-
+      'modules/consent.html', 
+      'modules/pre-test.html', 
+      'modules/prime.html', 
+      'modules/post-test.html', 
+      'modules/debrief.html'
+    ]).start();
 
 In some modules the Next button is not needed, so it can be hidden and shown via `experimentr.hideNext()` and `experimentr.showNext()`.
 
