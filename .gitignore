@@ -4,7 +4,7 @@ appendonly.aof
 dump.rdb
 *.swp
 
-analysis/data.*
+analysis/data/*
 analysis/results/*
 analysis/*.Rhistory
 analysis/*.RData

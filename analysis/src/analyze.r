@@ -2,14 +2,13 @@
 d = read.csv('results/data.csv', header = TRUE, sep = ",")
 
 # ttest
-t.test(valenceDiff ~ primingType, data=d)
+#t.test(valenceDiff ~ primingType, data=d)
 
 # ANOVA + Tukey hsd (http://www.statmethods.net/stats/anova.html)
-# _Note: these functions won't work, since we only have two primingTypes._
-#error <- aov(valenceDiff ~ primingType, data=d)
-#summary(error) 
-#drop1(error,~.,test="F")
-#TukeyHSD(error)
+error <- aov(valenceDiff ~ primingType, data=d)
+summary(error) 
+drop1(error,~.,test="F")
+TukeyHSD(error)
 
 # ggplot2 is great for charts, but you have to install it before you can use/include it. To do so, run `R` then at the interactive prompt type `install.packages("ggplot2")` and select a mirror.
 library("ggplot2")

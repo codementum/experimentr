@@ -6,7 +6,6 @@ var j2c    = require('json2csv')
       'workerId',
       'postId',
       'primingType',
-      'successfulPrime',
       'valenceDiff',
       'time_diff_experiment'
     ]
