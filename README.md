@@ -29,7 +29,7 @@ Experimentr then adds three elements to the page:
 Modules
 -------
 Experiment modules are defined in `public/modules`. 
-Here is [an example questionnaire module](https://github.com/codementum/experimentr/blob/master/public/modules/postSam.html).
+Here is [an example questionnaire module](https://github.com/codementum/experimentr/blob/master/public/modules/post-test.html).
 
 Modules will be loaded in order using the experimentr.sequence() function:
 
