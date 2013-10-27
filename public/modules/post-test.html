@@ -105,6 +105,12 @@ Select the figure (<strong>or between figures</strong>) that most closely corres
       else
         data.successfulPrime = false;
     }
+    if(eData.primingType === 'neutral'){
+      if(data.valenceDiff === 0)
+        data.successfulPrime = true;
+      else
+        data.successfulPrime = false;
+    }
   }
 }());
 </script>
