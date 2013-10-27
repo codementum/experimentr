@@ -1,5 +1,7 @@
 To analyze data, pull it from the database, convert it to csv, and analyze it with R using the scripts described below.
 
+See `backups/readme.md` for a sample dataset you can load.
+
 pull.sh
 ===
 
