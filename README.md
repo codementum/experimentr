@@ -29,19 +29,17 @@ Experimentr then adds three elements to the page:
 Modules
 -------
 Experiment modules are defined in `public/modules`. 
-Here is [an example questionnaire module](https://github.com/codementum/experimentr/blob/master/public/modules/postSam.html).
+Here is [an example questionnaire module](https://github.com/codementum/experimentr/blob/master/public/modules/post-test.html).
 
 Modules will be loaded in order using the experimentr.sequence() function:
 
     experimentr.sequence([
-       'modules/storyConsent.html', 
-       'modules/preSam.html', 
-       'modules/storyPrime.html', 
-       'modules/postSam.html', 
-       'modules/previousRead.html', 
-       'modules/storyDebrief.html'
-    ]).start(); 
-
+      'modules/consent.html', 
+      'modules/pre-test.html', 
+      'modules/prime.html', 
+      'modules/post-test.html', 
+      'modules/debrief.html'
+    ]).start();
 
 In some modules the Next button is not needed, so it can be hidden and shown via `experimentr.hideNext()` and `experimentr.showNext()`.
 
