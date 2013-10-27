@@ -5,7 +5,9 @@ dump.rdb
 *.swp
 
 analysis/data/*
+!analysis/data/readme.md
 analysis/results/*
+!analysis/results/readme.md
 analysis/*.Rhistory
 analysis/*.RData
 analysis/*.r.Rout
