@@ -62,9 +62,14 @@ Then access the page at [localhost:8000](http://localhost:8000).
 
 Installation
 -------
+## Before-Clone Installation Dependencies:
+### Node.js
+To find installation instructions for your operating system (Linux, OSX, and Windows), please visit https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint
+### Redis
+**Note:** Redis is _not_ installed through `npm install` and must be installed separately.
+Redis can be manually downloaded at redis.io/download. Please note that Windows is not directly supported, however there is an experimental Windows port maintained by Microsoft. If you are on OSX and have `brew` installed, you can install Redis with the following: `brew install redis`.
 
-- Node.js: https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint
-- redis-server: http://redis.io/download
+## Clone and Post-Clone Installation:
 - clone this repo
 - cd to this repo and run `npm install`
 
