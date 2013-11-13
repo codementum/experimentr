@@ -76,4 +76,9 @@ Redis can be manually downloaded at redis.io/download. Please note that Windows 
 Testing experiments
 -------
 
-Use `debug` as your workerId when testing experiments, so you can filter out your data later.
+You can use `debug` as your workerId when testing live experiments to help make sure your data doesn't end up the experiment data.
+See [convert.js](https://github.com/codementum/experimentr/blob/master/analysis/src/convert.js#L24) for details.
+
+Another useful trick is to empty the redis database. To do so, run `redis-cli` to get the redis command line prompt, then type `FLUSHDB` to delete all current keys.
+
+More redis commands can be found at [http://redis.io/commands](http://redis.io/commands).
