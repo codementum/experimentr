@@ -1,4 +1,5 @@
 <div id="storyPrime">
+<div id="storyTimer"></div>
 <p id="storyInstructions">
 <strong>Please play close attention to the story. You will be asked to answer questions about the story's content.</strong>
 </p>
@@ -20,6 +21,12 @@
   function init() {
     experimentr.hideNext();
     experimentr.startTimer('storyPrime');
+
+    experimentr.attachTimer('#storyTimer', 10, function() {
+      d3.select('#storyTimer').remove();
+      loadQuestion();
+    });
+
     d3.json('modules/stories.json', function(err, d) {
       data.primingType = rand === 0 ? 'negative' : rand === 1 ? 'positive' : 'neutral';
       storyData = data.primingType === 'negative' ? d[0] : data.primingType === 'positive' ? d[1] : d[2]; // 0 negative; 1 positive; 2 neutral
