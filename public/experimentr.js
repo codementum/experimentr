@@ -158,6 +158,32 @@ experimentr = function() {
     experimentr.save();
   }
 
+  // attachTimer lets you show participants a visual countdown before advancing the experiment.
+  // target should be a CSS id, so the d3.select works
+  // seconds is the number of seconds in the countdown
+  // cb is a function which executes at the end of the countdown (write a custom callback to suite your experiment needs)
+  // Note, for an invisible timer, set target to null (e.g. attachTimer(null, 10, <insert your callback here>))
+  experimentr.attachTimer = function(target, seconds, cb) {
+    d3.select(target).text(seconds);
+
+    var timesCalled = 0;
+
+    var update = function() {
+      d3.select(target).text(seconds - timesCalled);
+      if( timesCalled === seconds )
+        end();
+      else
+        timesCalled++;
+    }
+
+    var interval = setInterval(update, 1000);
+
+    var end = function() {
+      clearInterval(interval);
+      cb();
+    }
+  }
+
   // Returns experimentr so we can use it in index.html
   return experimentr;
 }();
