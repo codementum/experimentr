@@ -148,15 +148,47 @@
     d3.selectAll('input')
     .filter(function(d) { return this.name === 'learning' ? this : null; })
     .on('change', function() { data.learning = this.value; validate(); });
-
+    
     function validate() {
         if(data.frequent && data.complex && data.easy && data.support &&
            data.integrated && data.inconsistent && data.quicklearning &&
            data.cumbersome && data.confident && data.learning) {
+               gradeSUS(data);
                experimentr.endTimer('sus');
                experimentr.addData(data);
                experimentr.release();
            }   
+    }
+    
+    function gradeSUS(data) {
+        score = 0;
+        for (answer in data) {
+            
+            //Odd numbered questions grading
+            if (answer == 'frequent' || answer == 'easy' || answer == 'integrated' ||
+            answer == 'quicklearning' || answer == 'confident') {
+                score += data[answer] - 1;
+            } 
+            
+            //Even numbered questions grading
+            else if (answer == 'complex' || answer == 'support' ||
+                       answer == 'inconsistent' || answer == 'cumbersome' || 
+                       answer == 'confident') {
+                score += 5 - data[answer];
+            } 
+            
+            //If this procedure has been run already we don't want the "grade"
+            //member variable to be misused accidentally.
+            else {
+                continue;
+            }
+            
+            
+        }
+        
+        score *= 2.5;
+        data.score = score;
+        
     }
 }());
 </script>
