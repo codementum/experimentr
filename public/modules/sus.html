@@ -105,96 +105,96 @@
 <script>
 (function() {
   var data = {};
-    
+
   experimentr.startTimer('sus');
   //d3.select('#status').text(experimentr.status());
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_frequent' ? this : null; })
   .on('change', function() { data.sus_frequent = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_complex' ? this : null; })
   .on('change', function() { data.sus_complex = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_easy' ? this : null; })
   .on('change', function() { data.sus_easy = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_support' ? this : null; })
   .on('change', function() { data.sus_support = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_integrated' ? this : null; })
   .on('change', function() { data.sus_integrated = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_inconsistent' ? this : null; })
   .on('change', function() { data.sus_inconsistent = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_quicklearning' ? this : null; })
   .on('change', function() { data.sus_quicklearning = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_cumbersome' ? this : null; })
   .on('change', function() { data.sus_cumbersome = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_confident' ? this : null; })
   .on('change', function() { data.sus_confident = this.value; validate(); });
-    
+
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'sus_learning' ? this : null; })
   .on('change', function() { data.sus_learning = this.value; validate(); });
-    
+
   function validate() {
     if(data.sus_frequent && data.sus_complex && data.sus_easy && data.sus_support &&
       data.sus_integrated && data.sus_inconsistent && data.sus_quicklearning &&
       data.sus_cumbersome && data.sus_confident && data.sus_learning) {
-        
+
         gradeSUS(data);
         experimentr.endTimer('sus');
         experimentr.addData(data);
         experimentr.release();
-        
-    }   
+
+    }
   }
-    
+
   function gradeSUS(data) {
     score = 0;
     for (answer in data) {
-            
+
       //Odd numbered questions grading
       if (answer == 'sus_frequent' || answer == 'sus_easy' || 
           answer == 'sus_integrated' || answer == 'sus_quicklearning' || 
           answer == 'sus_confident') {
-                    
+
             score += data[answer] - 1;
-                
-      } 
-            
+
+      }
+
       //Even numbered questions grading
       else if (answer == 'sus_complex' || answer == 'sus_support' || 
               answer == 'sus_inconsistent' || answer == 'sus_cumbersome' || 
               answer == 'sus_confident') {
-                         
+
             score += 5 - data[answer];
-                
-        } 
-            
+
+        }
+
       //If this procedure has been run already we don't want the "grade"
       //member variable to be misused accidentally.
       else {
         continue;
       }
-            
+
     }
-        
+
     score *= 2.5;
     data.sus_score = score;
-        
+
   }
 }());
 </script>
