@@ -3,11 +3,11 @@
 <h2>What do you think of this story?</h2>
 
 <p>
-This is a web-based experiment that asks people to read stories and answer simple questions. 
-This story may involve moderate graphic content such as that found in newspaper articles. 
-After reading the story, you will be asked to rate what you thought of the story through a visual scale. 
+This is a web-based experiment that asks people to read stories and answer simple questions.
+This story may involve moderate graphic content such as that found in newspaper articles.
+After reading the story, you will be asked to rate what you thought of the story through a visual scale.
 You'll also be asked some additional questions for verification purposes.
-Participation takes between 5 and 10 minutes. 
+Participation takes between 5 and 10 minutes.
 </p>
 
 <p>
@@ -40,7 +40,7 @@ Our records show that you have taken part in this study before, so we cannot all
   }
 </style>
 
-<script> 
+<script>
 (function() {
   var data    = {}
     , workers = null;
@@ -49,13 +49,13 @@ Our records show that you have taken part in this study before, so we cannot all
 
   function init() {
     experimentr.hideNext();
-  
+
     // load previous workers file
     d3.json('modules/blocked-workers.json', function(err, d) {
       workers = d;
       d3.select('#workerId').attr('disabled', null);
     });
-  
+
     d3.selectAll('#workerId')
       .on('keypress', function() { data.workerId = this.value; })
       .on('blur', function() { data.workerId = this.value; });
