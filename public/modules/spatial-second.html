@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spatial Test</title>
+</head>
+
+<body>
 <div id="spatialTimer_2"> </div>
 
 <div id="spatial-second">
@@ -45,7 +52,7 @@
   	experimentr.attachTimer('#spatialTimer_2', 180, function(){
   		if(experimentr.get_current() == 'modules/spatial-second.html'){
 	  		experimentr.endTimer('spatial-second');
-	  		grade();
+	  		gradeSpatialSecond();
       	experimentr.addData(data);
       	experimentr.addPayment(data.spatialSecond_numCorrect);
 	  		experimentr.next();
@@ -55,7 +62,7 @@
    	d3.select('#next-button')
       .on('click', function(){
       	experimentr.endTimer('spatial-second');
-      	grade();
+      	gradeSpatialSecond();
         experimentr.addData(data);
         experimentr.addPayment(data.spatialSecond_numCorrect);
         experimentr.next();
@@ -71,56 +78,67 @@
 	function display(){
 		even.filter(function(d, i) { return i === 0; })
     .text(function() { return getIdx(this)+". "; });
+    
 		even.filter(function(d, i) { return i === 1; })
 		.html( function() {
 			return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'.png\'>';
-		})
+		});
+    
 		even.filter(function(d, i) { return i === 2; })
 			.html('<img src=\'modules/img/paper_folding/divider.png\'>');
+      
 		even.filter(function(d, i) { return i === 3; })
 		.html( function() {
 			return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'a'+'.png\'>';
-		})
+		});
+    
 		even.filter(function(d, i) { return i === 4; })
 		.html( function() {
 			return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'b'+'.png\'>';
-		})
+		});
+    
 		even.filter(function(d, i) { return i === 5; })
 		.html( function() {
 			return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'c'+'.png\'>';
-		})
+		});
+    
 		even.filter(function(d, i) { return i === 6; })
 		.html( function() {
 			return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'d'+'.png\'>';
-		})
+		});
+    
 		even.filter(function(d, i) { return i === 7; })
 		.html( function() {
 			return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'e'+'.png\'>';
-		})
-
+		});
 
 		odd.filter(function(d, i) { return i === 0 || i === 1 || i === 2; })
 			.text('');
+      
 		odd.filter(function(d, i) { return i === 3; })
 		.html( function() {
 			return '<input type="radio" name="'+getIdx(this)+'" value="a">';
-		})
+		});
+    
 		odd.filter(function(d, i) { return i === 4; })
 		.html( function() {
 			return '<input type="radio" name="'+getIdx(this)+'" value="b">';
-		})
+		});
+    
 		odd.filter(function(d, i) { return i === 5; })
 		.html( function() {
 			return '<input type="radio" name="'+getIdx(this)+'" value="c">';
-		})
+		});
+    
 		odd.filter(function(d, i) { return i === 6; })
 		.html( function() {
 			return '<input type="radio" name="'+getIdx(this)+'" value="d">';
-		})
+		});
+    
 		odd.filter(function(d, i) { return i === 7; })
 		.html( function() {
 			return '<input type="radio" name="'+getIdx(this)+'" value="e">';
-		})
+		});
 
 		var prev = {}
 		d3.selectAll('input')
@@ -141,7 +159,7 @@
 		});
 	}
   
-  function grade(){
+  function gradeSpatialSecond(){
   	var count = 0;
   	
   	d3.range(11,21).forEach(function(i){
@@ -163,3 +181,5 @@
   
 }());
 </script>
+</body>
+</html>

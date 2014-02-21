@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spatial Test</title>
+</head>
+
+<body>
+
 <div id= "spatialTimer_1"> </div>
 <div id="spatial">
 
@@ -43,7 +51,7 @@
   	experimentr.attachTimer('#spatialTimer_1', 180, function(){
   	  if(experimentr.get_current() == 'modules/spatial-first.html'){
     		experimentr.endTimer('spatial-first');
-    		grade();
+    		gradeSpatialFirst();
     		experimentr.addData(data);
     		experimentr.addPayment(data.spatialFirst_numCorrect);
     		experimentr.next();
@@ -54,7 +62,7 @@
     d3.select('#next-button')
       .on('click', function(){
       	experimentr.endTimer('spatial-first');
-      	grade();
+      	gradeSpatialFirst();
         experimentr.addData(data);
         experimentr.addPayment(data.spatialFirst_numCorrect);
         experimentr.next();
@@ -68,60 +76,72 @@
   
 
   function display(){
+    
   	even.filter(function(d, i) { return i === 0; })
-    .text(function() { return getIdx(this)+". "; });
-		even.filter(function(d, i) { return i === 1; })
-		.html( function() {
-		return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'.png\'>';
-		})
+        .text(function() { return getIdx(this)+". "; });
+        
+		even.filter(function(d, i) { return i === 1; }).html(function() {
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'.png\'>';
+		});
+          
 		even.filter(function(d, i) { return i === 2; })
 		.html('<img src=\'modules/img/paper_folding/divider.png\'>');
+    
 		even.filter(function(d, i) { return i === 3; })
 		.html( function() {
-		return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'a'+'.png\'>';
-		})
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'a'+'.png\'>';
+		});
+    
 		even.filter(function(d, i) { return i === 4; })
 		.html( function() {
-		return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'b'+'.png\'>';
-		})
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'b'+'.png\'>';
+		});
+    
 		even.filter(function(d, i) { return i === 5; })
 		.html( function() {
-		return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'c'+'.png\'>';
-		})
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'c'+'.png\'>';
+		});
+    
 		even.filter(function(d, i) { return i === 6; })
 		.html( function() {
-		return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'d'+'.png\'>';
-		})
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'d'+'.png\'>';
+		});
+    
 		even.filter(function(d, i) { return i === 7; })
 		.html( function() {
-		return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'e'+'.png\'>';
-		})
-
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'e'+'.png\'>';
+		});
 
 		odd.filter(function(d, i) { return i === 0 || i === 1 || i === 2; })
 		.text('');
+    
 		odd.filter(function(d, i) { return i === 3; })
 		.html( function() {
-		return '<input type="radio" name="'+getIdx(this)+'" value="a">';
-		})
+		  return '<input type="radio" name="'+getIdx(this)+'" value="a">';
+		});
+    
 		odd.filter(function(d, i) { return i === 4; })
 		.html( function() {
-		return '<input type="radio" name="'+getIdx(this)+'" value="b">';
-		})
+		  return '<input type="radio" name="'+getIdx(this)+'" value="b">';
+		});
+    
 		odd.filter(function(d, i) { return i === 5; })
 		.html( function() {
-		return '<input type="radio" name="'+getIdx(this)+'" value="c">';
-		})
+		  return '<input type="radio" name="'+getIdx(this)+'" value="c">';
+		});
+    
 		odd.filter(function(d, i) { return i === 6; })
 		.html( function() {
-		return '<input type="radio" name="'+getIdx(this)+'" value="d">';
-		})
+		  return '<input type="radio" name="'+getIdx(this)+'" value="d">';
+		});
+    
 		odd.filter(function(d, i) { return i === 7; })
 		.html( function() {
-		return '<input type="radio" name="'+getIdx(this)+'" value="e">';
-		})
+		  return '<input type="radio" name="'+getIdx(this)+'" value="e">';
+		});
 
-		var prev = {}
+		var prev = {};
+    
 		d3.selectAll('input')
 		.on('click', function() { 
 			if (prev[this.name]){
@@ -141,8 +161,9 @@
   }
   
   
-  function grade(){
-  	var count = 0;
+  function gradeSpatialFirst(){
+  	
+    var count = 0;
   	
   	d3.range(1,11).forEach(function(i){
   		if(data['spatial_' + i ] && data['spatial_' + i ] == answers[i] ){
@@ -163,3 +184,5 @@
 
 }());
 </script>
+</body>
+</html>

@@ -1,5 +1,12 @@
-<div id="numeracy">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Numeracy Test</title>
+</head>
 
+<body>
+
+<div id="numeracy">
 <h3>The following questions are designed to assess your numeracy. Take as much time as you need.</h3>
 
 
@@ -47,7 +54,7 @@
     d3.select('#next-button')
       .on('click', function(){
       	experimentr.endTimer('numeracy');
-      	grade();
+      	gradeNumeracy();
         experimentr.addData(data);
         experimentr.addPayment(data.numeracy_numCorrect);
         experimentr.next();
@@ -96,26 +103,7 @@
 
   }
 
-  
-//   function validate() {
-//     var completed = true;
-//     questions.forEach(function(question){
-//       if(document.getElementById(question).selectedIndex === -1)
-//         completed = completed && false
-//     });
-// 
-//     if(!data['numeracy_q5'] || !data['numeracy_q6'])
-//       completed = false;
-// 
-//     if(completed) {
-//       //grade();
-//       experimentr.endTimer('numeracy');
-//       experimentr.addData(data);
-//       experimentr.release();
-//     }
-//   }
-
-  function grade() {
+  function gradeNumeracy() {
     var count = 0;
     d3.range(1, 7).forEach(function(i){
     	if (data["numeracy_" + i] && Number(data["numeracy_" + i]) == Number(answers[i])){
@@ -128,3 +116,5 @@
 
 }());
 </script>
+</body>
+</html>
