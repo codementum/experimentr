@@ -1,28 +1,50 @@
 /* global require:true, console:true, process:true, __dirname:true */
 'use strict'
 
-// Example run command: `node app.js 9000 6380 true`; listen on port 9000, connect to redis on 6380, debug printing on.
+// Example run command: `node app.js redis 9000 6380 true`; listen on port 9000, connect to redis on 6380, debug printing on.
 
 var express     = require('express')
   , http        = require('http')
   , redis       = require('redis')
+  , levelup     = require('level')
+  , dboption    = process.argv[2] || 'redis'
+  , port        = process.argv[3] || 8000
+  , rport       = process.argv[4] || 6379
+  , debug       = process.argv[5] || null
+  , save
+  , leveldb
   , redisClient
-  , port        = process.argv[2] || 8000
-  , rport       = process.argv[3] || 6379
-  , debug       = process.argv[4] || null
 
-// Database setup
-redisClient = redis.createClient(rport)
+if ( dboption == 'redis' ) {
+ 
+  //Redis database setup
+  redisClient = redis.createClient(rport)
 
-redisClient.on('connect', function() {
-  console.log('Connected to redis.')
-})
+  redisClient.on('connect', function() {
+    console.log('Connected to redis.')
+  })
 
-// Data handling
-var save = function save(d) {
-  redisClient.hmset(d.postId, d)
-  if( debug )
-    console.log('saved to redis: ' + d.postId +', at: '+ (new Date()).toString())
+  //Redis data handling
+  save = function save(d) {
+    redisClient.hmset(d.postId, d)
+    if ( debug )
+      console.log('Saved to redis: ' + d.postId + ', at: ' + (new Date()).toString())
+  }
+} 
+
+//Database setup and data handling for leveldb
+else {
+  
+  //Leveldb database setup
+  leveldb = levelup('./leveldb', { valueEncoding: 'json' } )
+  console.log('Creating levelup database.')
+
+  //Leveldb data handling
+  save = function save(d) {
+    leveldb.put(d.postId, d)
+    if ( debug )
+        console.log('Saved to leveldb: ' + d.postId + ', at: ' + (new Date()).toString())
+  }
 }
 
 // Server setup

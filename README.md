@@ -50,13 +50,19 @@ Module re-use will be added in a later release.
 Running the server
 --------
 
-Start redis: 
+Experimentr can be run using either redis or leveldb as your database of choice.
+
+If you want to use redis, start it with:
 
     redis-server redis.conf
 
-Run the server:
+and run the server:
 
-    node app.js
+    node app.js redis
+
+If you want to use leveldb, run the server with:
+
+    node app.js leveldb
 
 Then access the page at [localhost:8000](http://localhost:8000).
 
@@ -68,6 +74,8 @@ To find installation instructions for your operating system (Linux, OSX, and Win
 ### Redis
 **Note:** Redis is _not_ installed through `npm install` and must be installed separately.
 Redis can be manually downloaded at redis.io/download. Please note that Windows is not directly supported, however there is an experimental Windows port maintained by Microsoft. If you are on OSX and have `brew` installed, you can install Redis with the following: `brew install redis`.
+### Leveldb
+Leveldb can be downloaded from https://code.google.com/p/leveldb/downloads/list. In addition, you will need to install levelup, which can be installed using `npm install level`.
 
 ## Clone and Post-Clone Installation:
 - clone this repo
