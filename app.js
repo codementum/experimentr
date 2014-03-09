@@ -12,21 +12,20 @@ var express     = require('express')
   , rport       = process.argv[4] || 6379
   , debug       = process.argv[5] || null
   , save
-  , leveldb
-  , redisClient
+  , db
 
 if ( dboption == 'redis' ) {
  
   //Redis database setup
-  redisClient = redis.createClient(rport)
+  db = redis.createClient(rport)
 
-  redisClient.on('connect', function() {
+  db.on('connect', function() {
     console.log('Connected to redis.')
   })
 
   //Redis data handling
   save = function save(d) {
-    redisClient.hmset(d.postId, d)
+    db.hmset(d.postId, d)
     if ( debug )
       console.log('Saved to redis: ' + d.postId + ', at: ' + (new Date()).toString())
   }
@@ -36,12 +35,12 @@ if ( dboption == 'redis' ) {
 else {
   
   //Leveldb database setup
-  leveldb = levelup('./leveldb', { valueEncoding: 'json' } )
+  db = levelup('./leveldb', { valueEncoding: 'json' } )
   console.log('Creating levelup database.')
 
   //Leveldb data handling
   save = function save(d) {
-    leveldb.put(d.postId, d)
+    db.put(d.postId, d)
     if ( debug )
         console.log('Saved to leveldb: ' + d.postId + ', at: ' + (new Date()).toString())
   }
