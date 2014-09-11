@@ -11,39 +11,19 @@ var express     = require('express')
   , port        = process.argv[3] || 8000
   , rport       = process.argv[4] || 6379
   , debug       = process.argv[5] || null
-  , save
   , db
 
-if ( dboption == 'redis' ) {
- 
-  //Redis database setup
-  db = redis.createClient(rport)
+db = dboption === 'level' ? levelup('./leveldb', { valueEncoding: 'json' } ) : redis.createClient(rport)
 
-  db.on('connect', function() {
-    console.log('Connected to redis.')
-  })
+//Redis data handling
+var save = function save(d) {
+  put(d.postId, d)
+  if ( debug ) console.log('Saved to ' +dboption+ ' : ' + d.postId + ', at: ' + (new Date()).toString())
+}
 
-  //Redis data handling
-  save = function save(d) {
-    db.hmset(d.postId, d)
-    if ( debug )
-      console.log('Saved to redis: ' + d.postId + ', at: ' + (new Date()).toString())
-  }
-} 
-
-//Database setup and data handling for leveldb
-else {
-  
-  //Leveldb database setup
-  db = levelup('./leveldb', { valueEncoding: 'json' } )
-  console.log('Creating levelup database.')
-
-  //Leveldb data handling
-  save = function save(d) {
-    db.put(d.postId, d)
-    if ( debug )
-        console.log('Saved to leveldb: ' + d.postId + ', at: ' + (new Date()).toString())
-  }
+function put(key, value) {
+  db.hmset
+  db.put
 }
 
 // Server setup
@@ -64,6 +44,10 @@ app.post('/', function handlePost(req, res) {
   // Send a 'success' response to the frontend
   res.send(200)
 })
+
+app.get('/data', function()
+
+    hgetall
 
 // Create the server and tell which port to listen to
 http.createServer(app).listen(port, function (err) {
