@@ -1,4 +1,4 @@
-![Experimentr](https://github.com/codementum/experimentr/blob/newlogo/experimentr-logo.svg)
+<img src="https://raw.github.com/codementum/experimentr/newlogo/experimentr-logo.svg" title="Experimentr" alt="Experimentr" />
 ========
 
 Experimentr is a hosting/data-collection backend and module-based frontend for web-based visualization studies. 
