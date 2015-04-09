@@ -7,6 +7,11 @@
 <script src="experimentr.js"></script>
 
 <style>
+* {
+    color: #333;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  }
+
   body {
     margin: 1em auto 4em auto;
     width: 960px;
@@ -21,6 +26,12 @@
   #next-button {
     float: right;
   }
+
+  .placeholder {
+    color: #7A378B;
+    font-weight: bold;
+    text-decoration: underline;
+  }
 </style>
 
 <body></body>
@@ -28,9 +39,7 @@
 <script>
 experimentr.sequence([
   'modules/consent.html',
-  'modules/pre-test.html',
-  'modules/prime.html',
-  'modules/post-test.html',
+  'modules/hit.html',
   'modules/debrief.html'
 ]).start();
 </script>
