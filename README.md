@@ -29,7 +29,7 @@ Experimentr then adds three elements to the page:
 Modules
 -------
 Experiment modules are defined in `public/modules`. 
-Here is [an example questionnaire module](https://github.com/codementum/experimentr/blob/master/public/modules/post-test.html).
+Here is [an example questionnaire module](https://github.com/codementum/experimentr/blob/master/public/modules/examples/post-test.html).
 
 Modules will be loaded in order using the experimentr.sequence() function:
 
@@ -46,6 +46,8 @@ In some modules the Next button is not needed, so it can be hidden and shown via
 Currently, each module must be unique and cannot be loaded twice in experimentr.sequence(). 
 For example, if you use the same questionnaire as a pre-test and post-test, the same questionnaire HTML must appear in two files (but slightly modified, see [preSAM.html](https://github.com/codementum/experimentr/blob/master/public/modules/preSam.html) and [postSAM.html](https://github.com/codementum/experimentr/blob/master/public/modules/postSam.html)).
 Module re-use will be added in a later release.
+
+For example modules, please see [public/modules/examples](https://github.com/codementum/experimentr/blob/master/public/modules/examples). Simple experiment placeholder modules have been already placed in [public/modules](https://github.com/codementum/experimentr/blob/master/public/modules)
 
 Running the server
 --------
