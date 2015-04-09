@@ -1,0 +1,79 @@
+<div id="storyPrime">
+<div id="storyTimer"></div>
+<p id="storyInstructions">
+<strong>Please play close attention to the story. You will be asked to answer questions about the story's content.</strong>
+</p>
+<div id="storyText"></div>
+<div id="storyVerification"></div>
+</div>
+
+<style>
+</style>
+
+<script>
+(function() {
+  var data = {}
+    , rand = Math.floor(Math.random()*3) // 0, 1, 2 
+    , storyData;
+
+  init();
+
+  function init() {
+    experimentr.hideNext();
+    experimentr.startTimer('storyPrime');
+
+    experimentr.attachTimer('#storyTimer', 10, function() {
+      d3.select('#storyTimer').remove();
+      loadQuestion();
+    });
+
+    d3.json('modules/stories.json', function(err, d) {
+      data.primingType = rand === 0 ? 'negative' : rand === 1 ? 'positive' : 'neutral';
+      storyData = data.primingType === 'negative' ? d[0] : data.primingType === 'positive' ? d[1] : d[2]; // 0 negative; 1 positive; 2 neutral
+      loadStory();
+    });
+  }
+  function loadStory() {
+    d3.select('#storyText').append('div')
+      .html(storyData.story);
+    d3.select('#storyText').append('button')
+      .attr('type', 'button')
+      .text('I have finished reading the story and I am ready for the questions.')
+      .on('click', loadQuestion);
+  }
+  function loadQuestion() {
+    experimentr.showNext();
+    d3.select('#storyText').remove();
+    d3.select('#storyInstructions').remove();
+    d3.select('#storyVerification').append('p')
+      .text(storyData.question);
+    var choices = d3.select('#storyVerification').selectAll('.choice')
+      .data(storyData.choices)
+      .enter().append('div')
+      .classed('choice', true);
+    choices.append('input')
+      .attr('type', 'radio')
+      .attr('name', 'storyVerification')
+      .attr('value', function(d) { return d; });
+    choices.append('label')
+      .text(function(d) { return d; });
+  d3.selectAll('input')
+    .filter(function(d) { return this.name === 'storyVerification' ? this : null; })
+    .on('change', function() { data.storyVerification = this.value; validate(); });
+  }
+  function validate() {
+    if(data.storyVerification) {
+      grade();
+      experimentr.endTimer('storyPrime');
+      experimentr.addData(data);
+      experimentr.release();
+    }
+  }
+  function grade() {
+    if(data.storyVerification === storyData.answer)
+      data.storyVerificationResult = true;
+    else
+      data.storyVerificationResult = false;
+  }
+}());
+</script>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spatial Test</title>
+</head>
+
+<body>
+
+<div id= "spatialTimer_1"> </div>
+<div id="spatial">
+
+<table id="spatialtable"></table>
+
+</div>
+
+<style>
+  #spatial table {
+    margin: 0 auto 0 auto;
+  }
+</style>
+
+<script> 
+(function() {
+  var data = {};
+  var answers = {};
+  
+  var rows = d3.select('#spatialtable').selectAll('tr')
+  .data( d3.range(0, 20) )
+  .enter().append('tr');
+
+  var even = rows.filter(function(d, i) { return i % 2 === 0; }).selectAll('td')
+    .data( d3.range(0,8) )
+    .enter().append('td')
+    .attr('align', 'center')
+    .text('even');
+
+  var odd = rows.filter(function(d, i) { return i % 2 === 1; }).selectAll('td')
+    .data( d3.range(0,8) )
+    .enter().append('td')
+    .attr('align', 'center')
+    .text('odd');
+
+  init();
+  
+  function init(){
+  	d3.json('modules/spatial-answers.json', function(err, d) {
+      answers = d.answers;
+    });
+    
+    //start timer
+  	experimentr.attachTimer('#spatialTimer_1', 180, function(){
+  	  if(experimentr.get_current() == 'modules/spatial-first.html'){
+    		experimentr.endTimer('spatial-first');
+    		gradeSpatialFirst();
+    		experimentr.addData(data);
+    		experimentr.addPayment(data.spatialFirst_numCorrect);
+    		experimentr.next();
+    	}
+  	});
+  	
+  	//overrides onNext from experimentr
+    d3.select('#next-button')
+      .on('click', function(){
+      	experimentr.endTimer('spatial-first');
+      	gradeSpatialFirst();
+        experimentr.addData(data);
+        experimentr.addPayment(data.spatialFirst_numCorrect);
+        experimentr.next();
+    });
+    
+    experimentr.startTimer('spatial-first');
+    experimentr.release();
+    display();
+    
+  }
+  
+
+  function display(){
+    
+  	even.filter(function(d, i) { return i === 0; })
+        .text(function() { return getIdx(this)+". "; });
+        
+		even.filter(function(d, i) { return i === 1; }).html(function() {
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'.png\'>';
+		});
+          
+		even.filter(function(d, i) { return i === 2; })
+		.html('<img src=\'modules/img/paper_folding/divider.png\'>');
+    
+		even.filter(function(d, i) { return i === 3; })
+		.html( function() {
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'a'+'.png\'>';
+		});
+    
+		even.filter(function(d, i) { return i === 4; })
+		.html( function() {
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'b'+'.png\'>';
+		});
+    
+		even.filter(function(d, i) { return i === 5; })
+		.html( function() {
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'c'+'.png\'>';
+		});
+    
+		even.filter(function(d, i) { return i === 6; })
+		.html( function() {
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'d'+'.png\'>';
+		});
+    
+		even.filter(function(d, i) { return i === 7; })
+		.html( function() {
+		  return '<img src=\'modules/img/paper_folding/'+getIdx(this)+'e'+'.png\'>';
+		});
+
+		odd.filter(function(d, i) { return i === 0 || i === 1 || i === 2; })
+		.text('');
+    
+		odd.filter(function(d, i) { return i === 3; })
+		.html( function() {
+		  return '<input type="radio" name="'+getIdx(this)+'" value="a">';
+		});
+    
+		odd.filter(function(d, i) { return i === 4; })
+		.html( function() {
+		  return '<input type="radio" name="'+getIdx(this)+'" value="b">';
+		});
+    
+		odd.filter(function(d, i) { return i === 5; })
+		.html( function() {
+		  return '<input type="radio" name="'+getIdx(this)+'" value="c">';
+		});
+    
+		odd.filter(function(d, i) { return i === 6; })
+		.html( function() {
+		  return '<input type="radio" name="'+getIdx(this)+'" value="d">';
+		});
+    
+		odd.filter(function(d, i) { return i === 7; })
+		.html( function() {
+		  return '<input type="radio" name="'+getIdx(this)+'" value="e">';
+		});
+
+		var prev = {};
+    
+		d3.selectAll('input')
+		.on('click', function() { 
+			if (prev[this.name]){
+				if(prev[this.name] == this.value){
+					this.checked = false; 
+					prev[this.name] = null;
+					data['spatial_'+d3.select(this).attr('name')]  = null;	
+				}else{
+					prev[this.name] = this.value;
+					data['spatial_'+d3.select(this).attr('name')] = this.value; 
+				}
+			}else{
+				prev[this.name] = this.value;
+				data['spatial_'+d3.select(this).attr('name')] = this.value; 
+			}
+		});
+  }
+  
+  
+  function gradeSpatialFirst(){
+  	
+    var count = 0;
+  	
+  	d3.range(1,11).forEach(function(i){
+  		if(data['spatial_' + i ] && data['spatial_' + i ] == answers[i] ){
+  			count += 1;
+  		}
+  	});  	
+  	
+  	data.spatialFirst_numCorrect = count;
+  }
+
+  function getParent(x) {
+    return d3.select(d3.select(x).node().parentNode).data() ;
+  }
+
+  function getIdx(x) {
+    return Math.floor( (getParent(x)/2)+1 );
+  }  
+
+}());
+</script>
+</body>
+</html>

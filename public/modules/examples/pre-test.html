@@ -1,0 +1,91 @@
+<div id="preSam">
+
+<p>
+Select the figure (<strong>or between figures</strong>) that most closely corresponds to how you currently feel:
+</p>
+
+<table>
+<tr>
+  <td><img src="modules/img/sam-valence-1.png" /></td>
+  <td></td>
+  <td><img src="modules/img/sam-valence-2.png" /></td>
+  <td></td>
+  <td><img src="modules/img/sam-valence-3.png" /></td>
+  <td></td>
+  <td><img src="modules/img/sam-valence-4.png" /></td>
+  <td></td>
+  <td><img src="modules/img/sam-valence-5.png" /></td>
+</tr>
+<tr>
+  <td align="center"><input type="radio" name="sam-valence" value="1" /></td>
+  <td align="center"><input type="radio" name="sam-valence" value="2" /></td>
+  <td align="center"><input type="radio" name="sam-valence" value="3" /></td>
+  <td align="center"><input type="radio" name="sam-valence" value="4" /></td>
+  <td align="center"><input type="radio" name="sam-valence" value="5" /></td>
+  <td align="center"><input type="radio" name="sam-valence" value="6" /></td>
+  <td align="center"><input type="radio" name="sam-valence" value="7" /></td>
+  <td align="center"><input type="radio" name="sam-valence" value="8" /></td>
+  <td align="center"><input type="radio" name="sam-valence" value="9" /></td>
+</tr>
+</table>
+
+
+<p>
+Select the figure (<strong>or between figures</strong>) that most closely corresponds to how you currently feel:
+</p>
+
+<table>
+<tr>
+  <td><img src="modules/img/sam-arousal-1.png" /></td>
+  <td></td>
+  <td><img src="modules/img/sam-arousal-2.png" /></td>
+  <td></td>
+  <td><img src="modules/img/sam-arousal-3.png" /></td>
+  <td></td>
+  <td><img src="modules/img/sam-arousal-4.png" /></td>
+  <td></td>
+  <td><img src="modules/img/sam-arousal-5.png" /></td>
+</tr>
+<tr>
+  <td align="center"><input type="radio" name="sam-arousal" value="1" /></td>
+  <td align="center"><input type="radio" name="sam-arousal" value="2" /></td>
+  <td align="center"><input type="radio" name="sam-arousal" value="3" /></td>
+  <td align="center"><input type="radio" name="sam-arousal" value="4" /></td>
+  <td align="center"><input type="radio" name="sam-arousal" value="5" /></td>
+  <td align="center"><input type="radio" name="sam-arousal" value="6" /></td>
+  <td align="center"><input type="radio" name="sam-arousal" value="7" /></td>
+  <td align="center"><input type="radio" name="sam-arousal" value="8" /></td>
+  <td align="center"><input type="radio" name="sam-arousal" value="9" /></td>
+</tr>
+</table>
+
+</div>
+
+<style>
+  #preSam table {
+    margin: 0 auto 0 auto;
+  }
+</style>
+
+<script>
+(function() {
+  var data = {};
+
+  d3.selectAll('input')
+    .filter(function(d) { return this.name === 'sam-valence' ? this : null; })
+    .on('change', function() { data.preValence = this.value; validate(); });
+  d3.selectAll('input')
+    .filter(function(d) { return this.name === 'sam-arousal' ? this : null; })
+    .on('change', function() { data.preArousal = this.value; validate(); });
+
+  experimentr.startTimer('preSam');
+
+  function validate() {
+    if(data.preValence && data.preArousal) {
+      experimentr.endTimer('preSam');
+      experimentr.addData(data);
+      experimentr.release();
+    }
+  }
+}());
+</script>

@@ -1,0 +1,51 @@
+<div id="debrief">
+
+<p>
+<strong>Please copy and paste the following code back on Mechanical Turk before closing this window:</strong>
+</p>
+<h2 id="postId"></h2>
+
+<p>
+This study is concerned with the effect of emotion on how well people process visual information in charts.
+Previous studies have found that emotional state can influence visual perception.
+However, given the rise in how often charts are used to communicate important information today, it is important to understand specifically how emotion can influence how visual information is perceived.
+</p>
+
+<p>
+Thank you again for your participation. Feel free submit any additional comments below.
+</p>
+
+<textarea name="textarea" rows="10" cols="50">Leave feedback here</textarea>
+<br>
+<button id="submitComments" disabled="true" type="button">Submit</button>
+<br>
+<div id="submitFeedback"></div>
+
+</div>
+
+<style>
+</style>
+
+<script>
+(function() {
+  var postId  = experimentr.postId
+    , data    = {};
+
+  d3.select("#postId").text(postId);
+
+  var comments = d3.select('#debrief').select('textarea')
+    .on('keypress', function() { d3.select('#submitComments').attr('disabled', null); })
+    .on('blur', function() { d3.select('#submitComments').attr('disabled', null); });
+
+  d3.select('#submitComments')
+    .on('click', function () { data.comments = comments.property('value'); validate(); });
+
+  function validate() {
+    if( data.comments ) {
+      experimentr.addData(data);
+      d3.select('#submitComments').attr('disabled', 'true');
+      d3.select('#submitFeedback').text('Submit Successful');
+    }
+  }
+}());
+</script>
