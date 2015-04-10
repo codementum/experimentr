@@ -30,6 +30,21 @@ var app = express()
 app.use(express.bodyParser())
 app.use(express.static(__dirname + '/public'))
 
+// If the study has finished, write the data to file
+app.post('/finish', function(req, res) {
+  fs.readFile('public/modules/blocked-workers.json', 'utf8', function(err,data) {
+    if (err) console.log(err);
+    var data = JSON.parse(data);
+    data.push(req.body.workerId);
+    data = JSON.stringify(data);
+    fs.writeFile('public/modules/blocked-workers.json', data, function(err) {
+      if(err) console.log(err);
+    });
+  });
+
+  res.send(200)
+})
+
 // Handle POSTs from frontend
 app.post('/', function handlePost(req, res) {
   // Get experiment data from request body
