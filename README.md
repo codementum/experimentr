@@ -1,4 +1,4 @@
-<img src="https://raw.github.com/codementum/experimentr/newlogo/experimentr-logo.png" title="Experimentr" alt="Experimentr" />
+<img src="https://raw.github.com/codementum/experimentr/master/experimentr-logo.png" title="Experimentr" alt="Experimentr" />
 ========
 
 Experimentr is a hosting/data-collection backend and module-based frontend for web-based visualization studies. 
