@@ -1,4 +1,4 @@
-<div id="preSam">
+<div id="self-assessment-manikin">
 
 <p>
 Select the figure (<strong>or between figures</strong>) that most closely corresponds to how you currently feel:
@@ -6,15 +6,15 @@ Select the figure (<strong>or between figures</strong>) that most closely corres
 
 <table>
 <tr>
-  <td><img src="modules/img/sam-valence-1.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-valence-1.png" /></td>
   <td></td>
-  <td><img src="modules/img/sam-valence-2.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-valence-2.png" /></td>
   <td></td>
-  <td><img src="modules/img/sam-valence-3.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-valence-3.png" /></td>
   <td></td>
-  <td><img src="modules/img/sam-valence-4.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-valence-4.png" /></td>
   <td></td>
-  <td><img src="modules/img/sam-valence-5.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-valence-5.png" /></td>
 </tr>
 <tr>
   <td align="center"><input type="radio" name="sam-valence" value="1" /></td>
@@ -36,15 +36,15 @@ Select the figure (<strong>or between figures</strong>) that most closely corres
 
 <table>
 <tr>
-  <td><img src="modules/img/sam-arousal-1.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-arousal-1.png" /></td>
   <td></td>
-  <td><img src="modules/img/sam-arousal-2.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-arousal-2.png" /></td>
   <td></td>
-  <td><img src="modules/img/sam-arousal-3.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-arousal-3.png" /></td>
   <td></td>
-  <td><img src="modules/img/sam-arousal-4.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-arousal-4.png" /></td>
   <td></td>
-  <td><img src="modules/img/sam-arousal-5.png" /></td>
+  <td><img src="modules/self-assessment-manikin/img/sam-arousal-5.png" /></td>
 </tr>
 <tr>
   <td align="center"><input type="radio" name="sam-arousal" value="1" /></td>
@@ -62,7 +62,7 @@ Select the figure (<strong>or between figures</strong>) that most closely corres
 </div>
 
 <style>
-  #preSam table {
+  #self-assessment-manikin table {
     margin: 0 auto 0 auto;
   }
 </style>
@@ -73,16 +73,16 @@ Select the figure (<strong>or between figures</strong>) that most closely corres
 
   d3.selectAll('input')
     .filter(function(d) { return this.name === 'sam-valence' ? this : null; })
-    .on('change', function() { data.preValence = this.value; validate(); });
+    .on('change', function() { data.sam_valence = this.value; validate(); });
   d3.selectAll('input')
     .filter(function(d) { return this.name === 'sam-arousal' ? this : null; })
-    .on('change', function() { data.preArousal = this.value; validate(); });
+    .on('change', function() { data.sam_arousal = this.value; validate(); });
 
-  experimentr.startTimer('preSam');
+  experimentr.startTimer('self-assessment-manikin');
 
   function validate() {
-    if(data.preValence && data.preArousal) {
-      experimentr.endTimer('preSam');
+    if(data.sam_valence && data.sam_arousal) {
+      experimentr.endTimer('self-assessment-manikin');
       experimentr.addData(data);
       experimentr.release();
     }

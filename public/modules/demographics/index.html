@@ -1,6 +1,5 @@
 
 <div id="demographics">
-<h5> <span id="status"></span> </h5>
 <p id="demoinstr">
 Thank you! The experiment is almost complete. Please fill out the following demographics form.
 </p>
@@ -55,7 +54,6 @@ Thank you! The experiment is almost complete. Please fill out the following demo
   var data = {};
 
   experimentr.startTimer('demo');
-  d3.select('#status').text(experimentr.status());
 
   d3.selectAll('input')
   .filter(function(d) { return this.name === 'age' ? this : null; })
