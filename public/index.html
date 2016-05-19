@@ -16,4 +16,19 @@ experimentr.sequence([
   'modules/consent/',
   'modules/debrief/'
 ]).start();
+
+// Make sure that backspace doesn't trigger navigation
+document.addEventListener('keydown', function(e) {
+  var target = e.target,
+      keyCode = e.keyCode;
+
+  var isInputField = target.tagName === "INPUT" || target.tagName === "TEXTAREA",
+      isEditable = target.contentEditable != null && target.contentEditable == true,
+      isNotForm = !(isInputField || isEditable);
+
+  if(e.keyCode == 8 && isNotForm) {
+    e.preventDefault();
+  }
+});
+
 </script>
