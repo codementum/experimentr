@@ -146,15 +146,15 @@ experimentr = function() {
   // Start a timer with a given String as key
   experimentr.startTimer = function(x) {
     console.log('starting timer: '+x);
-    data['time_start_'+x] = Date.now(); 
+    data['time_start_'+x] = Date.now();
   }
 
   // End an existing timer (using a String key)
   // TODO throw an error if a start wasn't called.
   experimentr.endTimer = function(x) {
     console.log('ending timer: '+x);
-    data['time_end_'+x] = Date.now(); 
-    data['time_diff_'+x] = parseFloat(data['time_end_'+x]) - parseFloat(data['time_start_'+x]); 
+    data['time_end_'+x] = Date.now();
+    data['time_diff_'+x] = parseFloat(data['time_end_'+x]) - parseFloat(data['time_start_'+x]);
     experimentr.save();
   }
 
@@ -183,6 +183,20 @@ experimentr = function() {
       cb();
     }
   }
+
+  // Make sure that backspace doesn't trigger navigation
+  document.addEventListener('keydown', function(e) {
+    var target = e.target,
+        keyCode = e.keyCode;
+
+    var isInputField = target.tagName === "INPUT" || target.tagName === "TEXTAREA",
+        isEditable = target.contentEditable !== null && target.contentEditable === true,
+        isNotForm = !(isInputField || isEditable);
+
+    if(e.keyCode == 8 && isNotForm) {
+      e.preventDefault();
+    }
+  });
 
   // Returns experimentr so we can use it in index.html
   return experimentr;
