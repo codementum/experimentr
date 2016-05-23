@@ -19,24 +19,24 @@ Experimentr.js also contains several helper functions for experiments, such as t
 Modules
 -------
 Experiment modules are defined in `public/modules`.
-Here is [an example questionnaire module](https://github.com/codementum/experimentr/blob/master/public/modules/examples/post-test.html).
+Here is [an example questionnaire module](https://github.com/codementum/experimentr/blob/master/public/modules/nasa-tlx/).
 
-Modules will be loaded in order using the experimentr.sequence() function:
+Modules will be loaded in order using the `experimentr.sequence()` function:
 
     experimentr.sequence([
-      'modules/consent.html',
-      'modules/pre-test.html',
-      'modules/prime.html',
-      'modules/post-test.html',
-      'modules/debrief.html'
+      'modules/consent',
+      'modules/self-assessment-manikin',
+      'modules/emotion-prime-story',
+      'modules/demographics',
+      'modules/nasa-tlx'
     ]).start();
 
 In some modules the Next button is not needed, so it can be hidden and shown via `experimentr.hideNext()` and `experimentr.showNext()`.
 
 Each module must be unique and cannot be loaded twice in experimentr.sequence().
-For example, if you use the same questionnaire as a pre-test and post-test, the same questionnaire HTML must appear in two files (but slightly modified, see [pre-test.html](https://github.com/codementum/experimentr/blob/master/public/modules/examples/pre-test.html) and [post-test.html](https://github.com/codementum/experimentr/blob/master/public/modules/examples/post-test.html)).
+For example, if you use the same questionnaire as a pre-test and post-test, the same questionnaire HTML must appear in two uniquely named files. 
 
-For example modules, please see [public/modules/examples](https://github.com/codementum/experimentr/blob/master/public/modules/examples). Simple experiment placeholder modules have been already placed in [public/modules](https://github.com/codementum/experimentr/blob/master/public/modules)
+For example modules, please see [public/modules/](https://github.com/codementum/experimentr/blob/master/public/modules/). 
 
 How Experimentr Works
 ---
