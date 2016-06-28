@@ -1,4 +1,4 @@
-experimentr = function() {
+var experimentr = (function() {
   var experimentr = { version: "0.0.1" }
     , sequence
     , current
@@ -200,4 +200,4 @@ experimentr = function() {
 
   // Returns experimentr so we can use it in index.html
   return experimentr;
-}();
+})();
