@@ -20,7 +20,7 @@ redisClient.on('connect', function() {
 
 // Data handling
 var save = function save(d) {
-  redisClient.hmset(d.postId, d)
+  redisClient.hmset(d.postId, {"content": JSON.stringify(d)})
   if( debug )
     console.log('saved to redis: ' + d.postId +', at: '+ (new Date()).toString())
 }
