@@ -14,8 +14,8 @@
     });
 
     d3.selectAll('#workerId')
-      .on('keypress', function() { data.workerId = this.value; })
-      .on('blur', function() { data.workerId = this.value; });
+      .on('keypress', function() { data.workerId = this.value.trim().toUpperCase(); })
+      .on('blur', function() { data.workerId = this.value.trim().toUpperCase(); });
 
     d3.select('#consentYes').on('click', experimentr.next);
 
