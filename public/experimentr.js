@@ -1,4 +1,4 @@
-var experimentr = (function() {
+var experimentr = (function () {
   var experimentr = { version: "0.0.1" }
     , sequence
     , current
@@ -9,16 +9,16 @@ var experimentr = (function() {
   data.postId = (+new Date()).toString(36);
 
   // Accessor for postId
-  experimentr.postId = function() {
+  experimentr.postId = function () {
     return data.postId;
   };
   // Accessor for data
-  experimentr.data = function() {
+  experimentr.data = function () {
     return data;
   };
 
   // Starts the experiment by loading the first module
-  experimentr.start = function() {
+  experimentr.start = function () {
     init();
     current = 0;
     activate(current);
@@ -27,22 +27,22 @@ var experimentr = (function() {
 
   // Add a function to be called when a person clicks next.
   // (This can be cleared with clearNext()).
-  experimentr.onNext = function(cb) {
-    d3.select('#next-button').on('click', function() {
+  experimentr.onNext = function (cb) {
+    d3.select('#next-button').on('click', function () {
       cb();
       experimentr.next();
     });
   };
 
   // Reset the callbacks on next click.
-  experimentr.clearNext = function() {
+  experimentr.clearNext = function () {
     d3.select('#next-button').on('click', experimentr.next);
   };
 
 
   // Create the divs for the experiment content and controls.
   function init() {
-    if(mainDiv) return;
+    if (mainDiv) return;
     mainDiv = d3.select('body').append('div')
       .attr('id', 'experimentr');
     mainDiv.append('div')
@@ -50,15 +50,15 @@ var experimentr = (function() {
     mainDiv.append('div')
       .attr('id', 'control')
       .append('button')
-        .attr('type', 'button')
-        .attr('id', 'next-button')
-        .attr('disabled', true)
-        .text('Next')
-        .on('click', experimentr.next);
+      .attr('type', 'button')
+      .attr('id', 'next-button')
+      .attr('disabled', true)
+      .text('Next')
+      .on('click', experimentr.next);
   }
 
   // Load the next module.
-  experimentr.next = function() {
+  experimentr.next = function () {
     experimentr.clearNext();
     experimentr.showNext();
     current = current + 1;
@@ -66,22 +66,22 @@ var experimentr = (function() {
   }
 
   // This just ends the experiment timer right now, but it might be a good place to send final experiment data (if we are using CSV on the backend).
-  experimentr.end = function() {
+  experimentr.end = function () {
     experimentr.endTimer('experiment');
   }
 
   // Adds the data in `d` to the experiment data, and saves to server.
-  experimentr.addData = function(d) {
+  experimentr.addData = function (d) {
     merge(data, d);
     experimentr.save();
   }
 
   // The HTTP POST code for saving experiment data.
-  experimentr.save = function(d) {
+  experimentr.save = function (d) {
     d3.xhr('/')
       .header("Content-Type", "application/json")
-      .post(JSON.stringify(data), function(err, res) {
-        if(err) console.log(err);
+      .post(JSON.stringify(data), function (err, res) {
+        if (err) console.log(err);
       });
   }
 
@@ -91,22 +91,22 @@ var experimentr = (function() {
   }
 
   // Enables the Next button so the user can proceed in the experiment.
-  experimentr.release = function() {
+  experimentr.release = function () {
     d3.select('#next-button').attr('disabled', null);
   }
 
   // On some multi-part modules, it is helpful to hide the next button until it is needed.
-  experimentr.hideNext = function() {
+  experimentr.hideNext = function () {
     d3.select('#next-button').style('display', 'none');
   }
 
   // Make the Next button visible.
-  experimentr.showNext = function() {
+  experimentr.showNext = function () {
     d3.select('#next-button').style('display', 'inline');
   }
 
   // Disables the Next button until the module code decides the user is done with the current module (release by experimentr.release()).
-  experimentr.hold = function() {
+  experimentr.hold = function () {
     d3.select('#next-button').attr('disabled', true);
   }
 
@@ -120,14 +120,14 @@ var experimentr = (function() {
     clearModule();
     experimentr.hold();
 
-    if(x === sequence.length-1){
+    if (x === sequence.length - 1) {
       removeNextButton();
       experimentr.end();
     }
 
-    d3.html(sequence[x], function(err, d) {
-      if(err) console.log(err);
-      d3.select('#module').node().appendChild(d);
+    /* TODO this is not working; the scripts node won't run*/
+    d3.html(sequence[x]).then((d) => {
+      d3.select('#module').node().appendChild(d.body);
     });
   }
 
@@ -137,24 +137,24 @@ var experimentr = (function() {
   }
 
   // Define the experiment sequence via an array (see index.html for an example).
-  experimentr.sequence = function(x) {
-    if(!arguments.length) return sequence;
+  experimentr.sequence = function (x) {
+    if (!arguments.length) return sequence;
     sequence = x;
     return experimentr;
   }
 
   // Start a timer with a given String as key
-  experimentr.startTimer = function(x) {
-    console.log('starting timer: '+x);
-    data['time_start_'+x] = Date.now();
+  experimentr.startTimer = function (x) {
+    console.log('starting timer: ' + x);
+    data['time_start_' + x] = Date.now();
   }
 
   // End an existing timer (using a String key)
   // TODO throw an error if a start wasn't called.
-  experimentr.endTimer = function(x) {
-    console.log('ending timer: '+x);
-    data['time_end_'+x] = Date.now();
-    data['time_diff_'+x] = parseFloat(data['time_end_'+x]) - parseFloat(data['time_start_'+x]);
+  experimentr.endTimer = function (x) {
+    console.log('ending timer: ' + x);
+    data['time_end_' + x] = Date.now();
+    data['time_diff_' + x] = parseFloat(data['time_end_' + x]) - parseFloat(data['time_start_' + x]);
     experimentr.save();
   }
 
@@ -163,14 +163,14 @@ var experimentr = (function() {
   // seconds is the number of seconds in the countdown
   // cb is a function which executes at the end of the countdown (write a custom callback to suite your experiment needs)
   // Note, for an invisible timer, set target to null (e.g. attachTimer(null, 10, <insert your callback here>))
-  experimentr.attachTimer = function(target, seconds, cb) {
+  experimentr.attachTimer = function (target, seconds, cb) {
     d3.select(target).text(seconds);
 
     var timesCalled = 0;
 
-    var update = function() {
+    var update = function () {
       d3.select(target).text(seconds - timesCalled);
-      if( timesCalled === seconds )
+      if (timesCalled === seconds)
         end();
       else
         timesCalled++;
@@ -178,22 +178,22 @@ var experimentr = (function() {
 
     var interval = setInterval(update, 1000);
 
-    var end = function() {
+    var end = function () {
       clearInterval(interval);
       cb();
     }
   }
 
   // Make sure that backspace doesn't trigger navigation
-  document.addEventListener('keydown', function(e) {
+  document.addEventListener('keydown', function (e) {
     var target = e.target,
-        keyCode = e.keyCode;
+      keyCode = e.keyCode;
 
     var isInputField = target.tagName === "INPUT" || target.tagName === "TEXTAREA",
-        isEditable = target.contentEditable !== null && target.contentEditable === true,
-        isNotForm = !(isInputField || isEditable);
+      isEditable = target.contentEditable !== null && target.contentEditable === true,
+      isNotForm = !(isInputField || isEditable);
 
-    if(e.keyCode == 8 && isNotForm) {
+    if (e.keyCode == 8 && isNotForm) {
       e.preventDefault();
     }
   });
