@@ -1,9 +1,10 @@
-node_modules
+node_modules/
 npm-debug.log
 *.DS_Store
 appendonly.aof
 dump.rdb
 *.swp
+
 
 analysis/data/*
 !analysis/data/readme.md
