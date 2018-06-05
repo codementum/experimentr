@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "csv": "0.2.x",
-    "d3": "^3.5.16",
+    "d3": "4.13.0",
     "express": "3.x",
     "json2csv": "2.x",
     "redis": "0.8.x",

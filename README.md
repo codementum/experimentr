@@ -1,6 +1,5 @@
 <img src="https://raw.github.com/codementum/experimentr/master/experimentr-logo.png" title="Experimentr" alt="Experimentr" />
 ========
-
 Experimentr is a hosting/data-collection backend and module-based frontend for web-based visualization studies.
 
 This repo is a working experiment. The best way to get started is to copy this repo and edit it for your experiment.

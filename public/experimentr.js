@@ -78,7 +78,7 @@ var experimentr = (function() {
 
   // The HTTP POST code for saving experiment data.
   experimentr.save = function(d) {
-    d3.xhr('/')
+    d3.request('/')
       .header("Content-Type", "application/json")
       .post(JSON.stringify(data), function(err, res) {
         if(err) console.log(err);
@@ -125,10 +125,10 @@ var experimentr = (function() {
       experimentr.end();
     }
 
-    d3.html(sequence[x], function(err, d) {
-      if(err) console.log(err);
-      d3.select('#module').node().appendChild(d);
-    });
+     d3.html(sequence[x], function(err, d){
+       if(err) console.err(err)
+       d3.select('#module').node().appendChild(d)
+     })
   }
 
   // Remove the next button entirely (TODO ensure this is actually used).
