@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/9150857.svg)](https://zenodo.org/badge/latestdoi/9150857)
+
 <img src="https://raw.github.com/codementum/experimentr/master/experimentr-logo.png" title="Experimentr" alt="Experimentr" />
 ========
 
