@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/9150857.svg)](https://zenodo.org/badge/latestdoi/9150857)
+[![DOI](https://zenodo.org/badge/9150857.svg)](https://doi.org/10.5281/zenodo.2564082)
 
 <img src="https://raw.github.com/codementum/experimentr/master/experimentr-logo.png" title="Experimentr" alt="Experimentr" />
 ========
@@ -84,3 +84,7 @@ See [convert.js](https://github.com/codementum/experimentr/blob/master/analysis/
 Another useful trick is to empty the redis database. To do so, run `redis-cli` to get the redis command line prompt, then type `FLUSHDB` to delete all current keys.
 
 More redis commands can be found at [http://redis.io/commands](http://redis.io/commands).
+
+Citing Experimentr
+---
+Lane Harrison (2019). experimentr: a hosting/data-collection backend and module-based frontend for web-based visualization studies. v1.0.0, https://github.com/codementum/experimentr. DOI: 10.5281/zenodo.2564082
